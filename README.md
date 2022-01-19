@@ -1,5 +1,5 @@
 # Pairings
 Pairings is a multi-platform mobile application
 
-Team Members
+###Team Members
 Francisco Serratos
