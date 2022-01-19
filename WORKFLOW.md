@@ -18,5 +18,5 @@
 6) run `git add .` to stage your changes
 7) run `git commit -m"added name to readme"` to commit changes
 8) run `git push -u origin <your name>` to push your branch to github
-9) go to the repo on github and click "comapre and pull request"
+9) go to the repo on github and click "compare and pull request"
 
