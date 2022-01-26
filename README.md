@@ -4,4 +4,5 @@ Pairings is a multi-platform mobile application
 ### Team Members
 Francisco Serratos
 Brandon Banner
-Scott KIng
+Scott King
+Sogol Ghotbi Taheri
