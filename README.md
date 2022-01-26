@@ -2,7 +2,9 @@
 Pairings is a multi-platform mobile application
 
 ### Team Members
-Francisco Serratos<br/>
-Brandon Banner<br/>
-Scott King<br/>
-Sogol Ghotbi Taheri<br/>
+
+Francisco Serratos
+Brandon Banner
+Scott King
+Sogol Ghotbi Taheri
+Suqoya Rhodes
