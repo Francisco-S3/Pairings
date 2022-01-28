@@ -7,4 +7,4 @@ Francisco Serratos<br/>
 Brandon Banner<br/>
 Scott King<br/>
 Sogol Ghotbi Taheri<br/>
-Suqoya Rhodes
+Suqoya Rhodes<br/>
