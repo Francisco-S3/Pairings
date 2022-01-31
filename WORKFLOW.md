@@ -1,4 +1,3 @@
-
 ### Basic set up and work flow:
 1) Clone repository to your local machine
 2) Create a new branch and call it &lt;your name&gt;
@@ -19,4 +18,3 @@
 7) run `git commit -m"added name to readme"` to commit changes
 8) run `git push -u origin <your name>` to push your branch to github
 9) go to the repo on github and click "compare and pull request"
-
