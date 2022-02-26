@@ -8,5 +8,5 @@ bool signinController(String email, String password) {
     // RETURN BOOLEAN VALUE CORRESPONDING TO WHETHER
     // EMAIL/PASSWORD COMBO IS VALID
 
-    return true;
+    return false;
 }

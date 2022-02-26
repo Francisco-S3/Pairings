@@ -79,6 +79,12 @@ flutter:
     - family: GreatVibes
       fonts:
         - asset: lib/assets/fonts/GreatVibes-Regular.ttf
+    - family: Oswald
+      fonts:
+        - asset: lib/assets/fonts/Oswald-Bold.ttf
+    - family: Rubik
+      fonts:
+        - asset: lib/assets/fonts/Rubik-ExtraBold.ttf
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

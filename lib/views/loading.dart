@@ -31,7 +31,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
             SizedBox(height: 60.0),
             Text('Pairings',
               style: TextStyle(
-                fontFamily: 'Satisfy',
+                fontFamily: 'Rubik',
                 fontSize: 100.0,
                 fontWeight: FontWeight.bold,
               ),
