@@ -46,15 +46,8 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Colors.black,
-              Colors.black,
-            ]
+            color: Colors.black,
           ),
-        ),
         child: Form(
           key: _formState,
           child: Padding(
