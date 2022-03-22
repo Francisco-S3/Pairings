@@ -1,15 +1,10 @@
 
 class User {
-  //static const tableUser = 'User';
   static const clmnId = 'id';
-  var clmnFName = 'firstName';
-  var clmnLName = 'lastName';
-  static const clmnBirthDate = 'birthDate';
-  var clmnPhoneNum = 'phoneNum';
   static const clmnEmail = 'email';
   var clmnPassword = 'password';
+  static const clmnAccountCreated = 'createDate';
 
-  //TODO - modify user: id, email, password, createdate
   //TODO - modify profile: id, firstname, lastname, birthdate, phone, favorites
   //TODO - remove null field ? from required fields
 
@@ -18,10 +13,7 @@ class User {
     this.id,
     this.email,
     this.password,
-    this.firstName,
-    this.lastName,
-    this.birthDate,
-    this.phoneNum,
+    this.createDate
   );
 
   // partial Constructor
@@ -30,11 +22,7 @@ class User {
     required this.email,
     required this.password
   }) :
-    // default values for non-required fields
-    firstName = "",
-    lastName = "",
-    birthDate = DateTime.now(),
-    phoneNum = ""
+    createDate = DateTime.now()
   ;
 
   //setter function for password change
@@ -47,32 +35,23 @@ class User {
   }
 
   int? id;
-  String? firstName;
-  String? lastName;
-  DateTime? birthDate;
-  String? phoneNum;
   String? email;
   String? password;
+  DateTime? createDate;
 
   User.fromMap(Map<String, dynamic> map) {
     id = map[clmnId].toInt();
-    firstName = map[clmnFName];
-    lastName = map[clmnLName];
-    birthDate = map[clmnBirthDate];
-    phoneNum = map[clmnPhoneNum];
     email = map[clmnEmail];
     password = map[clmnPassword];
+    createDate = map[clmnAccountCreated];
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       clmnId: id.toString(),
-      clmnFName: firstName,
-      clmnLName: lastName,
-      clmnBirthDate: birthDate,
-      clmnPhoneNum: phoneNum,
       clmnEmail: email,
-      clmnPassword: password
+      clmnPassword: password,
+      clmnAccountCreated: createDate
     };
   }
 }

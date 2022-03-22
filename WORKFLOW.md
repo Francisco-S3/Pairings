@@ -1,4 +1,7 @@
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 ### Basic set up and work flow:
 1) Clone repository to your local machine
 2) Create a new branch and call it &lt;your name&gt;
@@ -20,3 +23,14 @@
 8) run `git push -u origin <your name>` to push your branch to github
 9) go to the repo on github and click "compare and pull request"
 
+<<<<<<< Updated upstream
+=======
+### Additions to support files
+1)  need to create a folder named 'assets' and add all image files
+2)  need to create a folder name 'fonts' and add all .ttf files from fonts.google.com
+3)  need to update 'pubspec.yaml' file with links to these storage locations
+
+### Application environment setup for your IDE
+1)  add Dio package to pubspec.yaml file by running '$ flutter pub add dio'
+2)  command from root directory of your application
+>>>>>>> Stashed changes

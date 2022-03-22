@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pairings/views/home.dart';
 
 // Load Screen Class
 // Runs when app is initialized, displays logo screen while loading
@@ -8,23 +9,22 @@ class LoadingScreen extends StatefulWidget {
   _LoadingScreenState createState() => _LoadingScreenState();
 }
 
-
-// **********************************************
-// ******  ADD LOADING FUNCTION CODE HERE  ******
-// **********************************************
-
-
 class _LoadingScreenState extends State<LoadingScreen> {
   @override
+
+  void initState(){
+    super.initState();
+    _navigateToHome();
+  }
+  
+  _navigateToHome() async {
+    await Future.delayed(Duration(seconds: 2), () {});
+    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        title: const Text('loading...'),
-        centerTitle: true,
-        backgroundColor: Colors.grey[400],
-        elevation: 0.0,
-      ),
+      backgroundColor: Colors.black,
       body: Center(
         child: Column(
           children: const <Widget>[
@@ -32,11 +32,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
             Text('Pairings',
               style: TextStyle(
                 fontFamily: 'Rubik',
-                fontSize: 100.0,
+                fontSize: 60.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
+
             SizedBox(height: 5.0),
+
             Expanded(
               child: Image(image: AssetImage('lib/assets/images/GrapeIcon.png'),
               ),

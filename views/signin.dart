@@ -224,7 +224,7 @@ class _SigninScreenState extends State<SigninScreen> {
                                 String userPassword = passwordController.text;
 
                                 // pass to signin controller for authentication
-                                if(signinController(userEmailAddress, userPassword)) {
+                                if(signinController(userEmailAddress, userPassword) != Null) {
                                   setState(() {
                                     // close login screen and return to home page
                                     Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()), (Route<dynamic> route) => false);

@@ -7,7 +7,8 @@ import 'package:pairings/views/create_profile.dart';
 
 void main() {
   runApp(MaterialApp(
-    initialRoute: '/create',
+    //home: LoadingScreen(),
+    initialRoute: '/',
     routes: {
       '/': (context) => LoadingScreen(),
       '/home': (context) => HomeScreen(),
