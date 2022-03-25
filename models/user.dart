@@ -1,40 +1,26 @@
 
 class User {
-  //static const tableUser = 'User';
   static const clmnId = 'id';
-  var clmnFName = 'firstName';
-  var clmnLName = 'lastName';
-  static const clmnBirthDate = 'birthDate';
-  var clmnPhoneNum = 'phoneNum';
   static const clmnEmail = 'email';
   var clmnPassword = 'password';
+  static const clmnAccountCreated = 'createDate';
+  var clmnFName = 'firstName';
+  var clmnLName = 'lastName';
+  var clmnPhoneNum = 'phoneNum';
+  static const clmnBirthDate = 'birthDate';
 
-  //TODO - modify user: id, email, password, createdate
-  //TODO - modify profile: id, firstname, lastname, birthdate, phone, favorites
-  //TODO - remove null field ? from required fields
 
-  // full constructor
-  User(
-    this.id,
-    this.email,
-    this.password,
-    this.firstName,
-    this.lastName,
-    this.birthDate,
-    this.phoneNum,
-  );
-
-  // partial Constructor
-  User.partial({
+  // constructor
+  User({
     required this.id,
     required this.email,
-    required this.password
+    required this.password,
+    this.firstName = '',
+    this.lastName = '',
+    this.phoneNum = '',
+    birthDate = ''
   }) :
-    // default values for non-required fields
-    firstName = "",
-    lastName = "",
-    birthDate = DateTime.now(),
-    phoneNum = ""
+    createDate = DateTime.now().toString()
   ;
 
   //setter function for password change
@@ -46,33 +32,51 @@ class User {
     return password;
   }
 
+  @override
+  String toString() {
+    return "user{"
+      "id:= $id, "
+      "email:= $email, "
+      "password:= $password, "
+      "createDate:= $createDate, "
+      "firstName:= $firstName, "
+      "lastName:= $lastName, "
+      "phoneNum:= $phoneNum, "
+      "birthDate:= $birthDate}"
+    ;
+  }
+
   int? id;
-  String? firstName;
-  String? lastName;
-  DateTime? birthDate;
-  String? phoneNum;
   String? email;
   String? password;
+  String? createDate;
+  String? firstName;
+  String? lastName;
+  String? phoneNum;
+  String? birthDate;
+
 
   User.fromMap(Map<String, dynamic> map) {
     id = map[clmnId].toInt();
-    firstName = map[clmnFName];
-    lastName = map[clmnLName];
-    birthDate = map[clmnBirthDate];
-    phoneNum = map[clmnPhoneNum];
     email = map[clmnEmail];
     password = map[clmnPassword];
+    createDate = map[clmnAccountCreated];
+    firstName = map[clmnFName];
+    lastName = map[clmnLName];
+    phoneNum = map[clmnPhoneNum];
+    birthDate = map[clmnBirthDate];
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       clmnId: id.toString(),
+      clmnEmail: email,
+      clmnPassword: password,
+      clmnAccountCreated: createDate,
       clmnFName: firstName,
       clmnLName: lastName,
-      clmnBirthDate: birthDate,
       clmnPhoneNum: phoneNum,
-      clmnEmail: email,
-      clmnPassword: password
+      clmnBirthDate: birthDate
     };
   }
 }

@@ -1,10 +1,9 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:pairings/views/create_profile.dart';
 import 'package:pairings/views/home.dart';
 import 'package:pairings/views/signin.dart';
-import '../controllers/signupController.dart';
+import 'package:pairings/controllers/signup_controller.dart';
 import 'package:pairings/models/utilities.dart';
+import 'package:pairings/models/user.dart';
 
 
 class SignupScreen extends StatefulWidget {
@@ -16,12 +15,36 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmController = TextEditingController();
+  // editing controllers
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmController = TextEditingController();
+  TextEditingController _fnameController = TextEditingController();
+  TextEditingController _lnameController = TextEditingController();
+  TextEditingController _phoneController = TextEditingController();
+
+  //birthdate variables
+  String? _monthSelected;
+  String? _daySelected;
+  String? _yearSelected;
+
+  // lists to populate birthdate dropdowns
+  final List <String> months = [
+    '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'
+  ];
+  final List <String> days = [
+    '01', '02', '03', '04', '05', '06', '07', '08', '09', '10',
+    '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+    '21', '22', '23', '24', '25', '26', '27', '28', '29', '30',
+    '31'
+  ];
+  final years = List <String>.generate(61, (index) => (DateTime.now().year - 21 - index).toString());
+
   late bool passwordVisibility;
   late bool confirmVisibility;
+
   final _formState = GlobalKey<FormState> ();
+  late User _currentUser;
 
 
   @override
@@ -35,20 +58,14 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
 
     // use relative sizes based on current media display
-    double width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double height = MediaQuery
-        .of(context)
-        .size
-        .height;
+    double _width = MediaQuery.of(context).size.width;
+    double _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: SafeArea(
         child: Container(
-          height: height,
-          width: width,
+          height: _height,
+          width: _width,
 
           // background insertion
           decoration: const BoxDecoration(
@@ -58,10 +75,9 @@ class _SignupScreenState extends State<SignupScreen> {
             //   image: Image.asset(
             //     'lib/assets/images/BackgroundImage2.jpg',
             //   ).image,
-            //),
+            // ),
           ),
 
-          // logo insertion
           child: Form(
             key: _formState,
             child: Padding(
@@ -72,6 +88,8 @@ class _SignupScreenState extends State<SignupScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+
+                    // logo insertion
                     Padding(
                       padding: const EdgeInsetsDirectional.fromSTEB(20, 40, 0, 0),
                       child: Row(
@@ -80,8 +98,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         children: [
                           Image.asset(
                             'lib/assets/images/logo.png',
-                            width: 200,
-                            height: 65,
+                            width: 150,
+                            height: 49,
                             fit: BoxFit.fitWidth,
                           ),
                         ],
@@ -89,7 +107,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
 
                     // vertical spacer box
-                    const SizedBox(height: 60.0),
+                    const SizedBox(height: 50.0),
 
                     // header insertion
                     Container(
@@ -99,19 +117,16 @@ class _SignupScreenState extends State<SignupScreen> {
                           color: Colors.white,
                           fontFamily: 'Rubik',
                           fontWeight: FontWeight.bold,
-                          fontSize: 30.0,
+                          fontSize: 24.0,
                         ),
                       ),
                     ),
-
-                    // vertical spacer box
-                    const SizedBox(height: 15.0),
 
                     // email login insertion
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5.0),
                       child: TextFormField (
-                        controller: emailController,
+                        controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         obscureText: false,
                         enableSuggestions: true,
@@ -120,11 +135,8 @@ class _SignupScreenState extends State<SignupScreen> {
                           labelText: 'email address',
                           labelStyle: TextStyle(color: Colors.white),
                           suffixIcon: Icon(Icons.email, color: Colors.white,),
-                          // enabledBorder: UnderlineInputBorder(
-                          //   borderSide: BorderSide(color: Colors.white, width: 2.0),
-                          // ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white, width: 2.0),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white, width: 1.0),
                           ),
                           filled: true,
                           fillColor: Colors.black,
@@ -135,30 +147,24 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
 
-                    // vertical spacer box
-                    const SizedBox(height: 25.0),
-
                     // password login insertion
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
                       child: TextFormField (
-                        controller: passwordController,
+                        controller: _passwordController,
                         validator: (password) {
                           return (password!.length > 5)
                               ? null
-                              : 'Error: password must be at least 6 charactoers';
+                              : 'Error: minimum password length is 6 characters';
                         },
                         keyboardType: TextInputType.text,
                         obscureText: !passwordVisibility,
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           labelText: 'password',
                           labelStyle: const TextStyle(color: Colors.white),
-                          // enabledBorder: const UnderlineInputBorder(
-                          //   borderSide: BorderSide(color: Colors.white, width: 2.0),
-                          // ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white, width: 2.0),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white, width: 1.0),
                           ),
                           filled: true,
                           fillColor: Colors.black,
@@ -177,30 +183,24 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
 
-                    // vertical spacer box
-                    const SizedBox(height: 25.0),
-
                     // repeat password login insertion
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
                       child: TextFormField (
-                        controller: confirmController,
+                        controller: _confirmController,
                         validator: (confirmPassword) {
-                          return (confirmPassword! == passwordController.text)
+                          return (confirmPassword! == _passwordController.text)
                               ? null
                               : 'Error: Entry must match password';
                         },
                         keyboardType: TextInputType.text,
                         obscureText: !confirmVisibility,
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           labelText: 'confirm password',
                           labelStyle: const TextStyle(color: Colors.white),
-                          // enabledBorder: const UnderlineInputBorder(
-                          //   borderSide: BorderSide(color: Colors.white, width: 2.0),
-                          // ),
-                          enabledBorder: const OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white, width: 2.0),
+                          enabledBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white, width: 1.0),
                           ),
                           filled: true,
                           fillColor: Colors.black,
@@ -219,8 +219,161 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
 
+                    // first name
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
+                      child: TextFormField (
+                        controller: _fnameController,
+                        keyboardType: TextInputType.name,
+                        obscureText: false,
+                        enableSuggestions: true,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: const InputDecoration(
+                          labelText: 'First Name',
+                          labelStyle: TextStyle(color: Colors.white),
+                          suffixIcon: Icon(Icons.account_circle, color: Colors.white,),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white, width: 1.0),
+                          ),
+                          filled: true,
+                          fillColor: Colors.black,
+                        ),
+                      ),
+                    ),
+
+                    // last name
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
+                      child: TextFormField (
+                        controller: _lnameController,
+                        keyboardType: TextInputType.name,
+                        obscureText: false,
+                        enableSuggestions: true,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: const InputDecoration(
+                          labelText: 'Last Name',
+                          labelStyle: TextStyle(color: Colors.white),
+                          suffixIcon: Icon(Icons.account_circle, color: Colors.white,),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white, width: 1.0),
+                          ),
+                          filled: true,
+                          fillColor: Colors.black,
+                        ),
+                      ),
+                    ),
+
+                    // phone number
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
+                      child: TextFormField (
+                        controller: _phoneController,
+                        keyboardType: TextInputType.phone,
+                        obscureText: false,
+                        enableSuggestions: true,
+                        style: const TextStyle(color: Colors.white),
+                        decoration: const InputDecoration(
+                          labelText: 'Phone Number',
+                          labelStyle: TextStyle(color: Colors.white),
+                          suffixIcon: Icon(Icons.phone, color: Colors.white,),
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white, width: 1.0),
+                          ),
+                          filled: true,
+                          fillColor: Colors.black,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 15.0),
+
+                    // birthdate
+                    const Text('Birthdate',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16.0,
+                      ),
+                    ),
+                    const SizedBox(height: 5.0),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+
+                        // month field
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children:[
+                              const Text('Month',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  menuMaxHeight: 250.0,
+                                  dropdownColor: Colors.black,
+                                  items: months.map(buildMenuItem).toList(),
+                                  value: _monthSelected,
+                                  onChanged: (value) => setState(() => _monthSelected = value),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        // day field
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children:[
+                              const Text('Day',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  menuMaxHeight: 250.0,
+                                  dropdownColor: Colors.black,
+                                  items: days.map(buildMenuItem).toList(),
+                                  value: _daySelected,
+                                  onChanged: (value) => setState(() => _daySelected = value),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        //year field
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children:[
+                              const Text('Year',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  menuMaxHeight: 250.0,
+                                  dropdownColor: Colors.black,
+                                  items: years.map(buildMenuItem).toList(),
+                                  value: _yearSelected,
+                                  onChanged: (value) => setState(() => _yearSelected = value),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+
+
+
                     // vertical spacer box
-                    const SizedBox(height: 25.0),
+                    const SizedBox(height: 5.0),
+
                     // sign in button row insertion
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 0.0),
@@ -240,30 +393,47 @@ class _SignupScreenState extends State<SignupScreen> {
                               ),
                             ),
                             onPressed: () {
-                              // validate email provided is in the correct format
-                              // validate password is of sufficient length
-                              // validate repeat password matches password
+                              // validate email and password entries
                               if(_formState.currentState!.validate()) {
-                                print("ready to pass to signup controller");
-                                String userEmailAddress = emailController.text;
-                                String userPassword = passwordController.text;
-
                                 // pass to signup controller for authentication
-                                if(signupController(userEmailAddress, userPassword)) {
-                                  setState(() {
-                                    // close signup screen and return to home page
-                                    //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()), (Route<dynamic> route) => false);
-                                    print('signup successful');
-                                    //**** change navigation to create profile screen ****
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => CreateProfile()));
-                                  });
+                                _currentUser = signupController(_emailController.text, _passwordController.text);
+                                if(_currentUser.id! > 0) {
+                                  // confirm account created
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('New Account Created'),
+                                    ),
+                                  );
+                                  setState(() {});
+
+                                  // return back to home screen
+                                  Navigator.of(context).pop();
                                 }
                                 // invalid signup authentication, account already exists
                                 else {
                                   print('error:=account exists with that email address');
+                                  setState(() async {
+                                    // alert user failed account creation
+                                    await showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('Error!'),
+                                        content: const Text(
+                                          'New account NOT created.\n'
+                                          'Email address already in use.'
+                                        ),
+                                        actions: <Widget>[
+                                          ElevatedButton(
+                                            onPressed: () {Navigator.of(context).pop();},
+                                              child: const Text('Close'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  });
                                 }
                               }
-                            },
+                            }
                           ),
                         ],
                       ),
@@ -286,8 +456,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           order: const NumericFocusOrder(5.0),
                           child: GestureDetector(
                             onTap: () {
-                              print('Already have Account clicked ...');
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => SigninScreen()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => const SigninScreen()));
                             },
                             child: const Text.rich(
                               TextSpan(
@@ -317,4 +486,16 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
     );
   }
+
+  DropdownMenuItem<String> buildMenuItem(String item) =>
+    DropdownMenuItem(
+      value: item,
+      child: Text(
+        item,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 20.0,
+        ),
+      ),
+    );
 }

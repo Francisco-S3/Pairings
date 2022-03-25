@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pairings/views/create_profile.dart';
+import 'package:pairings/views/edit_profile.dart';
 import 'package:pairings/views/signin.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
           decoration: const BoxDecoration(color: Colors.black,),
 
           child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+            padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             primary: Colors.grey[700],
-                            padding: EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(20.0),
                           ),
                           child: const Text('Sign In',
                             style: TextStyle(
@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => SigninScreen()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SigninScreen()));
                           },
                         ),
                       ],
@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             primary: Colors.grey[700],
-                            padding: EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(20.0),
                           ),
                           child: const Text('Edit Profile',
                             style: TextStyle(
@@ -94,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           onPressed: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => CreateProfile()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => const EditProfile()));
                           },
                         ),
                       ],

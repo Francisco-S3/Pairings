@@ -1,5 +1,4 @@
 import 'package:pairings/models/wine.dart';
-import 'package:pairings/models/user.dart';
 
 
 class Profile {

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:pairings/models/profile.dart';
 import 'package:pairings/views/home.dart';
 
-class CreateProfile extends StatefulWidget {
-  const CreateProfile({
+class EditProfile extends StatefulWidget {
+  const EditProfile({
     Key? key,
   }) : super(key: key);
 
   @override
-  _CreateProfileState createState() => _CreateProfileState();
+  _EditProfileState createState() => _EditProfileState();
 }
 
-class _CreateProfileState extends State<CreateProfile> {
+class _EditProfileState extends State<EditProfile> {
 
   TextEditingController fnameController = TextEditingController();
   TextEditingController lnameController = TextEditingController();
@@ -39,7 +39,7 @@ class _CreateProfileState extends State<CreateProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Profile',
+        title: const Text('Edit Profile',
           style: TextStyle(color: Colors.white,
             fontFamily: 'Rubik',
             fontWeight: FontWeight.bold,
@@ -69,6 +69,9 @@ class _CreateProfileState extends State<CreateProfile> {
               children: [
 
                 // first name
+                const Text('Name',
+                  style: TextStyle(color: Colors.white),
+                ),
                 TextFormField (
                   controller: fnameController,
                   keyboardType: TextInputType.name,
@@ -79,7 +82,7 @@ class _CreateProfileState extends State<CreateProfile> {
                     labelText: 'First Name',
                     labelStyle: TextStyle(color: Colors.white),
                     suffixIcon: Icon(Icons.account_circle, color: Colors.white,),
-                    enabledBorder: OutlineInputBorder(
+                    enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white, width: 2.0),
                     ),
                     filled: true,
@@ -90,6 +93,9 @@ class _CreateProfileState extends State<CreateProfile> {
                 const SizedBox(height: 25.0),
 
                 // last name
+                const Text('Name',
+                  style: TextStyle(color: Colors.white),
+                ),
                 TextFormField (
                   controller: lnameController,
                   keyboardType: TextInputType.name,
@@ -100,7 +106,7 @@ class _CreateProfileState extends State<CreateProfile> {
                     labelText: 'Last Name',
                     labelStyle: TextStyle(color: Colors.white),
                     suffixIcon: Icon(Icons.account_circle, color: Colors.white,),
-                    enabledBorder: OutlineInputBorder(
+                    enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white, width: 2.0),
                     ),
                     filled: true,
@@ -111,6 +117,9 @@ class _CreateProfileState extends State<CreateProfile> {
                 const SizedBox(height: 25.0),
 
                 // phone number
+                const Text('Phone',
+                  style: TextStyle(color: Colors.white),
+                ),
                 TextFormField (
                   controller: phoneController,
                   keyboardType: TextInputType.phone,
@@ -121,7 +130,7 @@ class _CreateProfileState extends State<CreateProfile> {
                     labelText: 'Phone Number',
                     labelStyle: TextStyle(color: Colors.white),
                     suffixIcon: Icon(Icons.phone, color: Colors.white,),
-                    enabledBorder: OutlineInputBorder(
+                    enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white, width: 2.0),
                     ),
                     filled: true,
@@ -133,92 +142,66 @@ class _CreateProfileState extends State<CreateProfile> {
 
                 // birthdate
                 const Text('Birthdate',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20.0,
-                  ),
+                  style: TextStyle(color: Colors.white),
                 ),
-                const SizedBox(height: 10.0),
                 Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
 
-                    // month field
+                    // field labels
                     Container(
                       padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
                       decoration: BoxDecoration(
                         border: Border.all(color: Colors.white),
                       ),
                       child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children:[
-                          const Text('Month',
-                            style: TextStyle(color: Colors.white),
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              Text('Month',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Text('Day',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              Text('Year',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ],
                           ),
-                          DropdownButtonHideUnderline(
-                            child: DropdownButton<String>(
-                              menuMaxHeight: 300.0,
-                              dropdownColor: Colors.black,
-                              items: months.map(buildMenuItem).toList(),
-                              value: monthSelected,
-                              onChanged: (value) => setState(() => monthSelected = value),
-                            ),
+                          Row(
+                            children: [
+                              DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  menuMaxHeight: 300.0,
+                                  dropdownColor: Colors.black,
+                                  items: months.map(buildMenuItem).toList(),
+                                  value: monthSelected,
+                                  onChanged: (value) => setState(() => monthSelected = value),
+                                ),
+                              ),
+                              DropdownButton<String>(
+                                menuMaxHeight: 300.0,
+                                dropdownColor: Colors.black,
+                                items: days.map(buildMenuItem).toList(),
+                                value: daySelected,
+                                onChanged: (value) => setState(() => daySelected = value),
+                              ),
+                              DropdownButton<String>(
+                                menuMaxHeight: 300.0,
+                                dropdownColor: Colors.black,
+                                items: years.map(buildMenuItem).toList(),
+                                value: yearSelected,
+                                onChanged: (value) => setState(() => yearSelected = value),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ),
-
-                    // day field
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children:[
-                          const Text('Day',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          DropdownButton<String>(
-                            menuMaxHeight: 300.0,
-                            dropdownColor: Colors.black,
-                            items: days.map(buildMenuItem).toList(),
-                            value: daySelected,
-                            onChanged: (value) => setState(() => daySelected = value),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    //year field
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.white),
-                      ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children:[
-                          const Text('Year',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          DropdownButton<String>(
-                            menuMaxHeight: 300.0,
-                            dropdownColor: Colors.black,
-                            items: years.map(buildMenuItem).toList(),
-                            value: yearSelected,
-                            onChanged: (value) => setState(() => yearSelected = value),
-                          ),
-                        ],
+                        ]
                       ),
                     ),
                   ],
@@ -232,7 +215,7 @@ class _CreateProfileState extends State<CreateProfile> {
                     primary: Colors.grey[700],
                     padding: const EdgeInsets.all(20.0),
                   ),
-                  child: const Text('Create Profile',
+                  child: const Text('Update',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
