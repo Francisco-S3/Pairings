@@ -1,3 +1,6 @@
+import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 
 // utility function to confirm valid email format provided by user
@@ -9,17 +12,33 @@ bool validateEmail(String value) {
 }
 
 
-// utility to change DateTime object into date string in format 'mm-dd-yyyy'
+// utility to change the DateTime order from yyyy-mm-dd to mm-dd-yyyy
+String? convertDate(DateTime _date) {
+  var formatter = DateFormat('MM-dd-yyyy');
+  return formatter.format(_date);
+}
+
+
+// utility to change DateTime object into string in format 'mm-dd-yyyy'
 String convertDateTime( DateTime date) {
   String m = ((date.month < 10) ? "0" : "") + date.month.toString();
   String d = ((date.day < 10) ? "0" : "") + date.day.toString();
   return  m + "-" + d + "-" + date.year.toString();
 }
 
-// utility to reorder String 'mm-dd-yyyy' into DateTime format 'yyyymmdd'
-String convertDateFormat( String date) {
-  String m = date;
-  String d = "03";
-  String y = "2022";
-  return  y + m.padLeft(2,"0") + d.padLeft(2,"0");
-}
+
+// Widget buildDatePicker(DateTime _date) => Padding(
+//   padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
+//   child: SizedBox(
+//     height: 150,
+//     child: CupertinoDatePicker(
+//       backgroundColor: Colors.lightGreenAccent,
+//       minimumYear: 1940,
+//       maximumYear: DateTime.now().year - 21,
+//       initialDateTime: _date,
+//       mode: CupertinoDatePickerMode.date,
+//       onDateTimeChanged: (date) =>
+//           setState(() => _date = date),
+//     ),
+//   ),
+// );

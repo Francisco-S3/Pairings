@@ -8,5 +8,5 @@ bool resetPasswordController(String email) {
     // RETURN BOOLEAN VALUE CORRESPONDING TO WHETHER EMAIL IS VALID
     //TODO - add email recovery process since user requested
 
-    return false;
+    return true;
 }

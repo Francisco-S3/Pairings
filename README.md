@@ -1,10 +1,11 @@
 # Pairings
 Pairings is a multi-platform mobile application
+CSC490 Capstone Project
 
-### Team Members
 
-Francisco Serratos<br/>
-Brandon Banner<br/>
-Scott King<br/>
-Sogol Ghotbi Taheri<br/>
-Suqoya Rhodes<br/>
+## Team Members
+Francisco Serratos
+Brandon Banner
+Scott King
+Sogol Ghotbi Taheri
+Suqoya Rhodes

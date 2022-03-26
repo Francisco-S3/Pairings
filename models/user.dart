@@ -1,4 +1,5 @@
 
+
 class User {
   static const clmnId = 'id';
   static const clmnEmail = 'email';

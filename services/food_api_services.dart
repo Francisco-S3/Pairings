@@ -3,6 +3,7 @@ import 'package:pairings/config/api_constants.dart';
 import 'package:pairings/models/dish_pairing_model.dart';
 import 'package:pairings/models/food_search_model.dart';
 
+
 class FoodApiServices {
   static final Dio dio = Dio();
 

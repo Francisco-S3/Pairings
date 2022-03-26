@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pairings/views/home.dart';
 
+
 // Load Screen Class
 // Runs when app is initialized, displays logo screen while loading
 
@@ -18,33 +19,49 @@ class _LoadingScreenState extends State<LoadingScreen> {
   }
   
   _navigateToHome() async {
-    await Future.delayed(const Duration(seconds: 2), () {});
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+   await Future.delayed(const Duration(seconds: 2), () {});
+   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
   }
 
   @override
   Widget build(BuildContext context) {
+
+    // use relative sizes based on current media display
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child: Column(
-          children: const <Widget>[
-            SizedBox(height: 60.0),
-            Text('Pairings',
-              style: TextStyle(
-                fontFamily: 'Rubik',
-                fontSize: 60.0,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+      body: SafeArea(
+        child: Container(
+          height: height,
+          width: width,
+          padding: const EdgeInsets.all(60.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
 
-            SizedBox(height: 5.0),
+            children: const <Widget>[
 
-            Expanded(
-              child: Image(image: AssetImage('lib/assets/images/GrapeIcon.png'),
+              SizedBox(height: 10.0),
+
+              Expanded(
+                child: Image(image: AssetImage('lib/assets/images/PairingsLogo.png'),
+                ),
               ),
-            ),
-          ],
+
+              Text('Find Your Match',
+                style: TextStyle(
+                  color: Colors.purple,
+                  fontSize: 30.0,
+                ),
+              ),
+
+              SizedBox(height: 30.0),
+
+            ],
+          ),
         ),
       ),
       );

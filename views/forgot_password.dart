@@ -28,16 +28,16 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
       appBar: AppBar(
         title: const Text('Forgot Password',
           style: TextStyle(color: Colors.white,
-          fontFamily: 'Rubik',
-          fontWeight: FontWeight.bold,
-          fontSize: 28.0,
+          //fontFamily: 'Rubik',
+          //fontWeight: FontWeight.bold,
+          fontSize: 24.0,
           ),
         ),
         backgroundColor: Colors.black,
         centerTitle: true,
         iconTheme: const IconThemeData(
           color: Colors.white,
-          size: 50.0,
+          size: 30.0,
         ),
       ),
       body: Container(
@@ -49,12 +49,12 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
         child: Form(
           key: _formState,
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(30.0),
             child: Column(
               children: [
 
                 // vertical spacer box
-                const SizedBox(height: 25.0),
+                const SizedBox(height: 45.0),
 
                 // email address field
                 TextFormField(
@@ -131,6 +131,10 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                             content: const Text('Check your email for further recovery instructions'),
                             actions: <Widget>[
                               ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.grey[700],
+                                  padding: const EdgeInsets.all(20.0),
+                                ),
                                 onPressed: () {
                                   Navigator.of(context, rootNavigator: true).pop();
                                 },
@@ -153,6 +157,11 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                             ),
                             actions: <Widget>[
                               ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.grey[700],
+
+                                  padding: const EdgeInsets.all(20.0),
+                                ),
                                 onPressed: () {
                                   Navigator.of(context, rootNavigator: true).pop();
                                 },

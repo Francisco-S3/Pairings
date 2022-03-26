@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pairings/models/profile.dart';
 import 'package:pairings/views/home.dart';
 
+
 class CreateProfile extends StatefulWidget {
   const CreateProfile({
     Key? key,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pairings/views/edit_profile.dart';
 import 'package:pairings/views/signin.dart';
 
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();

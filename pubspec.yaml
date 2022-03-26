@@ -37,6 +37,7 @@ dependencies:
   # Dio is a powerful Http client for Dart, which supports Interceptors, Global
   # configuration, FormData, Request Cancellation, File downloading, Timeout etc.
   dio: ^4.0.4
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

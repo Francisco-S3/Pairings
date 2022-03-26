@@ -17,7 +17,7 @@ User signupController(String email, String password) {
     // else return error user object
 
     return User(
-        id: -1,
+        id: 102,
         email: 'rsking2@uncg.edu',
         password: 'password',
     );
