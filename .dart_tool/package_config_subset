@@ -1,7 +1,7 @@
 pairings
 2.15
-file:///Users/cisco/Documents/Pairings/pairings/lib/Pairings/
-file:///Users/cisco/Documents/Pairings/pairings/lib/Pairings/lib/
+file:///Users/cisco/Documents/Pairings/pairings/lib/
+file:///Users/cisco/Documents/Pairings/pairings/lib/lib/
 async
 2.12
 file:///Users/cisco/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/async-2.8.2/
@@ -30,6 +30,10 @@ cupertino_icons
 2.12
 file:///Users/cisco/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.4/
 file:///Users/cisco/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.4/lib/
+dio
+2.12
+file:///Users/cisco/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/dio-4.0.4/
+file:///Users/cisco/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/dio-4.0.4/lib/
 fake_async
 2.12
 file:///Users/cisco/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/fake_async-1.2.0/
@@ -46,6 +50,10 @@ http_parser
 2.12
 file:///Users/cisco/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.0/
 file:///Users/cisco/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/http_parser-4.0.0/lib/
+intl
+2.12
+file:///Users/cisco/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0/
+file:///Users/cisco/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/intl-0.17.0/lib/
 lints
 2.12
 file:///Users/cisco/Downloads/flutter/.pub-cache/hosted/pub.dartlang.org/lints-1.0.1/

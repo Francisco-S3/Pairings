@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pairings/views/home.dart';
-
+import '../views/home.dart';
 
 // Load Screen Class
 // Runs when app is initialized, displays logo screen while loading
@@ -11,21 +10,20 @@ class LoadingScreen extends StatefulWidget {
 }
 
 class _LoadingScreenState extends State<LoadingScreen> {
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _navigateToHome();
   }
-  
+
   _navigateToHome() async {
-   await Future.delayed(const Duration(seconds: 2), () {});
-   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+    await Future.delayed(const Duration(seconds: 2), () {});
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => HomeScreen()));
   }
 
   @override
   Widget build(BuildContext context) {
-
     // use relative sizes based on current media display
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -41,29 +39,25 @@ class _LoadingScreenState extends State<LoadingScreen> {
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
-
             children: const <Widget>[
-
               SizedBox(height: 10.0),
-
               Expanded(
-                child: Image(image: AssetImage('lib/assets/images/PairingsLogo.png'),
+                child: Image(
+                  image: AssetImage('lib/assets/images/PairingsLogo.png'),
                 ),
               ),
-
-              Text('Find Your Match',
+              Text(
+                'Find Your Match',
                 style: TextStyle(
                   color: Colors.purple,
                   fontSize: 30.0,
                 ),
               ),
-
               SizedBox(height: 30.0),
-
             ],
           ),
         ),
       ),
-      );
+    );
   }
 }

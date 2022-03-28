@@ -1,14 +1,7 @@
 import 'package:dio/dio.dart';
-<<<<<<< HEAD
-import 'package:pairings/config/api_constants.dart';
-import 'package:pairings/models/dish_pairing_model.dart';
-import 'package:pairings/models/food_search_model.dart';
-
-=======
-import 'package:wine_app/config/api_constants.dart';
-import 'package:wine_app/models/dish_pairing_model.dart';
-import 'package:wine_app/models/food_search_model.dart';
->>>>>>> main
+import '../config/api_constants.dart';
+import '../models/dish_pairing_model.dart';
+import '../models/food_search_model.dart';
 
 class FoodApiServices {
   static final Dio dio = Dio();

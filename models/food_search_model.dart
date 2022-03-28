@@ -1,17 +1,9 @@
 // To parse this JSON data, do
-<<<<<<< HEAD
-// final foodSearchModel = foodSearchModelFromJson(jsonString);
-
-import 'dart:convert';
-
-
-=======
 //
 //     final foodSearchModel = foodSearchModelFromJson(jsonString);
 
 import 'dart:convert';
 
->>>>>>> main
 FoodSearchModel foodSearchModelFromJson(String str) =>
     FoodSearchModel.fromJson(json.decode(str));
 

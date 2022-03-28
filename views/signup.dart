@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pairings/views/home.dart';
-import 'package:pairings/views/signin.dart';
-import 'package:pairings/controllers/signup_controller.dart';
-import 'package:pairings/models/utilities.dart';
-import 'package:pairings/models/user.dart';
-
+import 'home.dart';
+import 'signin.dart';
+import '../controllers/signup_controller.dart';
+import '../models/utilities.dart';
+import '../models/user.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -14,7 +13,6 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-
   // editing controllers
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -23,14 +21,14 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController _lnameController = TextEditingController();
   TextEditingController _phoneController = TextEditingController();
 
-  DateTime _date = DateTime(DateTime.now().year-21, DateTime.now().month, DateTime.now().day);
+  DateTime _date = DateTime(
+      DateTime.now().year - 21, DateTime.now().month, DateTime.now().day);
 
   late bool passwordVisibility;
   late bool confirmVisibility;
 
-  final _formState = GlobalKey<FormState> ();
+  final _formState = GlobalKey<FormState>();
   late User _currentUser;
-
 
   @override
   void initState() {
@@ -41,15 +39,16 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     // use relative sizes based on current media display
     double _width = MediaQuery.of(context).size.width;
     double _height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Create Account',
-          style: TextStyle(color: Colors.white,
+        title: const Text(
+          'Create Account',
+          style: TextStyle(
+            color: Colors.white,
             fontSize: 24.0,
           ),
         ),
@@ -79,14 +78,15 @@ class _SignupScreenState extends State<SignupScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-
                   // vertical spacer box
                   const SizedBox(height: 50.0),
 
                   // header insertion
                   Container(
-                    padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 0.0),
-                    child: const Text('Let\'s Get Started',
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20.0, horizontal: 0.0),
+                    child: const Text(
+                      'Let\'s Get Started',
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Rubik',
@@ -98,8 +98,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   // email login insertion
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5.0),
-                    child: TextFormField (
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 5.0),
+                    child: TextFormField(
                       controller: _emailController,
                       keyboardType: TextInputType.emailAddress,
                       obscureText: false,
@@ -108,23 +109,29 @@ class _SignupScreenState extends State<SignupScreen> {
                       decoration: const InputDecoration(
                         labelText: 'email address',
                         labelStyle: TextStyle(color: Colors.white),
-                        suffixIcon: Icon(Icons.email, color: Colors.white,),
+                        suffixIcon: Icon(
+                          Icons.email,
+                          color: Colors.white,
+                        ),
                         enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 1.0),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 1.0),
                         ),
                         filled: true,
                         fillColor: Colors.black,
                       ),
-                      validator: (userEmailAddress) => validateEmail(userEmailAddress!)
-                          ? null
-                          : 'Error: not a valid email address',
+                      validator: (userEmailAddress) =>
+                          validateEmail(userEmailAddress!)
+                              ? null
+                              : 'Error: not a valid email address',
                     ),
                   ),
 
                   // password login insertion
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
-                    child: TextFormField (
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 0.0),
+                    child: TextFormField(
                       controller: _passwordController,
                       validator: (password) {
                         return (password!.length > 5)
@@ -138,7 +145,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         labelText: 'password',
                         labelStyle: const TextStyle(color: Colors.white),
                         enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 1.0),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 1.0),
                         ),
                         filled: true,
                         fillColor: Colors.black,
@@ -159,8 +167,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   // repeat password login insertion
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
-                    child: TextFormField (
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 0.0),
+                    child: TextFormField(
                       controller: _confirmController,
                       validator: (confirmPassword) {
                         return (confirmPassword! == _passwordController.text)
@@ -174,7 +183,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         labelText: 'confirm password',
                         labelStyle: const TextStyle(color: Colors.white),
                         enabledBorder: const UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 1.0),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 1.0),
                         ),
                         filled: true,
                         fillColor: Colors.black,
@@ -195,8 +205,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   // first name
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
-                    child: TextFormField (
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 0.0),
+                    child: TextFormField(
                       controller: _fnameController,
                       keyboardType: TextInputType.name,
                       obscureText: false,
@@ -205,9 +216,13 @@ class _SignupScreenState extends State<SignupScreen> {
                       decoration: const InputDecoration(
                         labelText: 'First Name',
                         labelStyle: TextStyle(color: Colors.white),
-                        suffixIcon: Icon(Icons.account_circle, color: Colors.white,),
+                        suffixIcon: Icon(
+                          Icons.account_circle,
+                          color: Colors.white,
+                        ),
                         enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 1.0),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 1.0),
                         ),
                         filled: true,
                         fillColor: Colors.black,
@@ -217,8 +232,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   // last name
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
-                    child: TextFormField (
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 0.0),
+                    child: TextFormField(
                       controller: _lnameController,
                       keyboardType: TextInputType.name,
                       obscureText: false,
@@ -227,9 +243,13 @@ class _SignupScreenState extends State<SignupScreen> {
                       decoration: const InputDecoration(
                         labelText: 'Last Name',
                         labelStyle: TextStyle(color: Colors.white),
-                        suffixIcon: Icon(Icons.account_circle, color: Colors.white,),
+                        suffixIcon: Icon(
+                          Icons.account_circle,
+                          color: Colors.white,
+                        ),
                         enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 1.0),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 1.0),
                         ),
                         filled: true,
                         fillColor: Colors.black,
@@ -239,8 +259,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   // phone number
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
-                    child: TextFormField (
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 0.0),
+                    child: TextFormField(
                       controller: _phoneController,
                       keyboardType: TextInputType.phone,
                       obscureText: false,
@@ -249,9 +270,13 @@ class _SignupScreenState extends State<SignupScreen> {
                       decoration: const InputDecoration(
                         labelText: 'Phone Number',
                         labelStyle: TextStyle(color: Colors.white),
-                        suffixIcon: Icon(Icons.phone, color: Colors.white,),
+                        suffixIcon: Icon(
+                          Icons.phone,
+                          color: Colors.white,
+                        ),
                         enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 1.0),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 1.0),
                         ),
                         filled: true,
                         fillColor: Colors.black,
@@ -262,7 +287,8 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(height: 15.0),
 
                   // birthdate
-                  Text('Birthdate:  $_date',
+                  Text(
+                    'Birthdate:  $_date',
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16.0,
@@ -274,13 +300,17 @@ class _SignupScreenState extends State<SignupScreen> {
                     child: const Text('Select birthdate'),
                     onPressed: () async {
                       DateTime? dateSelected = await showDatePicker(
-                          context: context,
-                          initialDate: _date,
-                          firstDate: DateTime(1930),
-                          lastDate: DateTime(DateTime.now().year),
+                        context: context,
+                        initialDate: _date,
+                        firstDate: DateTime(1930),
+                        lastDate: DateTime(DateTime.now().year),
                       );
-                      if(dateSelected == null) {return;}
-                      setState(() {_date = dateSelected;});
+                      if (dateSelected == null) {
+                        return;
+                      }
+                      setState(() {
+                        _date = dateSelected;
+                      });
                       // TODO - remove this after testing
                       print(convertDate(_date));
                     },
@@ -291,69 +321,75 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   // sign in button row insertion
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 0.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50.0, vertical: 0.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            primary: Colors.grey[700],
-                            padding: const EdgeInsets.all(20.0),
-                          ),
-                          child: const Text('Create Account',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.normal,
-                              fontSize: 17.0,
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.grey[700],
+                              padding: const EdgeInsets.all(20.0),
                             ),
-                          ),
-                          onPressed: () {
-                            // validate email and password entries
-                            if(_formState.currentState!.validate()) {
-                              // pass to signup controller for authentication
-                              _currentUser = signupController(_emailController.text, _passwordController.text);
-                              if(_currentUser.id! > 0) {
-                                // confirm account created
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('New Account Created'),
-                                  ),
-                                );
-                                setState(() {});
-
-                                // return back to home screen
-                                Navigator.of(context).pop();
-                              }
-                              // invalid signup authentication, account already exists
-                              else {
-                                print('error:=account exists with that email address');
-                                setState(() async {
-                                  // alert user failed account creation
-                                  await showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: const Text('Error!'),
-                                      content: const Text(
-                                        'New account NOT created.\n'
-                                        'Email address already in use.'
-                                      ),
-                                      actions: <Widget>[
-                                        ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            primary: Colors.grey[700],
-                                            padding: const EdgeInsets.all(20.0),
-                                          ),
-                                          onPressed: () {Navigator.of(context).pop();},
-                                            child: const Text('Close'),
-                                        ),
-                                      ],
+                            child: const Text(
+                              'Create Account',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 17.0,
+                              ),
+                            ),
+                            onPressed: () {
+                              // validate email and password entries
+                              if (_formState.currentState!.validate()) {
+                                // pass to signup controller for authentication
+                                _currentUser = signupController(
+                                    _emailController.text,
+                                    _passwordController.text);
+                                if (_currentUser.id! > 0) {
+                                  // confirm account created
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('New Account Created'),
                                     ),
                                   );
-                                });
+                                  setState(() {});
+
+                                  // return back to home screen
+                                  Navigator.of(context).pop();
+                                }
+                                // invalid signup authentication, account already exists
+                                else {
+                                  print(
+                                      'error:=account exists with that email address');
+                                  setState(() async {
+                                    // alert user failed account creation
+                                    await showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        title: const Text('Error!'),
+                                        content: const Text(
+                                            'New account NOT created.\n'
+                                            'Email address already in use.'),
+                                        actions: <Widget>[
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              primary: Colors.grey[700],
+                                              padding:
+                                                  const EdgeInsets.all(20.0),
+                                            ),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text('Close'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  });
+                                }
                               }
-                            }
-                          }
-                        ),
+                            }),
                       ],
                     ),
                   ),
@@ -365,12 +401,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('Already have an account?   ',
-                        style: TextStyle(
-                            fontSize: 15.0,
-                            color: Colors.white),
+                      const Text(
+                        'Already have an account?   ',
+                        style: TextStyle(fontSize: 15.0, color: Colors.white),
                       ),
-
                       FocusTraversalOrder(
                         order: const NumericFocusOrder(5.0),
                         child: GestureDetector(

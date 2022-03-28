@@ -1,5 +1,4 @@
-import 'package:pairings/models/wine.dart';
-
+import 'wine.dart';
 
 class Profile {
   static const clmnId = 'id';
@@ -11,27 +10,19 @@ class Profile {
   //TODO - modify profile: id, firstname, lastname, birthdate, phone, favorites
 
   // full constructor
-  Profile({
-    this.id,
-    this.createDate,
-    this.favorites
-  });
+  Profile({this.id, this.createDate, this.favorites});
 
   // partial constructor
-  Profile.partial({
-    this.id,
-    this.createDate
-  });
+  Profile.partial({this.id, this.createDate});
 
   int? id;
   String? createDate;
   List? favorites;
 
-  factory Profile.fromJson(Map<String, dynamic> parsedJson){
+  factory Profile.fromJson(Map<String, dynamic> parsedJson) {
     return Profile(
         id: parsedJson['clmnId'],
         createDate: parsedJson['clmnAccountCreated'],
-        favorites: parsedJson ['clmnFavorites']
-    );
+        favorites: parsedJson['clmnFavorites']);
   }
 }

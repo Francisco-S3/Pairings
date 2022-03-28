@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pairings/models/utilities.dart';
-import 'package:pairings/controllers/reset_password_controller.dart';
+import '../models/utilities.dart';
+import '../controllers/reset_password_controller.dart';
 
 // ForgotPwdScreen Class
 // Runs only when user chooses option to reset password
-
 
 class ForgotPwdScreen extends StatefulWidget {
   const ForgotPwdScreen({Key? key}) : super(key: key);
@@ -15,7 +14,7 @@ class ForgotPwdScreen extends StatefulWidget {
 
 class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
   TextEditingController emailController = TextEditingController();
-  final _formState = GlobalKey<FormState> ();
+  final _formState = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -26,11 +25,13 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Forgot Password',
-          style: TextStyle(color: Colors.white,
-          //fontFamily: 'Rubik',
-          //fontWeight: FontWeight.bold,
-          fontSize: 24.0,
+        title: const Text(
+          'Forgot Password',
+          style: TextStyle(
+            color: Colors.white,
+            //fontFamily: 'Rubik',
+            //fontWeight: FontWeight.bold,
+            fontSize: 24.0,
           ),
         ),
         backgroundColor: Colors.black,
@@ -44,15 +45,14 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
-            color: Colors.black,
-          ),
+          color: Colors.black,
+        ),
         child: Form(
           key: _formState,
           child: Padding(
             padding: const EdgeInsets.all(30.0),
             child: Column(
               children: [
-
                 // vertical spacer box
                 const SizedBox(height: 45.0),
 
@@ -66,24 +66,29 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                   decoration: const InputDecoration(
                     labelText: 'email address',
                     labelStyle: TextStyle(color: Colors.white),
-                    suffixIcon: Icon(Icons.email, color: Colors.white,),
+                    suffixIcon: Icon(
+                      Icons.email,
+                      color: Colors.white,
+                    ),
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white, width: 2.0),
                     ),
                     filled: true,
                     fillColor: Colors.black,
                   ),
-                  validator: (userEmailAddress) => validateEmail(userEmailAddress!)
-                      ? null
-                      : 'Error: not a valid email address',
+                  validator: (userEmailAddress) =>
+                      validateEmail(userEmailAddress!)
+                          ? null
+                          : 'Error: not a valid email address',
                 ),
 
                 // vertical spacer box
                 const SizedBox(height: 20.0),
 
-                const Text('Please enter the email address associated with your account '
-                    'in the box above and we will send you a code to recover your '
-                    'password.',
+                const Text(
+                  'Please enter the email address associated with your account '
+                  'in the box above and we will send you a code to recover your '
+                  'password.',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 16.0,
@@ -99,7 +104,8 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                     primary: Colors.grey[700],
                     padding: const EdgeInsets.all(20.0),
                   ),
-                  child: const Text('Send Recovery',
+                  child: const Text(
+                    'Send Recovery',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
@@ -118,17 +124,18 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                     }
 
                     // verify valid email format submitted before proceeding
-                    if(_formState.currentState!.validate()) {
+                    if (_formState.currentState!.validate()) {
                       String userEmailAddress = emailController.text;
 
                       // send request to database authentication
-                      if(resetPasswordController(userEmailAddress)) {
+                      if (resetPasswordController(userEmailAddress)) {
                         // alert user password recovery success
                         await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
                             title: const Text('Success!'),
-                            content: const Text('Check your email for further recovery instructions'),
+                            content: const Text(
+                                'Check your email for further recovery instructions'),
                             actions: <Widget>[
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
@@ -136,7 +143,8 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                                   padding: const EdgeInsets.all(20.0),
                                 ),
                                 onPressed: () {
-                                  Navigator.of(context, rootNavigator: true).pop();
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop();
                                 },
                                 child: const Text('Close'),
                               ),
@@ -144,26 +152,24 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                           ),
                         );
                         Navigator.of(context).pop();
-                      }
-                      else {
+                      } else {
                         // alert user password recovery fail
                         await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
                             title: const Text('Error'),
-                            content: const Text(
-                                'Email address provided not found.\n'
-                                'Review and try again.'
-                            ),
+                            content:
+                                const Text('Email address provided not found.\n'
+                                    'Review and try again.'),
                             actions: <Widget>[
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.grey[700],
-
                                   padding: const EdgeInsets.all(20.0),
                                 ),
                                 onPressed: () {
-                                  Navigator.of(context, rootNavigator: true).pop();
+                                  Navigator.of(context, rootNavigator: true)
+                                      .pop();
                                 },
                                 child: const Text('Close'),
                               ),
@@ -172,7 +178,6 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                         );
                       }
                     }
-
                   },
                 ),
               ],
