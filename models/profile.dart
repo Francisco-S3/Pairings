@@ -1,24 +1,37 @@
 import 'package:pairings/models/wine.dart';
 
-// Profile Class
-//
-//
-
 
 class Profile {
+  static const clmnId = 'id';
+  static const clmnAccountCreated = 'createDate';
+  //late List <Wine> clmnFavorites = 'favorites';
 
-  //final int userID;  //email
-  late String firstName;
-  late String lastName;
-  late DateTime dob;
-  late List <Wine> favorites;
+  //TODO add image?
+  //TODO - modify user: id, email, password, createdate
+  //TODO - modify profile: id, firstname, lastname, birthdate, phone, favorites
 
-  // Constructor
-  //Profile({
-    //required this.userID,
-    //this.firstName,
-    //this.lastName,
-    //this.dob,
-    //this.favorites,
-  //});
+  // full constructor
+  Profile({
+    this.id,
+    this.createDate,
+    this.favorites
+  });
+
+  // partial constructor
+  Profile.partial({
+    this.id,
+    this.createDate
+  });
+
+  int? id;
+  String? createDate;
+  List? favorites;
+
+  factory Profile.fromJson(Map<String, dynamic> parsedJson){
+    return Profile(
+        id: parsedJson['clmnId'],
+        createDate: parsedJson['clmnAccountCreated'],
+        favorites: parsedJson ['clmnFavorites']
+    );
+  }
 }
