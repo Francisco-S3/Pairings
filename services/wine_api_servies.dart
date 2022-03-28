@@ -1,8 +1,14 @@
 import 'package:dio/dio.dart';
+<<<<<<< HEAD
 import 'package:pairings/config/api_constants.dart';
 import 'package:pairings/models/wine_pairing_model.dart';
 import 'package:pairings/models/wine_recommendation_model.dart';
 
+=======
+import 'package:wine_app/config/api_constants.dart';
+import 'package:wine_app/models/wine_pairing_model.dart';
+import 'package:wine_app/models/wine_recommendation_model.dart';
+>>>>>>> main
 
 class WineApiServices {
   static final Dio dio = Dio();

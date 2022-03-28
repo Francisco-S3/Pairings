@@ -1,9 +1,17 @@
 // To parse this JSON data, do
+<<<<<<< HEAD
 // final winePairingModel = winePairingModelFromJson(jsonString);
 
 import 'dart:convert';
 
 
+=======
+//
+//     final winePairingModel = winePairingModelFromJson(jsonString);
+
+import 'dart:convert';
+
+>>>>>>> main
 WinePairingModel winePairingModelFromJson(String str) =>
     WinePairingModel.fromJson(json.decode(str));
 

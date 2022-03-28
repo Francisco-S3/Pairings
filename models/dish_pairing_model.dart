@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 DishPairingModel dishPairingModelFromJson(String str) =>
     DishPairingModel.fromJson(json.decode(str));
 
