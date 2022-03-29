@@ -1,49 +1,37 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:pairings/views/home.dart';
-import 'package:pairings/views/signin.dart';
-import '../controllers/signupController.dart';
-import 'package:pairings/models/utilities.dart';
+import './home.dart';
+import './signup.dart';
+import '../models/utilities.dart';
+import '../controllers/signinController.dart';
+import './forgot_password.dart';
 
-
-class SignupScreen extends StatefulWidget {
-  const SignupScreen({Key? key}) : super(key: key);
+class SigninScreen extends StatefulWidget {
+  const SigninScreen({Key? key}) : super(key: key);
 
   @override
-  _SignupScreenState createState() => _SignupScreenState();
+  _SigninScreenState createState() => _SigninScreenState();
 }
 
-class _SignupScreenState extends State<SignupScreen> {
-
+class _SigninScreenState extends State<SigninScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmController = TextEditingController();
   late bool passwordVisibility;
-  late bool confirmVisibility;
 
-  final _formState = GlobalKey<FormState> ();
+  final _formState = GlobalKey<FormState>();
   late String _errorMessage;
-
 
   @override
   void initState() {
     super.initState();
     passwordVisibility = false;
-    confirmVisibility = false;
   }
 
   @override
   Widget build(BuildContext context) {
-
     // use relative sizes based on current media display
-    double width = MediaQuery
-        .of(context)
-        .size
-        .width;
-    double height = MediaQuery
-        .of(context)
-        .size
-        .height;
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Container(
@@ -51,21 +39,21 @@ class _SignupScreenState extends State<SignupScreen> {
         width: width,
 
         // background insertion
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Colors.black,
           // image: DecorationImage(
           //   fit:  BoxFit.cover,
           //   image: Image.asset(
-          //     'lib/assets/images/BackgroundImage2.jpg',
+          //     'lib/assets/images/BackgroundImage1.jpg',
           //   ).image,
-          //),
+          // ),
         ),
 
         // logo insertion
         child: Form(
           key: _formState,
           child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
+            padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -73,7 +61,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(20, 40, 0, 0),
+                    padding: EdgeInsetsDirectional.fromSTEB(20, 40, 0, 0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -93,8 +81,10 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   // header insertion
                   Container(
-                    padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                    child: const Text('Let\'s Get Started',
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 10.0),
+                    child: const Text(
+                      'Welcome Back!',
                       style: TextStyle(
                         color: Colors.white,
                         fontFamily: 'Rubik',
@@ -109,8 +99,9 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   // email login insertion
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5.0),
-                    child: TextFormField (
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 5.0),
+                    child: TextFormField(
                       controller: emailController,
                       keyboardType: TextInputType.emailAddress,
                       obscureText: false,
@@ -119,19 +110,24 @@ class _SignupScreenState extends State<SignupScreen> {
                       decoration: const InputDecoration(
                         labelText: 'email address',
                         labelStyle: TextStyle(color: Colors.white),
-                        suffixIcon: Icon(Icons.email, color: Colors.white,),
+                        suffixIcon: Icon(
+                          Icons.email,
+                          color: Colors.white,
+                        ),
                         // enabledBorder: UnderlineInputBorder(
                         //   borderSide: BorderSide(color: Colors.white, width: 2.0),
                         // ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 2.0),
                         ),
                         filled: true,
                         fillColor: Colors.black,
                       ),
-                      validator: (userEmailAddress) => validateEmail(userEmailAddress!)
-                          ? null
-                          : 'Error: not a valid email address',
+                      validator: (userEmailAddress) =>
+                          validateEmail(userEmailAddress!)
+                              ? null
+                              : 'Error: not a valid email address',
                     ),
                   ),
 
@@ -140,13 +136,14 @@ class _SignupScreenState extends State<SignupScreen> {
 
                   // password login insertion
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
-                    child: TextFormField (
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 0.0),
+                    child: TextFormField(
                       controller: passwordController,
                       validator: (password) {
                         return (password!.length > 5)
                             ? null
-                            : 'Error: password must be at least 6 charactoers';
+                            : 'Error: password length not sufficient';
                       },
                       keyboardType: TextInputType.text,
                       obscureText: !passwordVisibility,
@@ -158,7 +155,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         //   borderSide: BorderSide(color: Colors.white, width: 2.0),
                         // ),
                         enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 2.0),
+                          borderSide:
+                              BorderSide(color: Colors.white, width: 2.0),
                         ),
                         filled: true,
                         fillColor: Colors.black,
@@ -180,59 +178,40 @@ class _SignupScreenState extends State<SignupScreen> {
                   // vertical spacer box
                   const SizedBox(height: 25.0),
 
-                  // repeat password login insertion
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
-                    child: TextFormField (
-                      controller: confirmController,
-                      validator: (confirmPassword) {
-                        return (confirmPassword! == passwordController.text)
-                            ? null
-                            : 'Error: Entry must match password';
-                      },
-                      keyboardType: TextInputType.text,
-                      obscureText: !confirmVisibility,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        labelText: 'confirm password',
-                        labelStyle: const TextStyle(color: Colors.white),
-                        // enabledBorder: const UnderlineInputBorder(
-                        //   borderSide: BorderSide(color: Colors.white, width: 2.0),
-                        // ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.white, width: 2.0),
-                        ),
-                        filled: true,
-                        fillColor: Colors.black,
-                        suffixIcon: InkWell(
-                          onTap: () => setState(() {
-                            confirmVisibility = !confirmVisibility;
-                          }),
-                          child: Icon(
-                            confirmVisibility
-                                ? Icons.visibility_outlined
-                                : Icons.visibility_off_outlined,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // vertical spacer box
-                  const SizedBox(height: 25.0),
                   // sign in button row insertion
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 0.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 30.0, vertical: 0.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
+                        GestureDetector(
+                          onTap: () {
+                            print('Forgot Password Text clicked ...');
+                            //**** change navigation to reset password screen ****
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ForgotPwdScreen()));
+                          },
+                          child: const Text.rich(
+                            TextSpan(
+                              text: 'Forgot password?',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 17.0,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ),
+                        ),
                         ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             primary: Colors.grey[700],
-                            padding: const EdgeInsets.all(20.0),
+                            padding: EdgeInsets.all(20.0),
                           ),
-                          child: const Text('Create Account',
+                          child: const Text(
+                            'Sign In',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.normal,
@@ -242,23 +221,29 @@ class _SignupScreenState extends State<SignupScreen> {
                           onPressed: () {
                             // validate email provided is in the correct format
                             // validate password is of sufficient length
-                            // validate repeat password matches password
-                            if(_formState.currentState!.validate()) {
-                              print("ready to pass to signup controller");
+                            if (_formState.currentState!.validate()) {
+                              print("ready to pass to sign in controller");
                               String userEmailAddress = emailController.text;
                               String userPassword = passwordController.text;
 
-                              // pass to signup controller for authentication
-                              if(signupController(userEmailAddress, userPassword)) {
+                              // pass to signin controller for authentication
+                              if (signinController(
+                                  userEmailAddress, userPassword)) {
                                 setState(() {
-                                  // close signup screen and return to home page
-                                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => HomeScreen()), (Route<dynamic> route) => false);
-                                  print('signup successful');
+                                  // close login screen and return to home page
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              HomePage(
+                                                title: 'Pairings: Home',
+                                              )),
+                                      (Route<dynamic> route) => false);
+                                  print('login successful');
                                 });
                               }
-                              // invalid signup authentication, account already exists
+                              // invalid login authentication, password/email don't match any account
                               else {
-                                print('error:=account exists with that email address');
+                                print('error:=invalid email or password');
                               }
                             }
                           },
@@ -274,22 +259,23 @@ class _SignupScreenState extends State<SignupScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const Text('Already have an account?   ',
-                        style: TextStyle(
-                            fontSize: 15.0,
-                            color: Colors.white),
+                      const Text(
+                        'Don\'t have an account?   ',
+                        style: TextStyle(fontSize: 15.0, color: Colors.white),
                       ),
-
                       GestureDetector(
                         onTap: () {
-                          print('Already have Account clicked ...');
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SigninScreen()));
+                          print('Create Account Text clicked ...');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignupScreen()));
                         },
                         child: const Text.rich(
                           TextSpan(
                             children: [
                               TextSpan(
-                                text: 'Sign In',
+                                text: 'Create Account',
                                 style: TextStyle(
                                   fontSize: 17.0,
                                   fontWeight: FontWeight.normal,
