@@ -1,6 +1,5 @@
 
-
-// utility to call password recovery Controller
+/// resetPasswordController used for recovery of forgotten password
 bool resetPasswordController(String email) {
 
     //TODO - update code here

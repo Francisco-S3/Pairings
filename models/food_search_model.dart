@@ -1,8 +1,8 @@
 // To parse this JSON data, do
-//
-//     final foodSearchModel = foodSearchModelFromJson(jsonString);
+// final foodSearchModel = foodSearchModelFromJson(jsonString);
 
 import 'dart:convert';
+
 
 FoodSearchModel foodSearchModelFromJson(String str) =>
     FoodSearchModel.fromJson(json.decode(str));
@@ -180,7 +180,7 @@ class EnumValues<T> {
 
   Map<T, String> get reverse {
     if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
+      reverseMap = map.map((k, v) => MapEntry(v, k));
     }
     return reverseMap;
   }

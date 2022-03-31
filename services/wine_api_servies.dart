@@ -3,6 +3,7 @@ import '../config/api_constants.dart';
 import '../models/wine_pairing_model.dart';
 import '../models/wine_recommendation_model.dart';
 
+
 class WineApiServices {
   static final Dio dio = Dio();
 
