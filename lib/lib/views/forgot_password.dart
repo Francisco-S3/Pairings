@@ -1,7 +1,6 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../models/utilities.dart';
-import '../controllers/resetPasswordController.dart';
+import '../controllers/reset_password_controller.dart';
 
 // ForgotPwdScreen Class
 // Runs only when user chooses option to reset password
@@ -16,15 +15,7 @@ class ForgotPwdScreen extends StatefulWidget {
 
 class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
   TextEditingController emailController = TextEditingController();
-<<<<<<< HEAD:views/forgot_password.dart
   final _formState = GlobalKey<FormState> ();
-=======
-  final _formState = GlobalKey<FormState>();
-  late String _errorMessage;
-<<<<<<< Updated upstream:lib/views/forgot_password.dart
-=======
->>>>>>> 7bb8534f5259709d36a1caf5924006dbb0658fd6:lib/views/forgot_password.dart
->>>>>>> Stashed changes:views/forgot_password.dart
 
   @override
   void initState() {
@@ -35,62 +26,35 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-<<<<<<< HEAD:views/forgot_password.dart
         title: const Text('Forgot Password',
           style: TextStyle(color: Colors.white,
           //fontFamily: 'Rubik',
           //fontWeight: FontWeight.bold,
           fontSize: 24.0,
-=======
-        title: const Text(
-          'Forgot Password',
-          style: TextStyle(
-            color: Colors.white,
-            fontFamily: 'Rubik',
-            fontWeight: FontWeight.bold,
-            fontSize: 25.0,
-<<<<<<< Updated upstream:lib/views/forgot_password.dart
-=======
->>>>>>> 7bb8534f5259709d36a1caf5924006dbb0658fd6:lib/views/forgot_password.dart
->>>>>>> Stashed changes:views/forgot_password.dart
           ),
         ),
         backgroundColor: Colors.black,
         centerTitle: true,
         iconTheme: const IconThemeData(
           color: Colors.white,
-          size: 50.0,
+          size: 30.0,
         ),
       ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
         decoration: const BoxDecoration(
-<<<<<<< Updated upstream:lib/views/forgot_password.dart
-=======
-<<<<<<< HEAD:views/forgot_password.dart
             color: Colors.black,
           ),
-=======
->>>>>>> Stashed changes:views/forgot_password.dart
-          gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Colors.black,
-                Colors.black,
-              ]),
-        ),
->>>>>>> 7bb8534f5259709d36a1caf5924006dbb0658fd6:lib/views/forgot_password.dart
         child: Form(
           key: _formState,
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.all(30.0),
             child: Column(
               children: [
 
                 // vertical spacer box
-                const SizedBox(height: 25.0),
+                const SizedBox(height: 45.0),
 
                 // email address field
                 TextFormField(
@@ -102,20 +66,7 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                   decoration: const InputDecoration(
                     labelText: 'email address',
                     labelStyle: TextStyle(color: Colors.white),
-<<<<<<< HEAD:views/forgot_password.dart
                     suffixIcon: Icon(Icons.email, color: Colors.white,),
-=======
-                    suffixIcon: Icon(
-                      Icons.email,
-                      color: Colors.white,
-                    ),
-                    // enabledBorder: UnderlineInputBorder(
-                    //   borderSide: BorderSide(color: Colors.white, width: 2.0),
-                    // ),
-<<<<<<< Updated upstream:lib/views/forgot_password.dart
-=======
->>>>>>> 7bb8534f5259709d36a1caf5924006dbb0658fd6:lib/views/forgot_password.dart
->>>>>>> Stashed changes:views/forgot_password.dart
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.white, width: 2.0),
                     ),
@@ -128,7 +79,7 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                 ),
 
                 // vertical spacer box
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 20.0),
 
                 const Text('Please enter the email address associated with your account '
                     'in the box above and we will send you a code to recover your '
@@ -142,10 +93,11 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                 // vertical spacer box
                 const SizedBox(height: 25.0),
 
+                // send recovery button
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Colors.grey[700],
-                    padding: EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(20.0),
                   ),
                   child: const Text('Send Recovery',
                     style: TextStyle(
@@ -155,7 +107,7 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                     ),
                   ),
                   onPressed: () async {
-                    // optional - discuss with group
+                    // verify user provided email input before proceeding
                     if (emailController.text.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
@@ -165,9 +117,6 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                       //return;
                     }
 
-<<<<<<< Updated upstream:lib/views/forgot_password.dart
-=======
-<<<<<<< HEAD:views/forgot_password.dart
                     // verify valid email format submitted before proceeding
                     if(_formState.currentState!.validate()) {
                       String userEmailAddress = emailController.text;
@@ -175,19 +124,6 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                       // send request to database authentication
                       if(resetPasswordController(userEmailAddress)) {
                         // alert user password recovery success
-=======
->>>>>>> Stashed changes:views/forgot_password.dart
-                    // verify valid email format submitted
-                    if (_formState.currentState!.validate()) {
-                      print("ready to pass to forgotController");
-                      String userEmailAddress = emailController.text;
-
-                      // send request to database authentication
-                      if (resetPasswordController(userEmailAddress)) {
-<<<<<<< Updated upstream:lib/views/forgot_password.dart
-=======
->>>>>>> 7bb8534f5259709d36a1caf5924006dbb0658fd6:lib/views/forgot_password.dart
->>>>>>> Stashed changes:views/forgot_password.dart
                         await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
@@ -195,6 +131,10 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                             content: const Text('Check your email for further recovery instructions'),
                             actions: <Widget>[
                               ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.grey[700],
+                                  padding: const EdgeInsets.all(20.0),
+                                ),
                                 onPressed: () {
                                   Navigator.of(context, rootNavigator: true).pop();
                                 },
@@ -204,11 +144,6 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                           ),
                         );
                         Navigator.of(context).pop();
-<<<<<<< Updated upstream:lib/views/forgot_password.dart
-                      } else {
-                        print('email address not valid');
-=======
-<<<<<<< HEAD:views/forgot_password.dart
                       }
                       else {
                         // alert user password recovery fail
@@ -235,11 +170,6 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                             ],
                           ),
                         );
-=======
-                      } else {
-                        print('email address not valid');
->>>>>>> 7bb8534f5259709d36a1caf5924006dbb0658fd6:lib/views/forgot_password.dart
->>>>>>> Stashed changes:views/forgot_password.dart
                       }
                     }
 
