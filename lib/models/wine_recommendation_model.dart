@@ -1,6 +1,6 @@
 // To parse this JSON data, do
-// final wineRecommendationModel = wineRecommendationModelFromJson(jsonString);
-
+//
+//     final wineRecommendationModel = wineRecommendationModelFromJson(jsonString);
 
 import 'dart:convert';
 
