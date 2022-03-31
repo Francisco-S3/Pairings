@@ -39,15 +39,7 @@ dependencies:
   dio: ^4.0.4
   intl: ^0.17.0
   http: ^0.13.4
-<<<<<<< Updated upstream
   settings_ui: ^2.0.2
-=======
-<<<<<<< HEAD
-  shared_preferences: ^2.0.13
-=======
-  settings_ui: ^2.0.2
->>>>>>> 7bb8534f5259709d36a1caf5924006dbb0658fd6
->>>>>>> Stashed changes
 
 dev_dependencies:
   flutter_test:
