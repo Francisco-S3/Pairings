@@ -2,17 +2,7 @@ import 'package:flutter/material.dart';
 import 'home.dart';
 import 'signup.dart';
 import '../models/utilities.dart';
-<<<<<<< Updated upstream:lib/views/signin.dart
-import '../models/user.dart';
-import '../controllers/signinController.dart';
-=======
-<<<<<<< HEAD:views/signin.dart
 import '../controllers/signin_controller.dart';
-=======
-import '../models/user.dart';
-import '../controllers/signinController.dart';
->>>>>>> 7bb8534f5259709d36a1caf5924006dbb0658fd6:lib/views/signin.dart
->>>>>>> Stashed changes:views/signin.dart
 import 'forgot_password.dart';
 import '../config/globals.dart' as globals;
 
@@ -53,20 +43,9 @@ class _SigninScreenState extends State<SigninScreen> {
 
     return Scaffold(
       appBar: AppBar(
-<<<<<<< HEAD:views/signin.dart
         title: const Text('Sign In',
           style: TextStyle(color: Colors.white,
             fontSize: 24.0,
-=======
-        title: const Text(
-          'Sign In',
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 25.0,
-<<<<<<< Updated upstream:lib/views/signin.dart
-=======
->>>>>>> 7bb8534f5259709d36a1caf5924006dbb0658fd6:lib/views/signin.dart
->>>>>>> Stashed changes:views/signin.dart
           ),
         ),
         backgroundColor: Colors.black,
@@ -233,18 +212,8 @@ class _SigninScreenState extends State<SigninScreen> {
                                   );
                                 setState(() {
                                   // close login screen and return to home page
-<<<<<<< HEAD:views/signin.dart
                                   //Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const HomeScreen()), (Route<dynamic> route) => false);
                                   Navigator.of(context, rootNavigator: true).pop();
-=======
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              HomePage(
-                                                title: 'pairings: Home',
-                                              )),
-                                      (Route<dynamic> route) => false);
->>>>>>> 7bb8534f5259709d36a1caf5924006dbb0658fd6:lib/views/signin.dart
                                 });
                               }
 

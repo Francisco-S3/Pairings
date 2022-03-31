@@ -1,17 +1,5 @@
 import 'package:flutter/material.dart';
-<<<<<<< Updated upstream:lib/views/signup.dart
-import './home.dart';
-import './signin.dart';
-import '../controllers/signupController.dart';
-=======
-<<<<<<< HEAD:views/signup.dart
 import '../controllers/signup_controller.dart';
-=======
-import './home.dart';
-import './signin.dart';
-import '../controllers/signupController.dart';
->>>>>>> 7bb8534f5259709d36a1caf5924006dbb0658fd6:lib/views/signup.dart
->>>>>>> Stashed changes:views/signup.dart
 import '../models/utilities.dart';
 import '../models/user.dart';
 import '../config/globals.dart' as globals;
@@ -35,7 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController _phoneController = TextEditingController();
 
   late DateTime _date;
-  String? dateAsString;
+  String? dateAsString = 'Select Date';
 
   late bool passwordVisibility;
   late bool confirmVisibility;
@@ -43,7 +31,7 @@ class _SignupScreenState extends State<SignupScreen> {
   final _formState = GlobalKey<FormState> ();
   late User currentUser;
   bool response = false;
-
+  String whoCalledMe = 'HomeScreen()';
 
   @override
   void initState() {
@@ -285,33 +273,41 @@ class _SignupScreenState extends State<SignupScreen> {
                   const SizedBox(height: 15.0),
 
                   // birthdate
-                  Text('Birthdate:  $dateAsString',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 16.0,
-                    ),
-                  ),
-                  const SizedBox(height: 5.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Birthdate:  $dateAsString',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 17.0,
+                          ),
+                        ),
 
-                  ElevatedButton(
-                    child: const Text('Select birthdate'),
-                    onPressed: () async {
-                      DateTime? dateSelected = await showDatePicker(
-                          context: context,
-                          initialDate: _date,
-                          firstDate: DateTime(1930),
-                          lastDate: DateTime(DateTime.now().year),
-                      );
-                      if(dateSelected == null) {return;}
-                      setState(() {
-                        _date = dateSelected;
-                        dateAsString = convertDate(_date);
-                      });
-                    },
+                        ElevatedButton(
+                          child: const Text('Select'),
+                          onPressed: () async {
+                            DateTime? dateSelected = await showDatePicker(
+                              context: context,
+                              initialDate: _date,
+                              firstDate: DateTime(1930),
+                              lastDate: DateTime(DateTime.now().year),
+                            );
+                            if(dateSelected == null) {return;}
+                            setState(() {
+                              _date = dateSelected;
+                              dateAsString = convertDate(_date);
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                   ),
 
                   // vertical spacer box
-                  const SizedBox(height: 5.0),
+                  const SizedBox(height: 25.0),
 
                   // sign in button row insertion
                   Padding(
@@ -358,10 +354,11 @@ class _SignupScreenState extends State<SignupScreen> {
                                 setState(() {});
 
                                 // return back to home screen
-                                // TODO - pop until who called me
-                                //Navigator.of(context).popUntil((route) => false);
-                                Navigator.of(context)
-                                    .pushReplacementNamed('/home');
+                                // TODO - replace with pop until 'whoCalledMe'
+                                //Navigator.popUntil(context, ModalRoute.withName(whoCalledMe));
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pop();
+
                               }
                               // invalid signup authentication, account already exists
                               else {
