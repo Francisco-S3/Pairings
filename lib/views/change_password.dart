@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import '../models/utilities.dart';
-import '../controllers/reset_password_controller.dart';
-
-// ForgotPwdScreen Class
-// Runs only when user chooses option to reset password
+import '../models/user.dart';
+import '../config/globals.dart' as globals;
+import '../controllers/change_password_controller.dart';
 
 
-class ForgotPwdScreen extends StatefulWidget {
-  const ForgotPwdScreen({Key? key}) : super(key: key);
+// Change Password Class
+// Runs only when user chooses option to change password
+
+class ChangePasswordScreen extends StatefulWidget {
+  const ChangePasswordScreen({Key? key}) : super(key: key);
 
   @override
-  _ForgotPwdScreenState createState() => _ForgotPwdScreenState();
+  _ChangePasswordScreenState createState() => _ChangePasswordScreenState();
 }
 
-class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
-  TextEditingController emailController = TextEditingController();
+class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+  TextEditingController oldController = TextEditingController();
+  TextEditingController newController = TextEditingController();
+  TextEditingController confirmController = TextEditingController();
   final _formState = GlobalKey<FormState> ();
 
   @override
@@ -22,14 +25,23 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
     super.initState();
   }
 
+  // TODO - *********** IMPORTANT ********************
+  // TODO - remove this code once create account is operational
+  User currentUser = User.partial(
+  email: 'test@test.com',
+  password: 'password',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  phoneNum: '336-555-1212',
+  birthDate: DateTime(2000),
+  );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Forgot Password',
+        title: const Text('Change Password',
           style: TextStyle(color: Colors.white,
-          //fontFamily: 'Rubik',
-          //fontWeight: FontWeight.bold,
           fontSize: 24.0,
           ),
         ),
@@ -56,50 +68,92 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                 // vertical spacer box
                 const SizedBox(height: 45.0),
 
-                // email address field
+                // current password field
                 TextFormField(
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
+                  controller: oldController,
+                  keyboardType: TextInputType.text,
                   obscureText: false,
                   enableSuggestions: true,
                   style: const TextStyle(color: Colors.white),
                   decoration: const InputDecoration(
-                    labelText: 'email address',
+                    labelText: 'Old Password',
+                    hintText: 'Enter your existing password',
                     labelStyle: TextStyle(color: Colors.white),
-                    suffixIcon: Icon(Icons.email, color: Colors.white,),
-                    enabledBorder: OutlineInputBorder(
+                    suffixIcon: Icon(Icons.lock, color: Colors.white,),
+                    enabledBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: Colors.white, width: 2.0),
                     ),
                     filled: true,
                     fillColor: Colors.black,
                   ),
-                  validator: (userEmailAddress) => validateEmail(userEmailAddress!)
+                  validator: (oldPassword) => (oldPassword! == globals.currentUser.password)
                       ? null
-                      : 'Error: not a valid email address',
+                      : 'Error: password entered doesn\'t match current',
                 ),
 
                 // vertical spacer box
                 const SizedBox(height: 20.0),
 
-                const Text('Please enter the email address associated with your account '
-                    'in the box above and we will send you a code to recover your '
-                    'password.',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16.0,
+                // new password field
+                TextFormField(
+                  controller: newController,
+                  keyboardType: TextInputType.text,
+                  obscureText: false,
+                  enableSuggestions: false,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: const InputDecoration(
+                    labelText: 'New Password',
+                    hintText: 'Enter your new password',
+                    labelStyle: TextStyle(color: Colors.white),
+                    suffixIcon: Icon(Icons.lock, color: Colors.white,),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white, width: 2.0),
+                    ),
+                    filled: true,
+                    fillColor: Colors.black,
                   ),
+                  validator: (password) => (password!.length > 5 &&
+                      password != globals.currentUser.password)
+                      ? null
+                      : 'Error: new password must be different and at least 6 characters',
                 ),
 
                 // vertical spacer box
-                const SizedBox(height: 25.0),
+                const SizedBox(height: 20.0),
 
-                // send recovery button
+                // confirm password field
+                TextFormField(
+                  controller: confirmController,
+                  keyboardType: TextInputType.text,
+                  obscureText: false,
+                  enableSuggestions: false,
+                  style: const TextStyle(color: Colors.white),
+                  decoration: const InputDecoration(
+                    labelText: 'Confirm New Password',
+                    hintText: 'Enter your new password',
+                    labelStyle: TextStyle(color: Colors.white),
+                    suffixIcon: Icon(Icons.lock, color: Colors.white,),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white, width: 2.0),
+                    ),
+                    filled: true,
+                    fillColor: Colors.black,
+                  ),
+                  validator: (password) => password == newController.text
+                      ? null
+                      : 'Error: conrim password doesn\'t match',
+                ),
+
+                // vertical spacer box
+                const SizedBox(height: 45.0),
+
+                // change password button
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     primary: Colors.grey[700],
                     padding: const EdgeInsets.all(20.0),
                   ),
-                  child: const Text('Send Recovery',
+                  child: const Text('Change Password',
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.normal,
@@ -107,28 +161,29 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                     ),
                   ),
                   onPressed: () async {
-                    // verify user provided email input before proceeding
-                    if (emailController.text.isEmpty) {
+                    // verify user input before proceeding
+                    _formState.currentState!.validate();
+                    if (oldController.text.isEmpty || newController.text.isEmpty || confirmController.text.isEmpty) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('email address required!'),
+                          content: Text('All fields required to change password'),
                         ),
                       );
-                      //return;
                     }
 
                     // verify valid email format submitted before proceeding
                     if(_formState.currentState!.validate()) {
-                      String userEmailAddress = emailController.text;
+
+                      // TODO - send new password to controller to verify change
 
                       // send request to database authentication
-                      if(resetPasswordController(userEmailAddress)) {
+                      if(changePasswordController(newController.text)) {
                         // alert user password recovery success
                         await showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
                             title: const Text('Success!'),
-                            content: const Text('Check your email for further recovery instructions'),
+                            content: const Text('Password has been updated'),
                             actions: <Widget>[
                               ElevatedButton(
                                 style: ElevatedButton.styleFrom(
