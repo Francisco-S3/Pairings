@@ -8,7 +8,7 @@ class DBconnect {
     var request = http.Request(
         'POST',
         Uri.parse(
-            'http://pairingsdbapi-env.eba-28k5s73x.us-east-1.elasticbeanstalk.com/api/users'));
+            'http://pairingsdbapi-env-1.eba-jcussjem.us-east-1.elasticbeanstalk.com/api/users'));
     request.bodyFields = map;
     request.headers.addAll(headers);
 
@@ -26,7 +26,7 @@ class DBconnect {
   Future<List<User>?> read(var id) async {
     var httpsUri = Uri(
         scheme: 'http',
-        host: 'pairingsdbapi-env.eba-28k5s73x.us-east-1.elasticbeanstalk.com',
+        host: 'pairingsdbapi-env-1.eba-jcussjem.us-east-1.elasticbeanstalk.com',
         path: '/api/users/$id');
     var request = http.Request('GET', httpsUri);
 
@@ -45,7 +45,7 @@ class DBconnect {
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     var httpsUri = Uri(
         scheme: 'http',
-        host: 'pairingsdbapi-env.eba-28k5s73x.us-east-1.elasticbeanstalk.com',
+        host: 'pairingsdbapi-env-1.eba-jcussjem.us-east-1.elasticbeanstalk.com',
         path: '/api/users/$use');
     var request = http.Request('PUT', httpsUri);
     request.bodyFields = map;
@@ -65,7 +65,7 @@ class DBconnect {
   Future<String?> delete(var id) async {
     var httpsUri = Uri(
         scheme: 'http',
-        host: 'pairingsdbapi-env.eba-28k5s73x.us-east-1.elasticbeanstalk.com',
+        host: 'pairingsdbapi-env-1.eba-jcussjem.us-east-1.elasticbeanstalk.com',
         path: '/api/users/$id');
     var request = http.Request('DELETE', httpsUri);
 
