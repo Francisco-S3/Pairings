@@ -8,19 +8,15 @@ List<User> userFromJson(String str) =>
 String userToJson(List<User> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-// User class holds a user object for the application
 class User {
-  var id;
-
-  /// full constructor
   User({
     required this.id,
-    required this.email,
-    required this.password,
     required this.firstName,
     required this.lastName,
-    required this.phoneNum,
     required this.birthDate,
+    required this.phoneNum,
+    required this.email,
+    required this.password,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -33,10 +29,9 @@ class User {
     required this.lastName,
     required this.phoneNum,
     required this.birthDate,
-  })  : id = -1,
-        createdAt = DateTime.now(),
-        updatedAt = DateTime.now();
+  }) :
 
+  int id;
   String firstName;
   String lastName;
   DateTime birthDate;
