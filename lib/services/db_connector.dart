@@ -23,6 +23,24 @@ class DBconnect {
     }
   }
 
+  Future<List<User>?> authenticate(var email, var password) async {
+    var httpsUri = Uri(
+        scheme: 'http',
+        host: 'pairingsdbapi-env-1.eba-jcussjem.us-east-1.elasticbeanstalk.com',
+        path: '/api/authentication?email=$email&password=$password');
+    var request = http.Request('GET', httpsUri);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var json = await response.stream.bytesToString();
+      return userFromJson(json);
+    } else {
+      print(response.reasonPhrase);
+      return null;
+    }
+  }
+
   Future<List<User>?> read(var id) async {
     var httpsUri = Uri(
         scheme: 'http',
