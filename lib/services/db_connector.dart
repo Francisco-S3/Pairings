@@ -4,15 +4,13 @@ import '../models/user.dart';
 
 // HTTP response status codes indicate whether a specific HTTP request has been
 // successfully completed. Responses are grouped in five classes:
-    // Informational responses (100–199)
-    // Successful responses (200–299)
-    // Redirection messages (300–399)
-    // Client error responses (400–499)
-    // Server error responses (500–599)
-
+// Informational responses (100–199)
+// Successful responses (200–299)
+// Redirection messages (300–399)
+// Client error responses (400–499)
+// Server error responses (500–599)
 
 class DBconnect {
-
   // revised read email function call (returns boolean)
   Future<bool> checkEmail(String email) async {
     var httpsUri = Uri(
@@ -29,7 +27,8 @@ class DBconnect {
       return true;
     }
     // FALSE means error, can't proceed with account creation
-    print('checkEmail status:=${response.statusCode}, reason:=${response.reasonPhrase}');
+    print(
+        'checkEmail status:=${response.statusCode}, reason:=${response.reasonPhrase}');
     return false;
   }
 
@@ -51,21 +50,23 @@ class DBconnect {
     }
     // statusCode '302:=Found' means existing account found
     if (response.statusCode == 302) {
-      print('createAccount status:=${response.statusCode}, reason:=${response.reasonPhrase}');
+      print(
+          'createAccount status:=${response.statusCode}, reason:=${response.reasonPhrase}');
       return false;
     }
     // other status codes
-    print('createAccount status:=${response.statusCode}, reason:=${response.reasonPhrase}');
+    print(
+        'createAccount status:=${response.statusCode}, reason:=${response.reasonPhrase}');
     return false;
   }
-
 
   // revised authenticate function call
   Future<List<User>?> authenticate(var email, var password) async {
     var httpsUri = Uri(
         scheme: 'http',
         host: 'pairingsdbapi-env-1.eba-jcussjem.us-east-1.elasticbeanstalk.com',
-        path: '/api/authentication?email=$email&password=$password');
+        path: '/api/authentication',
+        queryParameters: {'email': email, 'password': password});
     var request = http.Request('GET', httpsUri);
 
     http.StreamedResponse response = await request.send();
@@ -74,7 +75,8 @@ class DBconnect {
       var json = await response.stream.bytesToString();
       return userFromJson(json);
     }
-    print('authenticate status:=${response.statusCode}, reason:=${response.reasonPhrase}');
+    print(
+        'authenticate status:=${response.statusCode}, reason:=${response.reasonPhrase}');
     return null;
   }
 
