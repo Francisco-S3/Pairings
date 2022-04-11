@@ -1,25 +1,21 @@
-import 'package:pairings/models/user.dart';
+import '../models/user.dart';
+import '../services/db_connector.dart';
 import '../config/globals.dart' as globals;
 
 /// signupController used for new user account creation authentication
-bool signupController(User newUser) {
+/// takes User object as a parameter and returns boolean indicating whether
+/// or not the new account was successfully created
+Future<bool> signupController(User newUser) async {
 
-    // TODO - update code here
-    // ***** STUB OUT FOR CONTROLLER CALL TO CREATION OF NEW ACCOUNT *****
-    // RETURN USER OBJECT CORRESPONDING TO WHETHER EMAIL IS AVAILABLE
-    // AND NEW ACCOUNT CREATED
-
-    // method to authenticate new user account creation
-    bool createAccount(User newUser) {
-        // TODO - call db_connector for retrieval of record containing newUser.email match
-        // TODO - if null, add new record to database
-        // TODO -   set globals.currentUser = record;
+    //create account and confirm result
+    bool confirm = await DBconnect().createAccount(newUser.userToMap());
+    if(confirm) {
+        // update global variables after successful account creation
+        globals.currentUser = newUser;
         globals.isLoggedIn = true;
         return true;
-        // TODO - }
-        // return false;
     }
-
-    return createAccount(newUser);
+    // if account with user email already exists or other error incurred
+    return false;
 }
 

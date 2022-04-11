@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pairings/views/edit_profile.dart';
 import 'package:pairings/views/signin.dart';
 import './settings.dart';
 import './saved.dart';
@@ -55,7 +56,7 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: Drawer(
         backgroundColor: Colors.black,
-        child: new ListView(
+        child: ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
               accountName: new Text(
@@ -77,8 +78,15 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).pop();
                 Navigator.of(context).push(MaterialPageRoute(
                     builder: (BuildContext context) => new SigninScreen()));
-              },
-            ),
+              }),
+              ListTile(
+                title: const Text("Edit Profile"),
+                trailing: const Icon(Icons.person, color: Colors.white),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => const EditProfile()));
+                  }),
             new ListTile(
                 title: Text("Saved"),
                 trailing: new Icon(Icons.bookmark, color: Colors.white),
@@ -211,7 +219,7 @@ class _HomePageState extends State<HomePage> {
                 child: Center(
                   child: SizedBox(
                     height: 300,
-                    width: 300,
+                    width: 250,
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                           color: Colors.grey,

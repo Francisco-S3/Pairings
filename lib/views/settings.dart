@@ -28,9 +28,9 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               SettingsTile.switchTile(
                 onToggle: (value) {},
-                initialValue: true,
+                initialValue: false,
                 leading: Icon(Icons.format_paint),
-                title: Text('Enable custom theme'),
+                title: Text('Light Theme'),
               ),
             ],
           ),
