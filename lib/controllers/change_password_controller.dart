@@ -1,11 +1,19 @@
+import '../services/db_connector.dart';
+import '../config/globals.dart' as globals;
 
 /// changePasswordController used for changing known user password
-bool changePasswordController(String newPassword) {
+Future<bool> changePasswordController(String newPassword) async {
 
-    //TODO - update code here
-    // ***** STUB OUT FOR CONTROLLER CALL TO CHANGE PASSWORD *****
-    // RETURN BOOLEAN VALUE CORRESPONDING TO WHETHER CHANGED OCCURRED
-    //TODO - add email recovery process since user requested
+    // temporarily hold current password until new password is updated
+    String oldPassword = globals.currentUser.password;
+    globals.currentUser.password = newPassword;
 
-    return true;
+    //update account and confirm result
+    bool confirm = await DBconnect().updateAccount(globals.currentUser.userToMap(), globals.currentUser.id.toString());
+    if(confirm) {
+        return true;
+    }
+    // replace original user password if unsuccessful update
+    globals.currentUser.password = oldPassword;
+    return false;
 }

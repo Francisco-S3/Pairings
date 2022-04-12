@@ -1,24 +1,20 @@
-import 'package:flutter/material.dart';
+import '../services/db_connector.dart';
 import '../config/globals.dart' as globals;
 import '../models/user.dart';
 
-/// profileController used for updating user record, including password
-bool profileController(User newUser) {
+/// profileController used for updating qn existing user (current) record,
+/// including password, if requested. Takes User object as a parameter and
+/// returns boolean indicating whether or not the updates were successful.
+Future<bool> profileController(User updateUser) async {
 
-    //TODO - update code here
-    // ***** STUB OUT FOR CONTROLLER CALL TO UPDATE PROFILE DATA *****
-    // RETURN BOOLEAN VALUE CORRESPONDING TO UPDATE HAS OCCURRED
-
-    // method to update current user account information
-    bool updateAccount(User newUser) {
-        // TODO - call db_connector for retrieval of record containing newUser.email match
-        // TODO - if null, error handling since account should exist
-        // TODO -   update database record = newUser;
-        // TODO -   updateglobals.currentUser = record;
+    //update account and confirm result
+    bool confirm = await DBconnect().updateAccount(updateUser.userToMap(), updateUser.id.toString());
+    if(confirm) {
+        // update global variables after successful account creation
+        globals.currentUser = updateUser;
+        globals.isLoggedIn = true;
         return true;
-        // TODO - }
-        // return false;
     }
-
-    return updateAccount(newUser);
+    // if account with user email already exists or other error incurred
+    return false;
 }

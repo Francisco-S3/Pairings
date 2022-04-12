@@ -4,13 +4,15 @@ import '../models/user.dart';
 
 // HTTP response status codes indicate whether a specific HTTP request has been
 // successfully completed. Responses are grouped in five classes:
-// Informational responses (100–199)
-// Successful responses (200–299)
-// Redirection messages (300–399)
-// Client error responses (400–499)
-// Server error responses (500–599)
+//    * Informational responses (100–199)
+//    * Successful responses (200–299)
+//    * Redirection messages (300–399)
+//    * Client error responses (400–499)
+//    * Server error responses (500–599)
+
 
 class DBconnect {
+
   // revised read email function call (returns boolean)
   Future<bool> checkEmail(String email) async {
     var httpsUri = Uri(
@@ -27,10 +29,10 @@ class DBconnect {
       return true;
     }
     // FALSE means error, can't proceed with account creation
-    print(
-        'checkEmail status:=${response.statusCode}, reason:=${response.reasonPhrase}');
+    print('checkEmail status:=${response.statusCode}, reason:=${response.reasonPhrase}');
     return false;
   }
+
 
   // revised create new account function call (returns boolean)
   Future<bool> createAccount(Map<String, String> map) async {
@@ -50,18 +52,17 @@ class DBconnect {
     }
     // statusCode '302:=Found' means existing account found
     if (response.statusCode == 302) {
-      print(
-          'createAccount status:=${response.statusCode}, reason:=${response.reasonPhrase}');
+      print('createAccount status:=${response.statusCode}, reason:=${response.reasonPhrase}');
       return false;
     }
     // other status codes
-    print(
-        'createAccount status:=${response.statusCode}, reason:=${response.reasonPhrase}');
+    print('createAccount status:=${response.statusCode}, reason:=${response.reasonPhrase}');
     return false;
   }
 
+
   // revised authenticate function call
-  Future<List<User>?> authenticate(var email, var password) async {
+  Future<List<User>?> authenticate(String email, String password) async {
     var httpsUri = Uri(
         scheme: 'http',
         host: 'pairingsdbapi-env-1.eba-jcussjem.us-east-1.elasticbeanstalk.com',
@@ -75,10 +76,10 @@ class DBconnect {
       var json = await response.stream.bytesToString();
       return userFromJson(json);
     }
-    print(
-        'authenticate status:=${response.statusCode}, reason:=${response.reasonPhrase}');
+    print('authenticate status:=${response.statusCode}, reason:=${response.reasonPhrase}');
     return null;
   }
+
 
   Future<List<User>?> read(var id) async {
     var httpsUri = Uri(
@@ -98,25 +99,26 @@ class DBconnect {
     }
   }
 
-  Future<List<User>?> update(Map<String, String> map, var use) async {
+
+  // revised update account function call (returns boolean)
+  Future<bool> updateAccount(Map<String, String> map, String id) async {
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
     var httpsUri = Uri(
         scheme: 'http',
         host: 'pairingsdbapi-env-1.eba-jcussjem.us-east-1.elasticbeanstalk.com',
-        path: '/api/users/$use');
+        path: '/api/users/$id');
     var request = http.Request('PUT', httpsUri);
     request.bodyFields = map;
     request.headers.addAll(headers);
 
     http.StreamedResponse response = await request.send();
 
+    // statusCode '200:=OK' means successful PUT response
     if (response.statusCode == 200) {
-      var json = await response.stream.bytesToString();
-      return userFromJson(json);
-    } else {
-      print(response.reasonPhrase);
-      return null;
+      return true;
     }
+    print('updateAccount status:=${response.statusCode}, reason:=${response.reasonPhrase}');
+    return false;
   }
 
   Future<String?> delete(var id) async {

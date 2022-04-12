@@ -1,6 +1,6 @@
-import '../models/user.dart';
 import '../services/db_connector.dart';
 import '../config/globals.dart' as globals;
+import '../models/user.dart';
 
 /// signupController used for new user account creation authentication
 /// takes User object as a parameter and returns boolean indicating whether
