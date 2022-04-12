@@ -26,9 +26,9 @@ bool validateName(String value) {
 
 
 // utility to change the DateTime order from yyyy-mm-dd to mm-dd-yyyy
-String? convertDate(DateTime _date) {
+String? reverseDate(DateTime date) {
   var formatter = DateFormat('MM-dd-yyyy');
-  return formatter.format(_date);
+  return formatter.format(date);
 }
 
 

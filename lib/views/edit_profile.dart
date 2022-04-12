@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pairings/controllers/profile_controller.dart';
 import 'home.dart';
 import '../models/utilities.dart';
 import '../models/user.dart';
@@ -19,34 +20,42 @@ class _EditProfileState extends State<EditProfile> {
   late DateTime _date;
   late String? dateAsString;
 
-  late User currentUser;
+  late User tempUser;
   late bool passwordVisibility;
   final _formState = GlobalKey<FormState> ();
+  TextEditingController fnameController = TextEditingController();
+  TextEditingController lnameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    passwordVisibility = false;
-
-    _date = DateTime(DateTime.now().year-21, DateTime.now().month, DateTime.now().day);
 
     // initialize local variable with currentUser information here
     if(globals.isLoggedIn) {
-      currentUser = globals.currentUser;
+      tempUser = globals.currentUser;
+      fnameController.text=tempUser.firstName;
+      lnameController.text=tempUser.lastName;
+      phoneController.text=tempUser.phoneNum;
+      _date = tempUser.birthDate;
     }
     else {
+      // TODO - ******************************************
+      // TODO - ******************************************
+      // TODO - ******************************************
       // TODO - *********** IMPORTANT ********************
       // TODO - need to address null error here
-      currentUser = User.partial(
-          email: 'test@test.com',
+      tempUser = User.partial(
+          email: 'ERROR@EE.US',
           password: 'password',
-          firstName: 'firstName',
-          lastName: 'lastName',
+          firstName: 'firstERROR',
+          lastName: 'lastERROR',
           phoneNum: '317-555-1212',
           birthDate: DateTime(2000),
       );
+      _date = DateTime(DateTime.now().year-21, DateTime.now().month, DateTime.now().day);
     }
-    dateAsString = convertDateTime(currentUser.birthDate);
+    dateAsString = convertDateTime(tempUser.birthDate);
   }
 
   @override
@@ -62,7 +71,6 @@ class _EditProfileState extends State<EditProfile> {
           ),
           backgroundColor: Colors.black,
           centerTitle: true,
-          // TODO - add icon.arrow_back_ios to appBar
           iconTheme: const IconThemeData(
             color: Colors.white,
             size: 30.0,
@@ -91,7 +99,10 @@ class _EditProfileState extends State<EditProfile> {
                       style: TextStyle(color: Colors.white),
                     ),
                     TextFormField (
-                      initialValue: currentUser.firstName,
+                      controller: fnameController,
+                      validator: (userFirstName) => validateName(userFirstName!)
+                          ? null
+                          : 'Error: not a valid name',
                       keyboardType: TextInputType.name,
                       obscureText: false,
                       enableSuggestions: true,
@@ -112,7 +123,10 @@ class _EditProfileState extends State<EditProfile> {
 
                     // last name
                     TextFormField (
-                      initialValue: currentUser.lastName,
+                      controller: lnameController,
+                      validator: (userLastName) => validateName(userLastName!)
+                          ? null
+                          : 'Error: not a valid name',
                       keyboardType: TextInputType.name,
                       obscureText: false,
                       enableSuggestions: true,
@@ -136,7 +150,10 @@ class _EditProfileState extends State<EditProfile> {
                       style: TextStyle(color: Colors.white),
                     ),
                     TextFormField (
-                      initialValue: currentUser.phoneNum,
+                      controller: phoneController,
+                      validator: (userPhone) => validatePhone(userPhone!)
+                          ? null
+                          : 'Error: not a valid phone number format',
                       keyboardType: TextInputType.phone,
                       obscureText: false,
                       enableSuggestions: true,
@@ -179,7 +196,7 @@ class _EditProfileState extends State<EditProfile> {
                             if(dateSelected == null) {return;}
                             setState(() {
                               _date = dateSelected;
-                              dateAsString = convertDate(_date);
+                              dateAsString = reverseDate(_date);
                             });
                           },
                         ),
@@ -202,16 +219,56 @@ class _EditProfileState extends State<EditProfile> {
                             fontSize: 17.0,
                           ),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
+                          if(_formState.currentState!.validate()) {
 
-                          // TODO - call edit profile controller to update record
-                          // TODO - snackbar and return if successful
-                          // TODO - else display error message
+                            // pass to profile controller for account updates
+                            tempUser.firstName = fnameController.text;
+                            tempUser.lastName = lnameController.text;
+                            tempUser.phoneNum = phoneController.text;
+                            tempUser.birthDate = _date;
+                            tempUser.password = globals.currentUser.password;
 
-                          // TODO - verify this code
-                          // TODO - popUntil 'whoCalledMe'
-                          // **** change navigation to calling screen ****
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (BuildContext context) => const HomePage(title: 'pairings',)), (Route<dynamic> route) => false);
+                            if(await profileController(tempUser)) {
+                              // confirm to user that account created
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Profile has been updated'),
+                                ),
+                              );
+                              setState(() {});
+                            // TODO - popUntil 'whoCalledMe'
+                            // **** change navigation to calling screen ****
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(builder: (
+                                    BuildContext context) =>
+                                const HomePage(title: 'pairings',)), (
+                                Route<dynamic> route) => false);
+                            }
+                            else {
+                              // alert user failed profile update
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: const Text('Error!'),
+                                  content: const Text(
+                                    'Profile update failed.'
+                                  ),
+                                  actions: <Widget>[
+                                    ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                        primary: Colors.grey[700],
+                                        padding: const EdgeInsets.all(20.0),
+                                      ),
+                                      onPressed: () {Navigator.of(context).pop();},
+                                      child: const Text('Close'),
+                                    ),
+                                  ],
+                                ),
+                              );
+                              setState(() {});
+                            }
+                          }
                         },
                       ),
                     ),

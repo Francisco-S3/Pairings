@@ -300,7 +300,7 @@ class _SignupScreenState extends State<SignupScreen> {
                               if(dateSelected == null) {return;}
                               setState(() {
                                 _date = dateSelected;
-                                dateAsString = convertDate(_date);
+                                dateAsString = reverseDate(_date);
                               });
                             },
                           ),
