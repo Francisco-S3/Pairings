@@ -3,6 +3,9 @@ import 'package:pairings/config/theme.dart';
 import 'package:provider/provider.dart';
 import './views/loading.dart';
 
+
+/// Program Main
+/// Only used to load environment and redirect to loading screen
 void main() {
   runApp(const MyApp());
 }

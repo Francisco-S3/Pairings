@@ -5,6 +5,8 @@ import '../models/user.dart';
 import '../config/globals.dart' as globals;
 
 
+/// Sign Up Class
+/// Runs only when user directly chooses option from Sign In screen
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
@@ -289,6 +291,11 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
 
                           ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color.fromARGB(255, 78, 40, 69),
+                              padding: const EdgeInsets.all(5.0),
+                              side: const BorderSide(color: Colors.white, width: 1.0)
+                            ),
                             child: const Text('Select'),
                             onPressed: () async {
                               DateTime? dateSelected = await showDatePicker(
@@ -296,6 +303,23 @@ class _SignupScreenState extends State<SignupScreen> {
                                 initialDate: _date,
                                 firstDate: DateTime(1930),
                                 lastDate: DateTime(DateTime.now().year),
+                                builder: (context, child) =>
+                                  Theme(
+                                    data: ThemeData().copyWith(
+                                      colorScheme: const ColorScheme.dark(
+                                        surface: Color.fromARGB(255, 78, 40, 69),
+                                        primary: Colors.black,
+                                        onPrimary: Colors.white,
+                                      ),
+                                      dialogBackgroundColor: Colors.grey[700],
+                                      dialogTheme: const DialogTheme(
+                                        shape: RoundedRectangleBorder(
+                                          side: BorderSide(color: Colors.white, width: 1.0),
+                                          borderRadius: BorderRadius.all(Radius.circular(4))),
+                                      ),
+                                    ),
+                                    child: child!,
+                                  ),
                               );
                               if(dateSelected == null) {return;}
                               setState(() {
@@ -321,6 +345,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             style: ElevatedButton.styleFrom(
                               primary: Colors.grey[700],
                               padding: const EdgeInsets.all(20.0),
+                              side: const BorderSide(color: Colors.white, width: 1.0)
                             ),
                             child: const Text('Create Account',
                               style: TextStyle(
@@ -364,15 +389,23 @@ class _SignupScreenState extends State<SignupScreen> {
                                     context: context,
                                     builder: (context) => AlertDialog(
                                       title: const Text('Error!'),
+                                      titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20.0),
+                                      contentTextStyle: const TextStyle(color: Colors.white),
                                       content: const Text(
-                                          'New account NOT created.\n'
-                                              'Email address already in use.'
+                                        'New account NOT created.\n'
+                                        'Email address already in use.'
+                                      ),
+                                      backgroundColor: Colors.grey[700],
+                                      shape: const RoundedRectangleBorder(
+                                          side: BorderSide(color: Colors.white, width: 1.0),
+                                          borderRadius: BorderRadius.all(Radius.circular(4))
                                       ),
                                       actions: <Widget>[
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            primary: Colors.grey[700],
+                                            primary: const Color.fromARGB(255, 78, 40, 69),
                                             padding: const EdgeInsets.all(20.0),
+                                            side: const BorderSide(color: Colors.white, width: 1.0)
                                           ),
                                           onPressed: () {Navigator.of(context).pop();},
                                           child: const Text('Close'),

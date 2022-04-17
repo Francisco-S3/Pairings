@@ -2,8 +2,9 @@ import '../services/db_connector.dart';
 import '../config/globals.dart' as globals;
 import '../models/user.dart';
 
-/// profileController used for updating qn existing user (current) record,
-/// including password, if requested. Takes User object as a parameter and
+/// Profile Controller
+/// used for updating qn existing user (current) record,
+/// including password, if requested. Takes a User object as a parameter and
 /// returns boolean indicating whether or not the updates were successful.
 Future<bool> profileController(User updateUser) async {
 

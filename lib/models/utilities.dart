@@ -1,6 +1,10 @@
 import 'package:intl/intl.dart';
 
 
+/// Utility Functions
+/// various helper functions used throughout the application
+
+
 // utility function to confirm valid email format provided by user
 bool validateEmail(String value) {
   String pattern = r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+";

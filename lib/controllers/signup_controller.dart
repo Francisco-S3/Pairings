@@ -2,9 +2,11 @@ import '../services/db_connector.dart';
 import '../config/globals.dart' as globals;
 import '../models/user.dart';
 
-/// signupController used for new user account creation authentication
-/// takes User object as a parameter and returns boolean indicating whether
-/// or not the new account was successfully created
+
+/// Sign Up Controller
+/// used for new user account creation authentication. takes user
+/// object as a parameter and returns boolean indicating whether or
+/// not the new account was successfully created
 Future<bool> signupController(User newUser) async {
 
     //create account and confirm result

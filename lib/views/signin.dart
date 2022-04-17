@@ -4,10 +4,12 @@ import 'signup.dart';
 import '../models/utilities.dart';
 import '../controllers/signin_controller.dart';
 import 'forgot_password.dart';
-import 'home.dart';
 import '../config/globals.dart' as globals;
 
 
+/// Sign In Class
+/// Runs only when user directly chooses option or indirectly any time user
+/// clicks on a view option that requires user specific information
 class SigninScreen extends StatefulWidget {
   const SigninScreen({Key? key}) : super(key: key);
 
@@ -134,7 +136,6 @@ class _SigninScreenState extends State<SigninScreen> {
                         },
                         keyboardType: TextInputType.text,
                         obscureText: !passwordVisibility,
-                        //obscuringCharacter: '*',
                         style: const TextStyle(color: Colors.white),
                         decoration: InputDecoration(
                           labelText: 'password',
@@ -189,6 +190,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             style: ElevatedButton.styleFrom(
                               primary: Colors.grey[700],
                               padding: const EdgeInsets.all(20.0),
+                              side: const BorderSide(color: Colors.white, width: 1.0)
                             ),
                             child: const Text('Sign In',
                               style: TextStyle(
@@ -201,7 +203,7 @@ class _SigninScreenState extends State<SigninScreen> {
                               // validate email & password format before proceeding
                               if(_formState.currentState!.validate()) {
 
-                                /// pass to signinController for authentication
+                                // pass to signinController for authentication
                                 if(await signinController(_emailController.text, _passwordController.text)){
                                     // alert user confirmation of login
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -222,15 +224,23 @@ class _SigninScreenState extends State<SigninScreen> {
                                     context: context,
                                     builder: (context) => AlertDialog(
                                       title: const Text('Login Error'),
+                                      titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20.0),
                                       content: const Text(
                                         'Email or password is incorrect '
                                         'or the account is locked.\n'
                                         'Please try again or reset your password.'),
+                                      contentTextStyle: const TextStyle(color: Colors.white),
+                                      backgroundColor: Colors.grey[700],
+                                      shape: const RoundedRectangleBorder(
+                                          side: BorderSide(color: Colors.white, width: 1.0),
+                                          borderRadius: BorderRadius.all(Radius.circular(4))
+                                      ),
                                       actions: <Widget>[
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            primary: Colors.grey[700],
+                                            primary: const Color.fromARGB(255, 78, 40, 69),
                                             padding: const EdgeInsets.all(20.0),
+                                            side: const BorderSide(color: Colors.white, width: 1.0)
                                           ),
                                           onPressed: () {Navigator.of(context, rootNavigator: true).pop();},
                                           child: const Text('Close'),

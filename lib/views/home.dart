@@ -4,19 +4,10 @@ import 'package:pairings/views/signin.dart';
 import './settings.dart';
 import './saved.dart';
 import './search.dart';
+import '../config/globals.dart' as globals;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -24,27 +15,19 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _counter = 0;
+  String username = ' ';
 
-  void _incrementCounter() {
+  // update the drawer username once a user is logged in
+  void updateUser() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      globals.isLoggedIn
+          ? username = globals.currentUser.firstName + ' ' + globals.currentUser.lastName
+          : ' ';
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
@@ -56,64 +39,73 @@ class _HomePageState extends State<HomePage> {
       ),
       drawer: Drawer(
         backgroundColor: Colors.black,
-        child: ListView(
-          children: <Widget>[
-            new UserAccountsDrawerHeader(
-              accountName: new Text(
-                "John Doe",
-                style: TextStyle(fontSize: 30),
+        child: NotificationListener(
+          onNotification: (notification) {
+            updateUser();
+            return true;
+          },
+          child: ListView(
+            children: <Widget>[
+              UserAccountsDrawerHeader(
+                accountName: Text(username,
+                  style: const TextStyle(fontSize: 30),
+                ),
+                accountEmail: null,
+                decoration: new BoxDecoration(
+                    image: new DecorationImage(
+                        fit: BoxFit.fill,
+                        image: new NetworkImage(
+                            "http://thecardinalscellar.com/media/wysiwyg/the-ten-golden-rules-for-perfect-wine-pairing.jpg"),
+                        opacity: 90)),
               ),
-              accountEmail: null,
-              decoration: new BoxDecoration(
-                  image: new DecorationImage(
-                      fit: BoxFit.fill,
-                      image: new NetworkImage(
-                          "http://thecardinalscellar.com/media/wysiwyg/the-ten-golden-rules-for-perfect-wine-pairing.jpg"),
-                      opacity: 90)),
-            ),
-            new ListTile(
-              title: new Text("Sign In"),
-              trailing: new Icon(Icons.person, color: Colors.white),
-              onTap: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (BuildContext context) => new SigninScreen()));
-              }),
-              ListTile(
-                title: const Text("Edit Profile"),
-                trailing: const Icon(Icons.person, color: Colors.white),
+              new ListTile(
+                title: new Text("Sign In"),
+                trailing: new Icon(Icons.person, color: Colors.white),
                 onTap: () {
                   Navigator.of(context).pop();
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => const EditProfile()));
+                      builder: (BuildContext context) => new SigninScreen()));
+                }),
+                ListTile(
+                  title: const Text("Edit Profile"),
+                  trailing: const Icon(Icons.person, color: Colors.white),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    globals.isLoggedIn
+                    ? Navigator.of(context).push(MaterialPageRoute(builder: (
+                        BuildContext context) => const EditProfile()))
+                    : Navigator.of(context).push(MaterialPageRoute(builder: (
+                        BuildContext context) => const SigninScreen()));
+                  }
+                ),
+              new ListTile(
+                  title: Text("Saved"),
+                  trailing: new Icon(Icons.bookmark, color: Colors.white),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) => new SavedPage()));
                   }),
-            new ListTile(
-                title: Text("Saved"),
-                trailing: new Icon(Icons.bookmark, color: Colors.white),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => new SavedPage()));
-                }),
-            new ListTile(
-                title: Text("Settings"),
-                trailing: new Icon(Icons.settings, color: Colors.white),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => new SettingsPage()));
-                }),
-            new ListTile(
-              title: Text("Help"),
-              trailing: new Icon(Icons.help_outlined, color: Colors.white),
-            ),
-            new Divider(color: Colors.white),
-            new ListTile(
-              title: Text("Close"),
-              trailing: new Icon(Icons.cancel, color: Colors.white),
-              onTap: () => Navigator.of(context).pop(),
-            )
-          ],
+              new ListTile(
+                  title: Text("Settings"),
+                  trailing: new Icon(Icons.settings, color: Colors.white),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) => new SettingsPage()));
+                  }),
+              new ListTile(
+                title: Text("Help"),
+                trailing: new Icon(Icons.help_outlined, color: Colors.white),
+              ),
+              new Divider(color: Colors.white),
+              new ListTile(
+                title: Text("Close"),
+                trailing: new Icon(Icons.cancel, color: Colors.white),
+                onTap: () => Navigator.of(context).pop(),
+              )
+            ],
+          ),
         ),
       ),
       body: SafeArea(

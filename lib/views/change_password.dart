@@ -146,6 +146,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                       style: ElevatedButton.styleFrom(
                         primary: Colors.grey[700],
                         padding: const EdgeInsets.all(20.0),
+                        side: const BorderSide(color: Colors.white, width: 1.0)
                       ),
                       child: const Text('Change Password',
                         style: TextStyle(
@@ -175,12 +176,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                               context: context,
                               builder: (context) => AlertDialog(
                                 title: const Text('Success!'),
+                                titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20.0),
+                                contentTextStyle: const TextStyle(color: Colors.white),
                                 content: const Text('Password has been updated.'),
+                                backgroundColor: Colors.grey[700],
+                                shape: const RoundedRectangleBorder(
+                                    side: BorderSide(color: Colors.white, width: 1.0),
+                                    borderRadius: BorderRadius.all(Radius.circular(4))
+                                ),
                                 actions: <Widget>[
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
-                                      primary: Colors.grey[700],
+                                      primary: const Color.fromARGB(255, 78, 40, 69),
                                       padding: const EdgeInsets.all(20.0),
+                                      side: const BorderSide(color: Colors.white, width: 1.0)
                                     ),
                                     onPressed: () {
                                       Navigator.of(context, rootNavigator: true).pop();

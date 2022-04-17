@@ -7,6 +7,8 @@ import 'change_password.dart';
 import '../config/globals.dart' as globals;
 
 
+/// Edit Profile Class
+/// Runs only when user chooses option to view/edit profile from home screen
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
 
@@ -32,29 +34,11 @@ class _EditProfileState extends State<EditProfile> {
     super.initState();
 
     // initialize local variable with currentUser information here
-    if(globals.isLoggedIn) {
-      tempUser = globals.currentUser;
-      fnameController.text=tempUser.firstName;
-      lnameController.text=tempUser.lastName;
-      phoneController.text=tempUser.phoneNum;
-      _date = tempUser.birthDate;
-    }
-    else {
-      // TODO - ******************************************
-      // TODO - ******************************************
-      // TODO - ******************************************
-      // TODO - *********** IMPORTANT ********************
-      // TODO - need to address null error here
-      tempUser = User.partial(
-          email: 'ERROR@EE.US',
-          password: 'password',
-          firstName: 'firstERROR',
-          lastName: 'lastERROR',
-          phoneNum: '317-555-1212',
-          birthDate: DateTime(2000),
-      );
-      _date = DateTime(DateTime.now().year-21, DateTime.now().month, DateTime.now().day);
-    }
+    tempUser = globals.currentUser;
+    fnameController.text=tempUser.firstName;
+    lnameController.text=tempUser.lastName;
+    phoneController.text=tempUser.phoneNum;
+    _date = tempUser.birthDate;
     dateAsString = convertDateTime(tempUser.birthDate);
   }
 
@@ -185,6 +169,11 @@ class _EditProfileState extends State<EditProfile> {
                         ),
 
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              primary: const Color.fromARGB(255, 78, 40, 69),
+                              padding: const EdgeInsets.all(5.0),
+                              side: const BorderSide(color: Colors.white, width: 1.0)
+                          ),
                           child: const Text('Change'),
                           onPressed: () async {
                             DateTime? dateSelected = await showDatePicker(
@@ -192,6 +181,23 @@ class _EditProfileState extends State<EditProfile> {
                               initialDate: _date,
                               firstDate: DateTime(1930),
                               lastDate: DateTime(DateTime.now().year),
+                              builder: (context, child) =>
+                                  Theme(
+                                    data: ThemeData().copyWith(
+                                      colorScheme: const ColorScheme.dark(
+                                        surface: Color.fromARGB(255, 78, 40, 69),
+                                        primary: Colors.black,
+                                        onPrimary: Colors.white,
+                                      ),
+                                      dialogBackgroundColor: Colors.grey[700],
+                                      dialogTheme: const DialogTheme(
+                                        shape: RoundedRectangleBorder(
+                                            side: BorderSide(color: Colors.white, width: 1.0),
+                                            borderRadius: BorderRadius.all(Radius.circular(4))),
+                                      ),
+                                    ),
+                                    child: child!,
+                                  ),
                             );
                             if(dateSelected == null) {return;}
                             setState(() {
@@ -211,6 +217,7 @@ class _EditProfileState extends State<EditProfile> {
                         style: ElevatedButton.styleFrom(
                           primary: Colors.grey[700],
                           padding: const EdgeInsets.all(20.0),
+                          side: const BorderSide(color: Colors.white, width: 1.0)
                         ),
                         child: const Text('Update Profile',
                           style: TextStyle(
@@ -251,14 +258,20 @@ class _EditProfileState extends State<EditProfile> {
                                 context: context,
                                 builder: (context) => AlertDialog(
                                   title: const Text('Error!'),
-                                  content: const Text(
-                                    'Profile update failed.'
+                                  titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20.0),
+                                  contentTextStyle: const TextStyle(color: Colors.white),
+                                  content: const Text('Profile update failed.'),
+                                  backgroundColor: Colors.grey[700],
+                                  shape: const RoundedRectangleBorder(
+                                      side: BorderSide(color: Colors.white, width: 1.0),
+                                      borderRadius: BorderRadius.all(Radius.circular(4))
                                   ),
                                   actions: <Widget>[
                                     ElevatedButton(
                                       style: ElevatedButton.styleFrom(
-                                        primary: Colors.grey[700],
+                                        primary: const Color.fromARGB(255, 78, 40, 69),
                                         padding: const EdgeInsets.all(20.0),
+                                        side: const BorderSide(color: Colors.white, width: 1.0)
                                       ),
                                       onPressed: () {Navigator.of(context).pop();},
                                       child: const Text('Close'),
@@ -280,7 +293,8 @@ class _EditProfileState extends State<EditProfile> {
                       child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
                           primary: Colors.grey[700],
-                          padding: const EdgeInsets.all(20.0),
+                          padding: const EdgeInsets.all(15.0),
+                          side: const BorderSide(color: Colors.white, width: 1.0)
                         ),
                         label: const Text('Change Password',
                           style: TextStyle(

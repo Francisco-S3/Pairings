@@ -3,8 +3,10 @@ import '../services/db_connector.dart';
 import '../models/user.dart';
 import '../config/globals.dart' as globals;
 
-/// signinController used for user login authentication for existing
-/// accounts.  Takes two Strings as parameters and returns boolean indicating whether
+
+/// Sign In Controller
+/// used for user login authentication for existing accounts.
+/// Takes two strings as parameters and returns boolean indicating whether
 /// or not the login was successful.
 Future<bool> signinController(String email, String password) async {
 
