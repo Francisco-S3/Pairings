@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import '../models/utilities.dart';
 import '../controllers/reset_password_controller.dart';
 
-// ForgotPwdScreen Class
-// Runs only when user chooses option to reset password
 
-
+/// Forgot Password Class
+/// Runs only when user chooses option to reset password
 class ForgotPwdScreen extends StatefulWidget {
   const ForgotPwdScreen({Key? key}) : super(key: key);
 
@@ -69,7 +68,7 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                       labelText: 'email address',
                       labelStyle: TextStyle(color: Colors.white),
                       suffixIcon: Icon(Icons.email, color: Colors.white,),
-                      enabledBorder: OutlineInputBorder(
+                      enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(color: Colors.white, width: 2.0),
                       ),
                       filled: true,
@@ -100,6 +99,7 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                     style: ElevatedButton.styleFrom(
                       primary: Colors.grey[700],
                       padding: const EdgeInsets.all(20.0),
+                      side: const BorderSide(color: Colors.white, width: 1.0)
                     ),
                     child: const Text('Send Recovery',
                       style: TextStyle(
@@ -130,12 +130,20 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                             context: context,
                             builder: (context) => AlertDialog(
                               title: const Text('Success!'),
+                              titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20.0),
+                              contentTextStyle: const TextStyle(color: Colors.white),
                               content: const Text('Check your email for further recovery instructions'),
+                              backgroundColor: Colors.grey[700],
+                              shape: const RoundedRectangleBorder(
+                                  side: BorderSide(color: Colors.white, width: 1.0),
+                                  borderRadius: BorderRadius.all(Radius.circular(4))
+                              ),
                               actions: <Widget>[
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: Colors.grey[700],
+                                    primary: const Color.fromARGB(255, 78, 40, 69),
                                     padding: const EdgeInsets.all(20.0),
+                                    side: const BorderSide(color: Colors.white, width: 1.0)
                                   ),
                                   onPressed: () {
                                     Navigator.of(context, rootNavigator: true).pop();
@@ -153,16 +161,23 @@ class _ForgotPwdScreenState extends State<ForgotPwdScreen> {
                             context: context,
                             builder: (context) => AlertDialog(
                               title: const Text('Error'),
+                              titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20.0),
                               content: const Text(
                                   'Email address provided not found.\n'
                                   'Review and try again.'
                               ),
+                              contentTextStyle: const TextStyle(color: Colors.white),
+                              backgroundColor: Colors.grey[700],
+                              shape: const RoundedRectangleBorder(
+                                  side: BorderSide(color: Colors.white, width: 1.0),
+                                  borderRadius: BorderRadius.all(Radius.circular(4))
+                              ),
                               actions: <Widget>[
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    primary: Colors.grey[700],
-
+                                    primary: const Color.fromARGB(255, 78, 40, 69),
                                     padding: const EdgeInsets.all(20.0),
+                                    side: const BorderSide(color: Colors.white, width: 1.0)
                                   ),
                                   onPressed: () {
                                     Navigator.of(context, rootNavigator: true).pop();

@@ -2,6 +2,11 @@ import "package:flutter/material.dart";
 import 'package:provider/provider.dart';
 
 
+/// Theme Classes
+/// used to apply visual color themes to the application.
+/// switching between theme options is controlled on the setting
+/// option screen
+
 /// Change notifier for theme toggle button
 class ThemeProvider extends ChangeNotifier {
   ThemeMode themeMode = ThemeMode.dark;
@@ -27,6 +32,7 @@ class PairingThemes {
           borderSide: BorderSide(color: Color.fromARGB(255, 78, 40, 69)),
       ),
     ),
+
     textTheme: const TextTheme(
       bodyText1: TextStyle(
           fontSize: 20,
@@ -60,9 +66,6 @@ class PairingThemes {
 //     );
 //   }
 // }
-
-
-
 
 
 // function to provide an alternate color theme

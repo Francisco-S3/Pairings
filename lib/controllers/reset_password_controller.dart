@@ -1,5 +1,10 @@
 
-/// resetPasswordController used for recovery of forgotten password
+
+/// Reset Password Controller
+/// used for recovery of unknown/forgotten password when user initiates
+/// request.  Takes a single string parameter of the user's email
+/// address and passes to database to complete password recovery via
+/// email
 bool resetPasswordController(String email) {
 
     //TODO - update code here
