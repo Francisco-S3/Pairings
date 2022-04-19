@@ -24,7 +24,7 @@ class _SavedPageState extends State<SavedPage> with TickerProviderStateMixin {
         backgroundColor: Colors.black,
         centerTitle: true,
         title: Text(
-          'Search',
+          'Saved',
           style: TextStyle(fontSize: 25),
         ),
         actions: <Widget>[
@@ -34,12 +34,8 @@ class _SavedPageState extends State<SavedPage> with TickerProviderStateMixin {
             indicatorColor: Color.fromARGB(255, 78, 40, 69),
             controller: _tabController,
             tabs: const <Widget>[
-              Tab(
-                text: 'Individual',
-              ),
-              Tab(
-                text: 'Pairings',
-              )
+              Tab(text: 'Individual'),
+              Tab(text: 'Pairings')
             ]),
       ),
       body: TabBarView(controller: _tabController, children: const <Widget>[

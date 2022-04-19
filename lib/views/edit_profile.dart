@@ -246,11 +246,7 @@ class _EditProfileState extends State<EditProfile> {
                               setState(() {});
                             // TODO - popUntil 'whoCalledMe'
                             // **** change navigation to calling screen ****
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(builder: (
-                                    BuildContext context) =>
-                                const HomePage(title: 'pairings',)), (
-                                Route<dynamic> route) => false);
+                              Navigator.of(context, rootNavigator: true).pop();
                             }
                             else {
                               // alert user failed profile update
