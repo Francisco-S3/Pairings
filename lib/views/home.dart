@@ -6,6 +6,7 @@ import './saved.dart';
 import './search.dart';
 import '../config/globals.dart' as globals;
 
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key, required this.title}) : super(key: key);
   final String title;
@@ -32,7 +33,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'pairings',
           style: TextStyle(fontFamily: 'Azonix', fontSize: 25),
         ),
@@ -230,9 +231,10 @@ class _HomePageState extends State<HomePage> {
                   child: Text(
                     "Silver Oak Cabernet Sauvingon",
                     style: TextStyle(
-                        fontSize: 16,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold),
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

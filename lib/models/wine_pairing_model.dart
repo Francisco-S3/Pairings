@@ -1,86 +1,60 @@
-// To parse this JSON data, do
+// To parse this JSON data, do:
 //
-//     final winePairingModel = winePairingModelFromJson(jsonString);
-
+// final winePairingModel = winePairingModelFromJson(jsonString);
 import 'dart:convert';
+import 'package:pairings/models/wine.dart';
 
+
+/// helper conversion functions
+// wine pairing model from json
 WinePairingModel winePairingModelFromJson(String str) =>
     WinePairingModel.fromJson(json.decode(str));
 
+// wine pairing model to json
 String winePairingModelToJson(WinePairingModel data) =>
     json.encode(data.toJson());
 
+
+/// Wine Pairing Class
+/// class holds a pairings object for the application
 class WinePairingModel {
+
+  List<String>? pairedWines;
+  String? pairingText;
+  List<Wine>? productMatches;
+
+  //full constructor
   WinePairingModel({
     this.pairedWines,
     this.pairingText,
     this.productMatches,
   });
 
-  List<String>? pairedWines;
-  String? pairingText;
-  List<ProductMatch>? productMatches;
 
+  // wine pairing object created from json
   factory WinePairingModel.fromJson(Map<String, dynamic> json) =>
       WinePairingModel(
         pairedWines: List<String>.from(json["pairedWines"].map((x) => x)),
         pairingText: json["pairingText"],
-        productMatches: List<ProductMatch>.from(
-            json["productMatches"].map((x) => ProductMatch.fromJson(x))),
+        productMatches: List<Wine>.from(json["productMatches"].map((x) => Wine.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
-        "pairedWines": List<dynamic>.from(pairedWines!.map((x) => x)),
-        "pairingText": pairingText,
-        "productMatches":
-            List<dynamic>.from(productMatches!.map((x) => x.toJson())),
-      };
-}
-
-class ProductMatch {
-  ProductMatch({
-    this.id,
-    this.title,
-    this.description,
-    this.price,
-    this.imageUrl,
-    this.averageRating,
-    this.ratingCount,
-    this.score,
-    this.link,
-  });
-
-  int? id;
-  String? title;
-  String? description;
-  String? price;
-  String? imageUrl;
-  double? averageRating;
-  int? ratingCount;
-  double? score;
-  String? link;
-
-  factory ProductMatch.fromJson(Map<String, dynamic> json) => ProductMatch(
-        id: json["id"],
-        title: json["title"],
-        description: json["description"],
-        price: json["price"],
-        imageUrl: json["imageUrl"],
-        averageRating: json["averageRating"].toDouble(),
-        ratingCount: json["ratingCount"].toInt(),
-        score: json["score"].toDouble(),
-        link: json["link"],
-      );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "description": description,
-        "price": price,
-        "imageUrl": imageUrl,
-        "averageRating": averageRating,
-        "ratingCount": ratingCount,
-        "score": score,
-        "link": link,
-      };
+    "pairedWines": List<dynamic>.from(pairedWines!.map((x) => x)),
+    "pairingText": pairingText,
+    "productMatches": List<Wine>.from(productMatches!.map((x) => x.toJson())),
+  };
+
+
+  // print pairings object (primarily for debugging purposes)
+  @override
+  String toString() {
+    return 'Wine Pairings{'
+        'pairedWines:= $pairedWines\n'
+        'pairingText:= $pairingText\n'
+        'productMatches:= $productMatches}'
+    ;
+  }
 }
+
