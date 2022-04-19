@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pairings/main.dart';
 import 'package:pairings/views/home.dart';
+
+import '../main.dart';
 
 class Loading extends StatefulWidget {
   @override
@@ -19,9 +22,7 @@ class _LoadingState extends State<Loading> {
   _navigateToHome() async {
     await Future.delayed(Duration(seconds: 2), () {});
     Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => HomePage(title: "Pairings: Home")));
+        context, MaterialPageRoute(builder: (context) => MainPage()));
   }
 
   Widget build(BuildContext context) {

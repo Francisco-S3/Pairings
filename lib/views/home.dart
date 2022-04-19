@@ -3,8 +3,9 @@ import 'package:pairings/views/edit_profile.dart';
 import 'package:pairings/views/signin.dart';
 import './settings.dart';
 import './saved.dart';
-import './search.dart';
 import '../config/globals.dart' as globals;
+import 'indiv_search.dart';
+import 'pairings_search.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -22,7 +23,8 @@ class _HomePageState extends State<HomePage> {
   void updateUser() {
     setState(() {
       globals.isLoggedIn
-          ? username = globals.currentUser.firstName + ' ' + globals.currentUser.lastName
+          ? username =
+              globals.currentUser.firstName + ' ' + globals.currentUser.lastName
           : ' ';
     });
   }
@@ -48,7 +50,8 @@ class _HomePageState extends State<HomePage> {
           child: ListView(
             children: <Widget>[
               UserAccountsDrawerHeader(
-                accountName: Text(username,
+                accountName: Text(
+                  username,
                   style: const TextStyle(fontSize: 30),
                 ),
                 accountEmail: null,
@@ -60,25 +63,26 @@ class _HomePageState extends State<HomePage> {
                         opacity: 90)),
               ),
               new ListTile(
-                title: new Text("Sign In"),
-                trailing: new Icon(Icons.person, color: Colors.white),
-                onTap: () {
-                  Navigator.of(context).pop();
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (BuildContext context) => new SigninScreen()));
-                }),
-                ListTile(
+                  title: new Text("Sign In"),
+                  trailing: new Icon(Icons.person, color: Colors.white),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) => new SigninScreen()));
+                  }),
+              ListTile(
                   title: const Text("Edit Profile"),
                   trailing: const Icon(Icons.person, color: Colors.white),
                   onTap: () {
                     Navigator.of(context).pop();
                     globals.isLoggedIn
-                    ? Navigator.of(context).push(MaterialPageRoute(builder: (
-                        BuildContext context) => const EditProfile()))
-                    : Navigator.of(context).push(MaterialPageRoute(builder: (
-                        BuildContext context) => const SigninScreen()));
-                  }
-                ),
+                        ? Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const EditProfile()))
+                        : Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const SigninScreen()));
+                  }),
               new ListTile(
                   title: Text("Saved"),
                   trailing: new Icon(Icons.bookmark, color: Colors.white),
@@ -153,7 +157,7 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    new SearchPage()));
+                                    new IndivSearchPage()));
                           },
                           child: const Text(
                             'Individual',
@@ -176,7 +180,11 @@ class _HomePageState extends State<HomePage> {
                         flex: 1,
                         fit: FlexFit.loose,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    new PairingsSearchPage()));
+                          },
                           child: const Text(
                             'Pairings',
                             style: TextStyle(fontSize: 25),
@@ -212,7 +220,7 @@ class _HomePageState extends State<HomePage> {
                 child: Center(
                   child: SizedBox(
                     height: 300,
-                    width: 250,
+                    width: 300,
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                           color: Colors.grey,
@@ -241,16 +249,6 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.black,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: 'Saved'),
-        ],
       ),
     );
   }
