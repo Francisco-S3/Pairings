@@ -133,7 +133,10 @@ class _HomePageState extends State<HomePage> {
                       child: Text(
                         'Search',
                         style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     SizedBox(
@@ -206,8 +209,12 @@ class _HomePageState extends State<HomePage> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 20.0),
                   child: Text('Featured',
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
               ),
               Flexible(
