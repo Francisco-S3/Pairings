@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pairings/main.dart';
-import 'package:pairings/views/home.dart';
-
 import '../main.dart';
 
 class Loading extends StatefulWidget {
@@ -20,11 +17,12 @@ class _LoadingState extends State<Loading> {
   }
 
   _navigateToHome() async {
-    await Future.delayed(Duration(seconds: 2), () {});
+    await Future.delayed(const Duration(seconds: 2), () {});
     Navigator.pushReplacement(
         context, MaterialPageRoute(builder: (context) => MainPage()));
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
@@ -39,11 +37,13 @@ class _LoadingState extends State<Loading> {
                 fit: BoxFit.fill,
               ),
             ),
-            SizedBox(
-              height: 25,
-            ),
-            Container(
-              child: Text("Find your match.", style: TextStyle(fontSize: 30)),
+            const SizedBox(height: 25),
+            const Text(
+                "Find your match.",
+                style: TextStyle(
+                  fontSize: 30,
+                  color: Colors.white,
+                )
             ),
           ],
         ),

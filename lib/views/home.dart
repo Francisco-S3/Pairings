@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pairings/views/edit_profile.dart';
-import 'package:pairings/views/signin.dart';
+import 'package:pairings/views/pairings_search.dart';
+import 'edit_profile.dart';
+import 'indiv_search.dart';
+import 'signin.dart';
 import './settings.dart';
 import './saved.dart';
 import '../config/globals.dart' as globals;
-import 'indiv_search.dart';
-import 'pairings_search.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -23,8 +23,7 @@ class _HomePageState extends State<HomePage> {
   void updateUser() {
     setState(() {
       globals.isLoggedIn
-          ? username =
-              globals.currentUser.firstName + ' ' + globals.currentUser.lastName
+          ? username = globals.currentUser.firstName + ' ' + globals.currentUser.lastName
           : ' ';
     });
   }
@@ -55,58 +54,57 @@ class _HomePageState extends State<HomePage> {
                   style: const TextStyle(fontSize: 30),
                 ),
                 accountEmail: null,
-                decoration: new BoxDecoration(
-                    image: new DecorationImage(
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
                         fit: BoxFit.fill,
-                        image: new NetworkImage(
+                        image: NetworkImage(
                             "http://thecardinalscellar.com/media/wysiwyg/the-ten-golden-rules-for-perfect-wine-pairing.jpg"),
                         opacity: 90)),
               ),
-              new ListTile(
-                  title: new Text("Sign In"),
-                  trailing: new Icon(Icons.person, color: Colors.white),
-                  onTap: () {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => new SigninScreen()));
-                  }),
               ListTile(
+                title: const Text("Sign In"),
+                trailing: const Icon(Icons.person, color: Colors.white),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (BuildContext context) => const SigninScreen()));
+                }),
+                ListTile(
                   title: const Text("Edit Profile"),
                   trailing: const Icon(Icons.person, color: Colors.white),
                   onTap: () {
                     Navigator.of(context).pop();
                     globals.isLoggedIn
-                        ? Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const EditProfile()))
-                        : Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) =>
-                                const SigninScreen()));
-                  }),
-              new ListTile(
-                  title: Text("Saved"),
-                  trailing: new Icon(Icons.bookmark, color: Colors.white),
+                    ? Navigator.of(context).push(MaterialPageRoute(builder: (
+                        BuildContext context) => const EditProfile()))
+                    : Navigator.of(context).push(MaterialPageRoute(builder: (
+                        BuildContext context) => const SigninScreen()));
+                  }
+                ),
+              ListTile(
+                  title: const Text("Saved"),
+                  trailing: const Icon(Icons.bookmark, color: Colors.white),
                   onTap: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => new SavedPage()));
+                        builder: (BuildContext context) => SavedPage()));
                   }),
-              new ListTile(
-                  title: Text("Settings"),
-                  trailing: new Icon(Icons.settings, color: Colors.white),
+              ListTile(
+                  title: const Text("Settings"),
+                  trailing: const Icon(Icons.settings, color: Colors.white),
                   onTap: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).push(MaterialPageRoute(
-                        builder: (BuildContext context) => new SettingsPage()));
+                        builder: (BuildContext context) => SettingsPage()));
                   }),
-              new ListTile(
-                title: Text("Help"),
-                trailing: new Icon(Icons.help_outlined, color: Colors.white),
+              ListTile(
+                title: const Text("Help"),
+                trailing: const Icon(Icons.help_outlined, color: Colors.white),
               ),
-              new Divider(color: Colors.white),
-              new ListTile(
-                title: Text("Close"),
-                trailing: new Icon(Icons.cancel, color: Colors.white),
+              const Divider(color: Colors.white),
+              ListTile(
+                title: const Text("Close"),
+                trailing: const Icon(Icons.cancel, color: Colors.white),
                 onTap: () => Navigator.of(context).pop(),
               )
             ],
@@ -129,9 +127,9 @@ class _HomePageState extends State<HomePage> {
                 flex: 0,
                 fit: FlexFit.loose,
                 child: Column(
-                  children: [
+                  children: const [
                     Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
+                      padding: EdgeInsets.only(left: 20.0),
                       child: Text(
                         'Search',
                         style: TextStyle(
@@ -157,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    new IndivSearchPage()));
+                                    const IndivSearchPage()));
                           },
                           child: const Text(
                             'Individual',
@@ -165,17 +163,15 @@ class _HomePageState extends State<HomePage> {
                           ),
                           style: ElevatedButton.styleFrom(
                               primary: Colors.transparent,
-                              side: BorderSide(
+                              side: const BorderSide(
                                 width: 2.0,
                                 color: Colors.white,
                               ),
-                              fixedSize: Size(240, 80),
-                              padding: EdgeInsets.all(0)),
+                              fixedSize: const Size(240, 80),
+                              padding: const EdgeInsets.all(0)),
                         ),
                       ),
-                      SizedBox(
-                        height: 25,
-                      ),
+                      const SizedBox(height: 25),
                       Flexible(
                         flex: 1,
                         fit: FlexFit.loose,
@@ -183,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) =>
-                                    new PairingsSearchPage()));
+                                const PairingsSearchPage()));
                           },
                           child: const Text(
                             'Pairings',
@@ -191,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                           ),
                           style: ElevatedButton.styleFrom(
                             primary: Colors.transparent,
-                            side: BorderSide(
+                            side: const BorderSide(
                               width: 2.0,
                               color: Colors.white,
                             ),
@@ -220,7 +216,7 @@ class _HomePageState extends State<HomePage> {
                 child: Center(
                   child: SizedBox(
                     height: 300,
-                    width: 300,
+                    width: 250,
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                           color: Colors.grey,
