@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import '../services/db_connector.dart';
 import '../models/user.dart';
 import '../config/globals.dart' as globals;
