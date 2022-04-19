@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pairings/config/theme.dart';
 import 'package:provider/provider.dart';
+import 'config/theme.dart';
+import 'views/signin.dart';
 import './views/loading.dart';
 import 'views/home.dart';
 import 'views/saved.dart';
-import 'views/signin.dart';
+
 
 /// Program Main
 /// Only used to load environment and redirect to loading screen
-Future main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
@@ -38,67 +39,70 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
 class MainPage extends StatefulWidget {
+  @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
   int index = 0;
-  final screens = [HomePage(title: 'Pairings: Home'), SavedPage()];
+  final screens = [const HomePage(title: 'Pairings: Home'), SavedPage()];
 
+  @override
   Widget build(BuildContext context) => Scaffold(
-        body: screens[index],
-        floatingActionButton: buildFAB(),
-        bottomNavigationBar: buildNavigationBar(),
-      );
+    body: screens[index],
+    floatingActionButton: buildFAB(),
+    bottomNavigationBar: buildNavigationBar(),
+  );
 
   Widget buildNavigationBar() => NavigationBarTheme(
-        data: NavigationBarThemeData(
-          labelTextStyle: MaterialStateProperty.all(
-            TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+    data: NavigationBarThemeData(
+      labelTextStyle: MaterialStateProperty.all(
+        const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+      ),
+      indicatorColor: Colors.white,
+    ),
+    child: NavigationBar(
+      backgroundColor: Colors.black,
+      selectedIndex: index,
+      onDestinationSelected: (index) => setState(() => this.index = index),
+      // labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+      // animationDuration: Duration(seconds: 3),
+      destinations: const [
+        NavigationDestination(
+          icon: Icon(
+            Icons.home_outlined,
+            color: Colors.white,
           ),
-          indicatorColor: Colors.white,
+          selectedIcon: Icon(Icons.home),
+          label: 'Home',
         ),
-        child: NavigationBar(
-          backgroundColor: Colors.black,
-          selectedIndex: index,
-          onDestinationSelected: (index) => setState(() => this.index = index),
-          // labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-          // animationDuration: Duration(seconds: 3),
-          destinations: [
-            NavigationDestination(
-              icon: Icon(
-                Icons.home_outlined,
-                color: Colors.white,
-              ),
-              selectedIcon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            NavigationDestination(
-              icon: Icon(
-                Icons.bookmark_border_outlined,
-                color: Colors.white,
-              ),
-              selectedIcon: Icon(Icons.bookmark),
-              label: 'Saved',
-            ),
-          ],
+        NavigationDestination(
+          icon: Icon(
+            Icons.bookmark_border_outlined,
+            color: Colors.white,
+          ),
+          selectedIcon: Icon(Icons.bookmark),
+          label: 'Saved',
         ),
-      );
+      ],
+    ),
+  );
 
   Widget? buildFAB() {
-    final shape = BeveledRectangleBorder(borderRadius: BorderRadius.zero);
+    const shape = BeveledRectangleBorder(borderRadius: BorderRadius.zero);
 
     switch (index) {
       case 1:
         return FloatingActionButton.extended(
           shape: shape,
-          backgroundColor: Color.fromARGB(255, 78, 40, 69),
-          icon: Icon(Icons.person),
-          label: Text('Sign in'),
+          backgroundColor: const Color.fromARGB(255, 78, 40, 69),
+          icon: const Icon(Icons.person),
+          label: const Text('Sign in'),
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => new SigninScreen()));
+                builder: (BuildContext context) => const SigninScreen()));
           },
         );
       default:
