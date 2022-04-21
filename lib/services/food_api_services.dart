@@ -34,7 +34,7 @@ class FoodApiServices {
         return result;
       }
     } catch (e) {
-      throw Exception();
+      // throw Exception();
     }
   }
 }

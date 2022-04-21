@@ -6,7 +6,6 @@ import '../controllers/signin_controller.dart';
 import 'forgot_password.dart';
 import '../config/globals.dart' as globals;
 
-
 /// Sign In Class
 /// Runs only when user directly chooses option or indirectly any time user
 /// clicks on a view option that requires user specific information
@@ -18,15 +17,16 @@ class SigninScreen extends StatefulWidget {
 }
 
 class _SigninScreenState extends State<SigninScreen> {
-
   /// form controllers for login fields
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+
   /// toggle password visibility in password fields
   late bool passwordVisibility;
 
   /// formState variable
-  final _formState = GlobalKey<FormState> ();
+  final _formState = GlobalKey<FormState>();
+
   /// response from login controller
   bool response = false;
 
@@ -38,7 +38,6 @@ class _SigninScreenState extends State<SigninScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     /// use relative sizes based on current media display
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -48,8 +47,10 @@ class _SigninScreenState extends State<SigninScreen> {
       child: Scaffold(
         appBar: AppBar(
           iconTheme: Theme.of(context).iconTheme,
-          title: const Text('Sign In',
-            style: TextStyle(color: Colors.white,
+          title: const Text(
+            'Sign In',
+            style: TextStyle(
+              color: Colors.white,
               fontSize: 24.0,
             ),
           ),
@@ -76,14 +77,15 @@ class _SigninScreenState extends State<SigninScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-
                     // vertical spacer box
                     const SizedBox(height: 90.0),
 
                     // header insertion
                     Container(
-                      padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
-                      child: const Text('Welcome Back!',
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 10.0),
+                      child: const Text(
+                        'Welcome Back!',
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Rubik',
@@ -98,8 +100,9 @@ class _SigninScreenState extends State<SigninScreen> {
 
                     // email login insertion
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5.0),
-                      child: TextFormField (
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30.0, vertical: 5.0),
+                      child: TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         obscureText: false,
@@ -108,16 +111,21 @@ class _SigninScreenState extends State<SigninScreen> {
                         decoration: const InputDecoration(
                           labelText: 'email address',
                           labelStyle: TextStyle(color: Colors.white),
-                          suffixIcon: Icon(Icons.email, color: Colors.white,),
+                          suffixIcon: Icon(
+                            Icons.email,
+                            color: Colors.white,
+                          ),
                           enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white, width: 2.0),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 2.0),
                           ),
                           filled: true,
                           fillColor: Colors.black,
                         ),
-                        validator: (userEmailAddress) => validateEmail(userEmailAddress!)
-                            ? null
-                            : 'Error: not a valid email address',
+                        validator: (userEmailAddress) =>
+                            validateEmail(userEmailAddress!)
+                                ? null
+                                : 'Error: not a valid email address',
                       ),
                     ),
 
@@ -126,13 +134,14 @@ class _SigninScreenState extends State<SigninScreen> {
 
                     // password login insertion
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
-                      child: TextFormField (
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30.0, vertical: 0.0),
+                      child: TextFormField(
                         controller: _passwordController,
                         validator: (password) {
                           return (password!.length > 5)
-                          ? null
-                          : 'Error: password length not sufficient';
+                              ? null
+                              : 'Error: password length not sufficient';
                         },
                         keyboardType: TextInputType.text,
                         obscureText: !passwordVisibility,
@@ -141,7 +150,8 @@ class _SigninScreenState extends State<SigninScreen> {
                           labelText: 'password',
                           labelStyle: const TextStyle(color: Colors.white),
                           enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white, width: 2.0),
+                            borderSide:
+                                BorderSide(color: Colors.white, width: 2.0),
                           ),
                           filled: true,
                           fillColor: Colors.black,
@@ -151,8 +161,8 @@ class _SigninScreenState extends State<SigninScreen> {
                             }),
                             child: Icon(
                               passwordVisibility
-                              ? Icons.visibility_outlined
-                              : Icons.visibility_off_outlined,
+                                  ? Icons.visibility_outlined
+                                  : Icons.visibility_off_outlined,
                               color: Colors.white,
                             ),
                           ),
@@ -165,14 +175,19 @@ class _SigninScreenState extends State<SigninScreen> {
 
                     // sign in button row insertion
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 5.0),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30.0, vertical: 5.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           GestureDetector(
                             onTap: () {
                               //**** change navigation to reset password screen ****
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => const ForgotPwdScreen()));
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const ForgotPwdScreen()));
                             },
                             child: const Text.rich(
                               TextSpan(
@@ -185,14 +200,14 @@ class _SigninScreenState extends State<SigninScreen> {
                               ),
                             ),
                           ),
-
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.grey[700],
-                              padding: const EdgeInsets.all(20.0),
-                              side: const BorderSide(color: Colors.white, width: 1.0)
-                            ),
-                            child: const Text('Sign In',
+                                primary: Colors.grey[700],
+                                padding: const EdgeInsets.all(20.0),
+                                side: const BorderSide(
+                                    color: Colors.white, width: 1.0)),
+                            child: const Text(
+                              'Sign In',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.normal,
@@ -201,19 +216,22 @@ class _SigninScreenState extends State<SigninScreen> {
                             ),
                             onPressed: () async {
                               // validate email & password format before proceeding
-                              if(_formState.currentState!.validate()) {
-
+                              if (_formState.currentState!.validate()) {
                                 // pass to signinController for authentication
-                                if(await signinController(_emailController.text, _passwordController.text)){
-                                    // alert user confirmation of login
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text('Success!  Login completed.'),
-                                      ),
-                                    );
+                                if (await signinController(
+                                    _emailController.text,
+                                    _passwordController.text)) {
+                                  // alert user confirmation of login
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text('Success!  Login completed.'),
+                                    ),
+                                  );
                                   setState(() {
                                     // close login screen and return to home page
-                                    Navigator.of(context, rootNavigator: true).pop();
+                                    Navigator.of(context, rootNavigator: true)
+                                        .pop();
                                   });
                                 }
 
@@ -224,25 +242,35 @@ class _SigninScreenState extends State<SigninScreen> {
                                     context: context,
                                     builder: (context) => AlertDialog(
                                       title: const Text('Login Error'),
-                                      titleTextStyle: const TextStyle(color: Colors.white, fontSize: 20.0),
+                                      titleTextStyle: const TextStyle(
+                                          color: Colors.white, fontSize: 20.0),
                                       content: const Text(
-                                        'Email or password is incorrect '
-                                        'or the account is locked.\n'
-                                        'Please try again or reset your password.'),
-                                      contentTextStyle: const TextStyle(color: Colors.white),
+                                          'Email or password is incorrect '
+                                          'or the account is locked.\n'
+                                          'Please try again or reset your password.'),
+                                      contentTextStyle:
+                                          const TextStyle(color: Colors.white),
                                       backgroundColor: Colors.grey[700],
                                       shape: const RoundedRectangleBorder(
-                                          side: BorderSide(color: Colors.white, width: 1.0),
-                                          borderRadius: BorderRadius.all(Radius.circular(4))
-                                      ),
+                                          side: BorderSide(
+                                              color: Colors.white, width: 1.0),
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(4))),
                                       actions: <Widget>[
                                         ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            primary: const Color.fromARGB(255, 78, 40, 69),
-                                            padding: const EdgeInsets.all(20.0),
-                                            side: const BorderSide(color: Colors.white, width: 1.0)
-                                          ),
-                                          onPressed: () {Navigator.of(context, rootNavigator: true).pop();},
+                                              primary: const Color.fromARGB(
+                                                  255, 78, 40, 69),
+                                              padding:
+                                                  const EdgeInsets.all(20.0),
+                                              side: const BorderSide(
+                                                  color: Colors.white,
+                                                  width: 1.0)),
+                                          onPressed: () {
+                                            Navigator.of(context,
+                                                    rootNavigator: true)
+                                                .pop();
+                                          },
                                           child: const Text('Close'),
                                         ),
                                       ],
@@ -263,15 +291,17 @@ class _SigninScreenState extends State<SigninScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('Don\'t have an account?   ',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                          color: Colors.white),
+                        const Text(
+                          'Don\'t have an account?   ',
+                          style: TextStyle(fontSize: 15.0, color: Colors.white),
                         ),
-
                         GestureDetector(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => const SignupScreen()));
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const SignupScreen()));
                           },
                           child: const Text.rich(
                             TextSpan(

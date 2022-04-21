@@ -9,7 +9,7 @@ class SavedPage extends StatefulWidget {
 class _SavedPageState extends State<SavedPage> with TickerProviderStateMixin {
   bool lockInBackground = false;
   late TabController _tabController;
-
+  // int currentIndex = 1;
   @override
   void initState() {
     // TODO: implement initState
@@ -27,9 +27,9 @@ class _SavedPageState extends State<SavedPage> with TickerProviderStateMixin {
           'Saved',
           style: TextStyle(fontSize: 25),
         ),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.filter_list), onPressed: () {}),
-        ],
+        // actions: <Widget>[
+        //   IconButton(icon: Icon(Icons.filter_list), onPressed: () {}),
+        // ],
         bottom: TabBar(
             indicatorColor: Color.fromARGB(255, 78, 40, 69),
             controller: _tabController,
@@ -40,10 +40,16 @@ class _SavedPageState extends State<SavedPage> with TickerProviderStateMixin {
       ),
       body: TabBarView(controller: _tabController, children: const <Widget>[
         Center(
-          child: Text('See saved individual items'),
+          child: Text(
+            'Sign in to see saved individual items.',
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
         ),
         Center(
-          child: Text('See saved pairings'),
+          child: Text(
+            'Sign in to see saved pairings.',
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
         )
       ]),
     );

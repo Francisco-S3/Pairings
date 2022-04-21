@@ -1,15 +1,13 @@
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pairings/models/wine.dart';
+import 'package:pairings/services/wine_api_servies.dart';
 import '../controllers/search_controller.dart';
-import '../models/food_result_data.dart';
+import '../models/food_search_model.dart';
 import '../widgets/search_widget.dart';
 import '../services/food_api_services.dart';
 import '../models/wine_recommendation_model.dart';
-import '../models/wine_result_data.dart';
-import '../models/food_search_model.dart';
 
 class IndivSearchPage extends StatefulWidget {
   @override
@@ -23,10 +21,23 @@ class _IndivSearchState extends State<IndivSearchPage>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
-  List<FoodResult> foodResults = [];
-  List<FoodSearchResult>? apiSearchResults = [];
-  // late List<FoodResult> foodResults;
-  late List<RecommendedWine> wineResults;
+  // List<FoodResult> foodResults = [];
+  // List<Wine>? wineResults = [];
+  // late FoodSearchModel foodModelResults;
+  // late WineRecommendationModel wineModelResults;
+  // List<FoodSearchResult>? foodSearchResults = [];
+  // String query = '';
+  // Timer? debouncer;
+
+  List<FoodSearchModel>? foodModelResults = [];
+  List<FoodSearchResult>? foodSearchResults = [];
+  List<FoodResult>? foodResults = [];
+  late String? foodResultsOne;
+  FoodSearchResult? food;
+  FoodResult? foo;
+
+  List<Wine>? wineResults = [];
+  late WineRecommendationModel wineModelResults;
   String query = '';
   Timer? debouncer;
 
@@ -35,9 +46,6 @@ class _IndivSearchState extends State<IndivSearchPage>
     // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-
-    // foodResults = allFoodResults;
-    wineResults = allWineResults;
   }
 
   void dispose() {
@@ -56,13 +64,17 @@ class _IndivSearchState extends State<IndivSearchPage>
   }
 
   Future init() async {
-    final foodResults = await FoodApiServices.searchFood(query);
-    apiSearchResults = foodResults?.searchResults as List<FoodSearchResult>;
-    // FoodSearchResult modelResults = apiSearchResults;
+    final foodModelResults = await FoodApiServices.searchFood(query);
+    final wineModelResults = await WineApiServices.getWineRecommendation(query);
+
+    foodSearchResults = foodModelResults?.searchResults;
+    wineResults = wineModelResults?.recommendedWines;
+    setState(() {
+      this.wineResults = wineResults;
+    });
 
     setState(() {
-      // this.foodResults = apiSearchResults.results;
-      // foodResults as List<FoodResult>;
+      this.foodSearchResults = foodSearchResults;
     });
   }
 
@@ -99,9 +111,9 @@ class _IndivSearchState extends State<IndivSearchPage>
             buildWineSearch(),
             Expanded(
               child: ListView.builder(
-                  itemCount: wineResults.length,
+                  itemCount: wineResults!.length,
                   itemBuilder: (context, index) {
-                    final wineResult = wineResults[index];
+                    final wineResult = wineResults![index];
 
                     return buildWineResults(wineResult);
                   }),
@@ -116,9 +128,10 @@ class _IndivSearchState extends State<IndivSearchPage>
             buildFoodSearch(),
             Expanded(
               child: ListView.builder(
-                  itemCount: foodResults.length,
+                  itemCount: foodResults!.length,
                   itemBuilder: (context, index) {
-                    final foodResult = foodResults[index];
+                    final foodResult =
+                        foodSearchResults![index].results![index];
 
                     return buildFoodResults(foodResult);
                   }),
@@ -138,11 +151,11 @@ class _IndivSearchState extends State<IndivSearchPage>
         onChanged: searchWine,
       );
 
-  Widget buildWineResults(RecommendedWine wineResult) => ListTile(
-        leading: Image.asset(
-          "lib/assets/images/BackgroundImage2.jpg",
-          // leading: Image.network(
-          //   foodResult.image!,
+  Widget buildWineResults(Wine? wineResult) => ListTile(
+        // leading: Image.asset(
+        //   "lib/assets/images/BackgroundImage2.jpg",
+        leading: Image.network(
+          wineResult!.imageUrl!,
           fit: BoxFit.cover,
           width: 50,
           height: 50,
@@ -158,13 +171,12 @@ class _IndivSearchState extends State<IndivSearchPage>
         trailing: Icon(Icons.bookmark, color: Colors.grey),
       );
 
-  void searchWine(String query) {
-    final wineResults = allWineResults.where((wineResult) {
-      final titleLower = wineResult.title!.toLowerCase();
-      final searchLower = query.toLowerCase();
+  Future searchWine(String query) async {
+    final wineModelResults = await WineApiServices.getWineRecommendation(query);
 
-      return titleLower.contains(searchLower);
-    }).toList();
+    if (!mounted) return;
+
+    wineResults = wineModelResults!.recommendedWines;
 
     setState(() {
       this.query = query;
@@ -181,10 +193,8 @@ class _IndivSearchState extends State<IndivSearchPage>
         onChanged: searchFood,
       );
   Widget buildFoodResults(FoodResult foodResult) => ListTile(
-        leading: Image.asset(
-          "lib/assets/images/BackgroundImage2.jpg",
-          // leading: Image.network(
-          //   foodResult.image!,
+        leading: Image.network(
+          foodResult.image!,
           fit: BoxFit.cover,
           width: 50,
           height: 50,
@@ -201,13 +211,14 @@ class _IndivSearchState extends State<IndivSearchPage>
       );
 
   void searchFood(String query) async {
-    final foodResults = await FoodApiServices.searchFood(query);
+    final foodModelResults = await FoodApiServices.searchFood(query);
+    foodSearchResults = foodModelResults?.searchResults;
 
     if (!mounted) return;
 
     setState(() {
       this.query = query;
-      this.foodResults = foodResults as List<FoodResult>;
+      this.foodSearchResults = foodSearchResults;
     });
   }
 }
