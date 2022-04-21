@@ -15,7 +15,8 @@ bool validateEmail(String value) {
 
 // utility function to confirm valid phone number format provided by user
 bool validatePhone(String value) {
-  String pattern = r"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$";
+  //String pattern = r"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$";
+  String pattern = r"^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$";
   RegExp regex = RegExp(pattern);
   return (regex.hasMatch(value)) ? true : false;
 }
