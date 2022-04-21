@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../main.dart';
+import '../config/theme.dart';
 
 class Loading extends StatefulWidget {
   @override
@@ -38,13 +39,11 @@ class _LoadingState extends State<Loading> {
               ),
             ),
             const SizedBox(height: 25),
-            const Text(
-                "Find your match.",
+            const Text("Find your match.",
                 style: TextStyle(
                   fontSize: 30,
                   color: Colors.white,
-                )
-            ),
+                )),
           ],
         ),
       ),

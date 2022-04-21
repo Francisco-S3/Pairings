@@ -6,7 +6,7 @@ import 'views/signin.dart';
 import './views/loading.dart';
 import 'views/home.dart';
 import 'views/saved.dart';
-
+import 'views/product_info.dart';
 
 /// Program Main
 /// Only used to load environment and redirect to loading screen
@@ -32,13 +32,12 @@ class MyApp extends StatelessWidget {
           title: 'pairings',
           //themeMode: ThemeMode.themeMode,
           theme: PairingThemes.darkTheme,
-          home: const Loading(),
+          home: Loading(),
         );
       },
     );
   }
 }
-
 
 class MainPage extends StatefulWidget {
   @override
@@ -51,44 +50,45 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: screens[index],
-    floatingActionButton: buildFAB(),
-    bottomNavigationBar: buildNavigationBar(),
-  );
+        body: screens[index],
+        floatingActionButton: buildFAB(),
+        bottomNavigationBar: buildNavigationBar(),
+      );
 
   Widget buildNavigationBar() => NavigationBarTheme(
-    data: NavigationBarThemeData(
-      labelTextStyle: MaterialStateProperty.all(
-        const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-      ),
-      indicatorColor: Colors.white,
-    ),
-    child: NavigationBar(
-      backgroundColor: Colors.black,
-      selectedIndex: index,
-      onDestinationSelected: (index) => setState(() => this.index = index),
-      // labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-      // animationDuration: Duration(seconds: 3),
-      destinations: const [
-        NavigationDestination(
-          icon: Icon(
-            Icons.home_outlined,
-            color: Colors.white,
+        data: NavigationBarThemeData(
+          labelTextStyle: MaterialStateProperty.all(
+            const TextStyle(
+                fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
           ),
-          selectedIcon: Icon(Icons.home),
-          label: 'Home',
+          indicatorColor: Colors.white,
         ),
-        NavigationDestination(
-          icon: Icon(
-            Icons.bookmark_border_outlined,
-            color: Colors.white,
-          ),
-          selectedIcon: Icon(Icons.bookmark),
-          label: 'Saved',
+        child: NavigationBar(
+          backgroundColor: Colors.black,
+          selectedIndex: index,
+          onDestinationSelected: (index) => setState(() => this.index = index),
+          // labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
+          // animationDuration: Duration(seconds: 3),
+          destinations: const [
+            NavigationDestination(
+              icon: Icon(
+                Icons.home_outlined,
+                color: Colors.white,
+              ),
+              selectedIcon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            NavigationDestination(
+              icon: Icon(
+                Icons.bookmark_border_outlined,
+                color: Colors.white,
+              ),
+              selectedIcon: Icon(Icons.bookmark),
+              label: 'Saved',
+            ),
+          ],
         ),
-      ],
-    ),
-  );
+      );
 
   Widget? buildFAB() {
     const shape = BeveledRectangleBorder(borderRadius: BorderRadius.zero);
