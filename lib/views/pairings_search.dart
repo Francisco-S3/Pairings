@@ -100,8 +100,11 @@ class _PairingsSearchState extends State<PairingsSearchPage>
           children: <Widget>[
             buildWinePairingSearch(),
             Expanded(
-              child: ListView.builder(
-                  itemCount: dishPairings == null ? 0 : dishPairings?.length,
+              child: ListView.separated(
+                  separatorBuilder: (context, index) => Divider(
+                        color: Colors.white,
+                      ),
+                  itemCount: dishPairings == null ? 0 : dishPairings!.length,
                   itemBuilder: (context, index) {
                     return buildWinePairingResults(dishPairings![index]);
                   }),
@@ -115,8 +118,11 @@ class _PairingsSearchState extends State<PairingsSearchPage>
           children: <Widget>[
             buildDishPairingSearch(),
             Expanded(
-              child: ListView.builder(
-                  itemCount: winePairings == null ? 0 : winePairings?.length,
+              child: ListView.separated(
+                  separatorBuilder: (context, index) => Divider(
+                        color: Colors.white,
+                      ),
+                  itemCount: winePairings == null ? 0 : winePairings!.length,
                   itemBuilder: (context, index) {
                     return buildWinePairingResults(winePairings![index]);
                   }),
