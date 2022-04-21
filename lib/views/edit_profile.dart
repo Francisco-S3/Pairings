@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:pairings/controllers/profile_controller.dart';
 import 'home.dart';
 import '../models/utilities.dart';
@@ -24,6 +25,8 @@ class _EditProfileState extends State<EditProfile> {
 
   late User tempUser;
   late bool passwordVisibility;
+  final phoneMaskFormatter = MaskTextInputFormatter (mask: '(###) ###-####');
+
   final _formState = GlobalKey<FormState> ();
   TextEditingController fnameController = TextEditingController();
   TextEditingController lnameController = TextEditingController();
@@ -37,7 +40,7 @@ class _EditProfileState extends State<EditProfile> {
     tempUser = globals.currentUser;
     fnameController.text=tempUser.firstName;
     lnameController.text=tempUser.lastName;
-    phoneController.text=tempUser.phoneNum;
+    //phoneController.text=tempUser.phoneNum;
     _date = tempUser.birthDate;
     dateAsString = convertDateTime(tempUser.birthDate);
   }
@@ -134,10 +137,12 @@ class _EditProfileState extends State<EditProfile> {
                       style: TextStyle(color: Colors.white),
                     ),
                     TextFormField (
-                      controller: phoneController,
-                      validator: (userPhone) => validatePhone(userPhone!)
-                          ? null
-                          : 'Error: not a valid phone number format',
+                      inputFormatters: [phoneMaskFormatter],
+                      initialValue: tempUser.phoneNum,
+                      // controller: phoneController,
+                      // validator: (userPhone) => validatePhone(userPhone!)
+                      //     ? null
+                      //     : 'Error: not a valid phone number format',
                       keyboardType: TextInputType.phone,
                       obscureText: false,
                       enableSuggestions: true,
@@ -232,7 +237,7 @@ class _EditProfileState extends State<EditProfile> {
                             // pass to profile controller for account updates
                             tempUser.firstName = fnameController.text;
                             tempUser.lastName = lnameController.text;
-                            tempUser.phoneNum = phoneController.text;
+                            tempUser.phoneNum = phoneMaskFormatter.getMaskedText();
                             tempUser.birthDate = _date;
                             tempUser.password = globals.currentUser.password;
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import '../controllers/signup_controller.dart';
 import '../models/utilities.dart';
 import '../models/user.dart';
@@ -29,6 +30,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   late bool passwordVisibility;
   late bool confirmVisibility;
+  final phoneMaskFormatter = MaskTextInputFormatter (mask: '(###) ###-####');
 
   final _formState = GlobalKey<FormState> ();
   late User currentUser;
@@ -253,10 +255,11 @@ class _SignupScreenState extends State<SignupScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 0.0),
                       child: TextFormField (
-                        controller: _phoneController,
-                        validator: (userPhone) => validatePhone(userPhone!)
-                            ? null
-                            : 'Error: not a valid phone number format',
+                        inputFormatters: [phoneMaskFormatter],
+                        //controller: _phoneController,
+                        // validator: (userPhone) => validatePhone(userPhone!)
+                        //     ? null
+                        //     : 'Error: not a valid phone number format',
                         keyboardType: TextInputType.phone,
                         obscureText: false,
                         enableSuggestions: true,
@@ -363,7 +366,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   password: _passwordController.text,
                                   firstName: _fnameController.text,
                                   lastName:  _lnameController.text,
-                                  phoneNum: _phoneController.text,
+                                  phoneNum: phoneMaskFormatter.getMaskedText(),
                                   birthDate:  _date,
                                 );
 
