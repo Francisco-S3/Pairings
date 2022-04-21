@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:pairings/models/wine.dart';
-import 'package:pairings/services/wine_api_servies.dart';
-import '../controllers/search_controller.dart';
+import 'package:pairings/models/wine_recommendation_model.dart';
 import '../models/food_search_model.dart';
 import '../widgets/search_widget.dart';
 import '../services/food_api_services.dart';
-import '../models/wine_recommendation_model.dart';
+import '../models/dish_pairing_model.dart';
+import '../services/wine_api_servies.dart';
 
 class IndivSearchPage extends StatefulWidget {
   @override
@@ -21,29 +20,16 @@ class _IndivSearchState extends State<IndivSearchPage>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
-  // List<FoodResult> foodResults = [];
-  // List<Wine>? wineResults = [];
-  // late FoodSearchModel foodModelResults;
-  // late WineRecommendationModel wineModelResults;
-  // List<FoodSearchResult>? foodSearchResults = [];
-  // String query = '';
-  // Timer? debouncer;
-
-  List<FoodSearchModel>? foodModelResults = [];
-  List<FoodSearchResult>? foodSearchResults = [];
-  List<FoodResult>? foodResults = [];
-  late String? foodResultsOne;
-  FoodSearchResult? food;
-  FoodResult? foo;
-
-  List<Wine>? wineResults = [];
-  late WineRecommendationModel wineModelResults;
+  late DishPairingModel? result;
+  List<String>? dishPairings = [];
+  late WineRecommendationModel? wineRecommendationResult;
+  List<Wine>? wineRecommendations = [];
   String query = '';
   Timer? debouncer;
+  late FoodResult foodResults;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
   }
@@ -64,17 +50,18 @@ class _IndivSearchState extends State<IndivSearchPage>
   }
 
   Future init() async {
-    final foodModelResults = await FoodApiServices.searchFood(query);
-    final wineModelResults = await WineApiServices.getWineRecommendation(query);
+    final result = await FoodApiServices.getDishPairing(query);
+    final dishPairings = result?.pairings;
 
-    foodSearchResults = foodModelResults?.searchResults;
-    wineResults = wineModelResults?.recommendedWines;
-    setState(() {
-      this.wineResults = wineResults;
-    });
+    final wineRecommendationResult = await WineApiServices.getWineRecommendation(query);
+    final wineRecommendations = wineRecommendationResult?.recommendedWines;
 
     setState(() {
-      this.foodSearchResults = foodSearchResults;
+      this.dishPairings = dishPairings;
+      this.result = result;
+
+      this.wineRecommendationResult = wineRecommendationResult;
+      this.wineRecommendations = wineRecommendations;
     });
   }
 
@@ -83,57 +70,55 @@ class _IndivSearchState extends State<IndivSearchPage>
       appBar: AppBar(
         backgroundColor: Colors.black,
         centerTitle: true,
-        title: Text(
-          'Search',
+        title: const Text(
+          'Individual Search',
           style: TextStyle(fontSize: 25),
         ),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.filter_list), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.filter_list), onPressed: () {}),
         ],
         bottom: TabBar(
-            indicatorColor: Color.fromARGB(255, 78, 40, 69),
+            indicatorColor: const Color.fromARGB(255, 78, 40, 69),
             controller: _tabController,
             tabs: const <Widget>[
               Tab(
-                text: 'Wine',
+                text: 'Wine Type',
               ),
               Tab(
-                text: 'Food',
+                text: 'Food Type',
               )
             ]),
       ),
       body: TabBarView(controller: _tabController, children: <Widget>[
-        /**
-         * INDIVIDUAL WINE SEARCH TAB
-         */
+
+        /** INPUT WINE SEARCH TAB */
+        // takes a wine input parameter and returns WINE product matches
         Column(
           children: <Widget>[
-            buildWineSearch(),
+            buildWineRecommendationSearch(),
             Expanded(
               child: ListView.builder(
-                  itemCount: wineResults!.length,
+                  itemCount: wineRecommendations == null ? 0 : wineRecommendations?.length,
                   itemBuilder: (context, index) {
-                    final wineResult = wineResults![index];
-
-                    return buildWineResults(wineResult);
+                    return buildWineRecommendationResults(wineRecommendations![index]);
                   }),
             ),
           ],
         ),
+
+
         /**
-         * INDIVIDUAL FOOD SEARCH TAB
+         * INPUT FOOD SEARCH TAB
          */
+        // takes a food input parameter and returns FOOD product matches
         Column(
           children: <Widget>[
-            buildFoodSearch(),
+            buildDishPairingSearch(),
             Expanded(
               child: ListView.builder(
-                  itemCount: foodResults!.length,
+                  itemCount: wineRecommendations == null ? 0 : wineRecommendations?.length,
                   itemBuilder: (context, index) {
-                    final foodResult =
-                        foodSearchResults![index].results![index];
-
-                    return buildFoodResults(foodResult);
+                    return buildWineRecommendationResults(wineRecommendations![index]);
                   }),
             ),
           ],
@@ -142,83 +127,68 @@ class _IndivSearchState extends State<IndivSearchPage>
     );
   }
 
-  /**
-   * METHODS FOR WINE SEARCH
-   */
-  Widget buildWineSearch() => SearchWidget(
+
+  /// METHODS FOR INPUTTED WINE SEARCH
+  Widget buildWineRecommendationSearch() => SearchWidget(
         text: query,
-        hintText: 'ex. Cabernet Sauvingon',
-        onChanged: searchWine,
+        hintText: 'ex. Merlot',
+        onChanged: searchWineRecommendation,
       );
 
-  Widget buildWineResults(Wine? wineResult) => ListTile(
-        // leading: Image.asset(
-        //   "lib/assets/images/BackgroundImage2.jpg",
-        leading: Image.network(
-          wineResult!.imageUrl!,
-          fit: BoxFit.cover,
-          width: 50,
-          height: 50,
-        ),
-        title: Text(
-          wineResult.title!,
-          style: TextStyle(color: Colors.white),
-        ),
-        subtitle: Text(
-          "Type",
-          style: TextStyle(color: Colors.grey),
-        ),
-        trailing: Icon(Icons.bookmark, color: Colors.grey),
-      );
-
-  Future searchWine(String query) async {
-    final wineModelResults = await WineApiServices.getWineRecommendation(query);
+  Future searchWineRecommendation(String query) async => debounce(() async {
+    final result = await WineApiServices.getWineRecommendation(query);
+    final wineRecommendations = result?.recommendedWines;
 
     if (!mounted) return;
 
-    wineResults = wineModelResults!.recommendedWines;
-
     setState(() {
       this.query = query;
-      this.wineResults = wineResults;
+      this.wineRecommendations = wineRecommendations;
     });
-  }
+  });
 
-/**
- * METHODS FOR FOOD SEARCH
- */
-  Widget buildFoodSearch() => SearchWidget(
+  Widget buildWineRecommendationResults(Wine recommend) => ListTile(
+      leading: Image.network(
+        recommend.imageUrl,
+        fit: BoxFit.cover,
+        width: 50,
+        height: 50,
+      ),
+      title: Text(
+        recommend.title,
+        style: const TextStyle(color: Colors.white),
+      ),
+      subtitle: Text(
+        'Description: ${recommend.description}',
+        style: const TextStyle(color: Colors.grey),
+      ),
+      );
+
+
+  /// METHODS FOR INPUTTED FOOD TO WINE PAIRING SEARCH
+  Widget buildDishPairingSearch() => SearchWidget(
         text: query,
         hintText: 'ex. Chicken Alfredo',
-        onChanged: searchFood,
-      );
-  Widget buildFoodResults(FoodResult foodResult) => ListTile(
-        leading: Image.network(
-          foodResult.image!,
-          fit: BoxFit.cover,
-          width: 50,
-          height: 50,
-        ),
-        title: Text(
-          foodResult.name!,
-          style: TextStyle(color: Colors.white),
-        ),
-        subtitle: Text(
-          "Type",
-          style: TextStyle(color: Colors.grey),
-        ),
-        trailing: Icon(Icons.bookmark, color: Colors.grey),
+        onChanged: searchDishRecommendation,
       );
 
-  void searchFood(String query) async {
-    final foodModelResults = await FoodApiServices.searchFood(query);
-    foodSearchResults = foodModelResults?.searchResults;
+  Future searchDishRecommendation(String query) async => debounce(() async {
+    final wineRecommendationResult = await WineApiServices.getWineRecommendation(query);
+    final wineRecommendations = wineRecommendationResult?.recommendedWines;
 
     if (!mounted) return;
 
     setState(() {
-      this.query = query;
-      this.foodSearchResults = foodSearchResults;
+      this.wineRecommendationResult = wineRecommendationResult;
+      this.wineRecommendations = wineRecommendations;
     });
-  }
+  });
+
+  Widget buildDishRecommendationResults(String pairing) => ListTile(
+        title: Text(
+          pairing,
+          style: const TextStyle(color: Colors.white),
+        ),
+        //trailing: IconButton(onPressed: (), icon: Icons.bookmark),
+      );
 }
