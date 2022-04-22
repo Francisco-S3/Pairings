@@ -115,6 +115,8 @@ class _MainPageState extends State<MainPage> {
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => const SigninScreen()));
+
+              signIn();
             },
           ),
         );
@@ -131,7 +133,7 @@ class _MainPageSignedFromSavedState extends State<MainPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: screens[index],
-        floatingActionButton: buildFAB(),
+        // floatingActionButton: buildFAB(),
         bottomNavigationBar: buildNavigationBar(),
       );
 
@@ -169,29 +171,6 @@ class _MainPageSignedFromSavedState extends State<MainPage> {
           ],
         ),
       );
-
-  Widget? buildFAB() {
-    const shape = BeveledRectangleBorder(borderRadius: BorderRadius.zero);
-
-    switch (index) {
-      case 1:
-        return Visibility(
-          visible: false,
-          child: FloatingActionButton.extended(
-            shape: shape,
-            backgroundColor: const Color.fromARGB(255, 78, 40, 69),
-            icon: const Icon(Icons.person),
-            label: const Text('Sign in'),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => const SigninScreen()));
-            },
-          ),
-        );
-      default:
-        return null;
-    }
-  }
 }
 
 class _MainPageSignedState extends State<MainPage> {
@@ -201,7 +180,7 @@ class _MainPageSignedState extends State<MainPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: screens[index],
-        floatingActionButton: buildFAB(),
+        // floatingActionButton: buildFAB(),
         bottomNavigationBar: buildNavigationBar(),
       );
 
@@ -239,31 +218,8 @@ class _MainPageSignedState extends State<MainPage> {
           ],
         ),
       );
-
-  Widget? buildFAB() {
-    const shape = BeveledRectangleBorder(borderRadius: BorderRadius.zero);
-
-    switch (index) {
-      case 1:
-        return Visibility(
-          visible: false,
-          child: FloatingActionButton.extended(
-            shape: shape,
-            backgroundColor: const Color.fromARGB(255, 78, 40, 69),
-            icon: const Icon(Icons.person),
-            label: const Text('Sign in'),
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => const SigninScreen()));
-            },
-          ),
-        );
-      default:
-        return null;
-    }
-  }
 }
 
-void signIn() {
+Future signIn() async {
   if (globals.isLoggedIn) {}
 }

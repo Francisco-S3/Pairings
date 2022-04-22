@@ -29,7 +29,7 @@ class _IndivSearchState extends State<IndivSearchPage>
   // String query = '';
   // Timer? debouncer;
 
-  List<FoodSearchModel>? foodModelResults = [];
+  late FoodSearchModel foodModelResults;
   List<FoodSearchResult>? foodSearchResults = [];
   List<FoodResult>? foodResults = [];
   late String? foodResultsOne;
@@ -84,7 +84,7 @@ class _IndivSearchState extends State<IndivSearchPage>
         backgroundColor: Colors.black,
         centerTitle: true,
         title: Text(
-          'Search',
+          'Individual Search',
           style: TextStyle(fontSize: 25),
         ),
         actions: <Widget>[
@@ -110,7 +110,10 @@ class _IndivSearchState extends State<IndivSearchPage>
           children: <Widget>[
             buildWineSearch(),
             Expanded(
-              child: ListView.builder(
+              child: ListView.separated(
+                  separatorBuilder: (context, index) => Divider(
+                        color: Colors.white,
+                      ),
                   itemCount: wineResults!.length,
                   itemBuilder: (context, index) {
                     final wineResult = wineResults![index];
@@ -127,13 +130,16 @@ class _IndivSearchState extends State<IndivSearchPage>
           children: <Widget>[
             buildFoodSearch(),
             Expanded(
-              child: ListView.builder(
-                  itemCount: foodResults!.length,
+              child: ListView.separated(
+                  separatorBuilder: (context, index) => Divider(
+                        color: Colors.white,
+                      ),
+                  itemCount: foodSearchResults!.length,
                   itemBuilder: (context, index) {
-                    final foodResult =
-                        foodSearchResults![index].results![index];
+                    // final foodResult =
+                    //     foodSearchResults![index].results![index];
 
-                    return buildFoodResults(foodResult);
+                    return buildFoodResults(foodSearchResults![index]);
                   }),
             ),
           ],
@@ -152,8 +158,6 @@ class _IndivSearchState extends State<IndivSearchPage>
       );
 
   Widget buildWineResults(Wine? wineResult) => ListTile(
-        // leading: Image.asset(
-        //   "lib/assets/images/BackgroundImage2.jpg",
         leading: Image.network(
           wineResult!.imageUrl!,
           fit: BoxFit.cover,
@@ -165,10 +169,10 @@ class _IndivSearchState extends State<IndivSearchPage>
           style: TextStyle(color: Colors.white),
         ),
         subtitle: Text(
-          "Type",
+          "${wineResult.price!}",
           style: TextStyle(color: Colors.grey),
         ),
-        trailing: Icon(Icons.bookmark, color: Colors.grey),
+        // trailing: Icon(Icons.bookmark, color: Colors.grey),
       );
 
   Future searchWine(String query) async {
@@ -192,33 +196,32 @@ class _IndivSearchState extends State<IndivSearchPage>
         hintText: 'ex. Chicken Alfredo',
         onChanged: searchFood,
       );
-  Widget buildFoodResults(FoodResult foodResult) => ListTile(
-        leading: Image.network(
-          foodResult.image!,
-          fit: BoxFit.cover,
-          width: 50,
-          height: 50,
-        ),
+  Widget buildFoodResults(FoodSearchResult foodSearchResult) => ListTile(
+        // leading: Image.network(
+        //   FoodSearchResult(),
+        //   fit: BoxFit.cover,
+        //   width: 50,
+        //   height: 50,
+        // ),
         title: Text(
-          foodResult.name!,
+          foodSearchResult.name!,
           style: TextStyle(color: Colors.white),
         ),
         subtitle: Text(
-          "Type",
+          "${foodSearchResult.type}",
           style: TextStyle(color: Colors.grey),
         ),
-        trailing: Icon(Icons.bookmark, color: Colors.grey),
+        //trailing: Icon(Icons.bookmark, color: Colors.grey),
       );
 
-  void searchFood(String query) async {
-    final foodModelResults = await FoodApiServices.searchFood(query);
-    foodSearchResults = foodModelResults?.searchResults;
+  Future searchFood(String query) async => debounce(() async {
+        final foodModelResults = await FoodApiServices.searchFood(query);
+        foodSearchResults = foodModelResults?.searchResults;
 
-    if (!mounted) return;
+        if (!mounted) return;
 
-    setState(() {
-      this.query = query;
-      this.foodSearchResults = foodSearchResults;
-    });
-  }
+        setState(() {
+          this.foodSearchResults = foodSearchResults;
+        });
+      });
 }
