@@ -4,13 +4,28 @@
 
 import 'dart:convert';
 
+
 FoodSearchModel foodSearchModelFromJson(String str) =>
     FoodSearchModel.fromJson(json.decode(str));
 
 String foodSearchModelToJson(FoodSearchModel data) =>
     json.encode(data.toJson());
 
+
 class FoodSearchModel {
+
+  String? sorting;
+  FilterMapping? filterMapping;
+  List<dynamic>? filterOptions;
+  List<dynamic>? activeFilterOptions;
+  String? query;
+  int? totalResults;
+  int? limit;
+  int? offset;
+  List<FoodSearchResult>? searchResults;
+  int? expires;
+
+  // full constructor
   FoodSearchModel({
     this.sorting,
     this.filterMapping,
@@ -24,16 +39,6 @@ class FoodSearchModel {
     this.expires,
   });
 
-  String? sorting;
-  FilterMapping? filterMapping;
-  List<dynamic>? filterOptions;
-  List<dynamic>? activeFilterOptions;
-  String? query;
-  int? totalResults;
-  int? limit;
-  int? offset;
-  List<FoodSearchResult>? searchResults;
-  int? expires;
 
   factory FoodSearchModel.fromJson(Map<String, dynamic> json) =>
       FoodSearchModel(
@@ -51,6 +56,7 @@ class FoodSearchModel {
         expires: json["expires"],
       );
 
+
   Map<String, dynamic> toJson() => {
         "sorting": sorting,
         "filterMapping": filterMapping?.toJson(),
@@ -67,6 +73,7 @@ class FoodSearchModel {
       };
 }
 
+
 class FilterMapping {
   FilterMapping();
 
@@ -75,7 +82,15 @@ class FilterMapping {
   Map<String, dynamic> toJson() => {};
 }
 
+
 class FoodSearchResult {
+
+  String? name;
+  String? type;
+  int? totalResults;
+  int? totalResultsVariants;
+  List<FoodResult>? results;
+
   FoodSearchResult({
     this.name,
     this.type,
@@ -84,11 +99,6 @@ class FoodSearchResult {
     this.results,
   });
 
-  String? name;
-  String? type;
-  int? totalResults;
-  int? totalResultsVariants;
-  List<FoodResult>? results;
 
   factory FoodSearchResult.fromJson(Map<String, dynamic> json) =>
       FoodSearchResult(
@@ -113,6 +123,17 @@ class FoodSearchResult {
 }
 
 class FoodResult {
+
+  int? id;
+  String? name;
+  String? image;
+  String? link;
+  Type? type;
+  double? relevance;
+  String? content;
+  List<dynamic>? dataPoints;
+  List<dynamic>? images;
+
   FoodResult({
     this.id,
     this.name,
@@ -125,15 +146,6 @@ class FoodResult {
     this.images,
   });
 
-  int? id;
-  String? name;
-  String? image;
-  String? link;
-  Type? type;
-  double? relevance;
-  String? content;
-  List<dynamic>? dataPoints;
-  List<dynamic>? images;
 
   factory FoodResult.fromJson(Map<String, dynamic> json) => FoodResult(
         id: json["id"] == null ? null : json["id"],

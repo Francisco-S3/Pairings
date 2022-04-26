@@ -1,14 +1,20 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:pairings/models/wine.dart';
-import 'package:pairings/services/wine_api_servies.dart';
-import '../controllers/search_controller.dart';
-import '../models/food_search_model.dart';
+import '../controllers/favorite_controller.dart';
+import '../models/food.dart';
+import '../models/recipe_result.dart';
+import '../models/wine.dart';
+import '../models/wine_recommendation_model.dart';
 import '../widgets/search_widget.dart';
 import '../services/food_api_services.dart';
-import '../models/wine_recommendation_model.dart';
+import '../services/wine_api_servies.dart';
+import '../config/globals.dart' as globals;
+import 'signin.dart';
 
+
+/// Individual Search Class
+/// class used to perform a search of wine or food type
+/// results of specific matches are returned
 class IndivSearchPage extends StatefulWidget {
   @override
   const IndivSearchPage({Key? key}) : super(key: key);
@@ -21,29 +27,17 @@ class _IndivSearchState extends State<IndivSearchPage>
     with TickerProviderStateMixin {
   late TabController _tabController;
 
-  // List<FoodResult> foodResults = [];
-  // List<Wine>? wineResults = [];
-  // late FoodSearchModel foodModelResults;
-  // late WineRecommendationModel wineModelResults;
-  // List<FoodSearchResult>? foodSearchResults = [];
-  // String query = '';
-  // Timer? debouncer;
-
-  late FoodSearchModel foodModelResults;
-  List<FoodSearchResult>? foodSearchResults = [];
-  List<FoodResult>? foodResults = [];
-  late String? foodResultsOne;
-  FoodSearchResult? food;
-  FoodResult? foo;
-
-  List<Wine>? wineResults = [];
-  late WineRecommendationModel wineModelResults;
-  String query = '';
+  late RecipeResult? foodRecommendationResult;
+  List<Food>? foodRecommendations = [];
+  late WineRecommendationModel? wineRecommendationResult;
+  List<Wine>? wineRecommendations = [];
+  String wineQuery = '';
+  String foodQuery = '';
   Timer? debouncer;
+
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
   }
@@ -63,83 +57,73 @@ class _IndivSearchState extends State<IndivSearchPage>
     debouncer = Timer(duration, callback);
   }
 
+
   Future init() async {
-    final foodModelResults = await FoodApiServices.searchFood(query);
-    final wineModelResults = await WineApiServices.getWineRecommendation(query);
+    final foodRecommendationResult = await FoodApiServices.searchRecipe(foodQuery);
+    final foodRecommendations = foodRecommendationResult?.results;
 
-    foodSearchResults = foodModelResults?.searchResults;
-    wineResults = wineModelResults?.recommendedWines;
-    setState(() {
-      this.wineResults = wineResults;
-    });
+    final wineRecommendationResult = await WineApiServices.getWineRecommendation(wineQuery);
+    final wineRecommendations = wineRecommendationResult?.recommendedWines;
 
     setState(() {
-      this.foodSearchResults = foodSearchResults;
+      this.foodRecommendationResult = foodRecommendationResult;
+      this.foodRecommendations = foodRecommendations;
+
+      this.wineRecommendationResult = wineRecommendationResult;
+      this.wineRecommendations = wineRecommendations;
     });
   }
 
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
         centerTitle: true,
-        title: Text(
+        title: const Text(
           'Individual Search',
           style: TextStyle(fontSize: 25),
         ),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.filter_list), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.filter_list), onPressed: () {}),
         ],
         bottom: TabBar(
-            indicatorColor: Color.fromARGB(255, 78, 40, 69),
-            controller: _tabController,
-            tabs: const <Widget>[
-              Tab(
-                text: 'Wine',
-              ),
-              Tab(
-                text: 'Food',
-              )
-            ]),
+          indicatorColor: const Color.fromARGB(255, 78, 40, 69),
+          controller: _tabController,
+          tabs: const <Widget>[
+            Tab(text: 'Wine Type'),
+            Tab(text: 'Food Type'),
+          ]
+        ),
       ),
       body: TabBarView(controller: _tabController, children: <Widget>[
-        /**
-         * INDIVIDUAL WINE SEARCH TAB
-         */
+
+        /// Wine Type tab listview builder
+        // takes a wine input parameter and returns WINE product matches
         Column(
           children: <Widget>[
-            buildWineSearch(),
+            buildWineRecommendationSearch(),
             Expanded(
-              child: ListView.separated(
-                  separatorBuilder: (context, index) => Divider(
-                        color: Colors.white,
-                      ),
-                  itemCount: wineResults!.length,
+              child: ListView.builder(
+                  itemCount: wineRecommendations == null ? 0 : wineRecommendations?.length,
                   itemBuilder: (context, index) {
-                    final wineResult = wineResults![index];
-
-                    return buildWineResults(wineResult);
+                    return buildWineRecommendationResults(wineRecommendations![index]);
                   }),
             ),
           ],
         ),
-        /**
-         * INDIVIDUAL FOOD SEARCH TAB
-         */
+
+        /// Food Type tab listview builder
+        // takes a food input parameter and returns FOOD product matches
         Column(
           children: <Widget>[
-            buildFoodSearch(),
+            buildFoodRecommendationSearch(),
             Expanded(
-              child: ListView.separated(
-                  separatorBuilder: (context, index) => Divider(
-                        color: Colors.white,
-                      ),
-                  itemCount: foodSearchResults!.length,
+              child: ListView.builder(
+                  itemCount: foodRecommendations == null ? 0 : foodRecommendations?.length,
                   itemBuilder: (context, index) {
-                    // final foodResult =
-                    //     foodSearchResults![index].results![index];
-
-                    return buildFoodResults(foodSearchResults![index]);
+                    return buildFoodRecommendationResults(foodRecommendations![index]);
                   }),
             ),
           ],
@@ -148,80 +132,138 @@ class _IndivSearchState extends State<IndivSearchPage>
     );
   }
 
-  /**
-   * METHODS FOR WINE SEARCH
-   */
-  Widget buildWineSearch() => SearchWidget(
-        text: query,
-        hintText: 'ex. Cabernet Sauvingon',
-        onChanged: searchWine,
-      );
 
-  Widget buildWineResults(Wine? wineResult) => ListTile(
-        leading: Image.network(
-          wineResult!.imageUrl!,
-          fit: BoxFit.cover,
-          width: 50,
-          height: 50,
-        ),
-        title: Text(
-          wineResult.title!,
-          style: TextStyle(color: Colors.white),
-        ),
-        subtitle: Text(
-          "${wineResult.price!}",
-          style: TextStyle(color: Colors.grey),
-        ),
-        // trailing: Icon(Icons.bookmark, color: Colors.grey),
-      );
+  /// Methods for Wine Type Search
+  Widget buildWineRecommendationSearch() => SearchWidget(
+    text: wineQuery,
+    hintText: 'ex. Merlot',
+    onChanged: searchWineRecommendation,
+  );
 
-  Future searchWine(String query) async {
-    final wineModelResults = await WineApiServices.getWineRecommendation(query);
+  Future searchWineRecommendation(String wineQuery) async => debounce(() async {
+    final result = await WineApiServices.getWineRecommendation(wineQuery);
+    final wineRecommendations = result?.recommendedWines;
 
     if (!mounted) return;
 
-    wineResults = wineModelResults!.recommendedWines;
+    setState(() {
+      this.wineQuery = wineQuery;
+      this.wineRecommendations = wineRecommendations;
+    });
+  });
+
+  Widget buildWineRecommendationResults(Wine recommend) => ListTile(
+    leading: Image.network(
+      recommend.imageUrl,
+      fit: BoxFit.cover,
+      width: 50,
+      height: 50,
+    ),
+    title: Text(
+      // TODO ******************************
+      // TODO - TITLE DOESN'T WORK RIGHT NOW
+      // TODO - USE ID AND CHANGE BACK LATER
+      // TODO ******************************
+      //recommend.title,
+      recommend.id.toString(),
+      style: const TextStyle(color: Colors.white),
+    ),
+    subtitle: Text(
+      'Price: \$${recommend.price}',
+      style: const TextStyle(color: Colors.grey),
+    ),
+    trailing: IconButton(
+      icon: const Icon(Icons.favorite),
+      color: Colors.white,
+      onPressed: () async {
+        !globals.isLoggedIn
+          ? Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+            const SigninScreen()))
+          : null;
+        // pass to favoriteController for add to user favorites
+        if(await FavoriteController.createFavorite('0', recommend.id.toString())) {
+          // alert user confirmation of addition to favorites
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Success!  Item added to favorites'),
+            ),
+          );
+        }
+        else {
+          // alert user failed addition to favorites
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Error!  Item not added, try again'),
+              ),
+          );
+        }
+        setState(() {});
+      },
+    ),
+  );
+
+
+  /// METHODS FOR INPUTTED FOOD TO WINE PAIRING SEARCH
+  Widget buildFoodRecommendationSearch() => SearchWidget(
+        text: foodQuery,
+        hintText: 'ex. Chicken Alfredo',
+        onChanged: searchFoodRecommendation,
+      );
+
+  Future searchFoodRecommendation(String foodQuery) async => debounce(() async {
+    final foodRecommendationResult = await FoodApiServices.searchRecipe(foodQuery);
+    final foodRecommendations = foodRecommendationResult?.results;
+
+    if (!mounted) return;
 
     setState(() {
-      this.query = query;
-      this.wineResults = wineResults;
+      this.foodQuery = foodQuery;
+      this.foodRecommendationResult = foodRecommendationResult;
+      this.foodRecommendations = foodRecommendations;
     });
-  }
+  });
 
-/**
- * METHODS FOR FOOD SEARCH
- */
-  Widget buildFoodSearch() => SearchWidget(
-        text: query,
-        hintText: 'ex. Chicken Alfredo',
-        onChanged: searchFood,
-      );
-  Widget buildFoodResults(FoodSearchResult foodSearchResult) => ListTile(
-        // leading: Image.network(
-        //   FoodSearchResult(),
-        //   fit: BoxFit.cover,
-        //   width: 50,
-        //   height: 50,
-        // ),
-        title: Text(
-          foodSearchResult.name!,
-          style: TextStyle(color: Colors.white),
-        ),
-        subtitle: Text(
-          "${foodSearchResult.type}",
-          style: TextStyle(color: Colors.grey),
-        ),
-        //trailing: Icon(Icons.bookmark, color: Colors.grey),
-      );
-
-  Future searchFood(String query) async => debounce(() async {
-        final foodModelResults = await FoodApiServices.searchFood(query);
-        foodSearchResults = foodModelResults?.searchResults;
-
-        if (!mounted) return;
-
-        setState(() {
-          this.foodSearchResults = foodSearchResults;
-        });
-      });
+  Widget buildFoodRecommendationResults(Food recommend) => ListTile(
+    leading: Image.network(
+      recommend.image,
+      fit: BoxFit.cover,
+      width: 50,
+      height: 50,
+    ),
+    title: Text(
+      recommend.title,
+      style: const TextStyle(color: Colors.white),
+    ),
+    trailing: IconButton(
+      icon: const Icon(Icons.favorite),
+      color: Colors.white,
+      onPressed: () async {
+        !globals.isLoggedIn
+            ? Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) =>
+            const SigninScreen()))
+            : null;
+        // pass to favoriteController for add to user favorites
+        if(await FavoriteController.createFavorite(recommend.id.toString(), '0')) {
+          print(await FavoriteController.readFavorite(globals.currentUser.id!));
+          // alert user confirmation of addition to favorites
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Success!  Item added to favorites'),
+            ),
+          );
+        }
+        else {
+          // alert user failed addition to favorites
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Error!  Item not added, try again'),
+            ),
+          );
+        }
+        setState(() {});
+      },
+    ),
+  );
 }

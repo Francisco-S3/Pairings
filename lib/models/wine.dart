@@ -4,29 +4,43 @@ import 'dart:convert';
 /// class holds a wine object for the application
 class Wine {
 
-  int? id;
+  int id;
   String? title;
-  double? averageRating;
-  String? description;
-  String? imageUrl;
-  String? link;
-  String? price;
-  int? ratingCount;
-  double? score;
+  double averageRating;
+  String description;
+  String imageUrl;
+  String link;
+  String price;
+  int ratingCount;
+  double score;
 
 
   // full constructor
   Wine({
-    this.id,
-    this.title,
-    this.averageRating,
-    this.description,
-    this.imageUrl,
-    this.link,
-    this.price,
-    this.ratingCount,
-    this.score,
+    required this.id,
+    required this.title,
+    required this.averageRating,
+    required this.description,
+    required this.imageUrl,
+    required this.link,
+    required this.price,
+    required this.ratingCount,
+    required this.score,
   });
+
+  // partial constructor
+  Wine.partial({
+    required this.id,
+    required this.title,
+    required this.averageRating,
+  }) :
+        description = 'tbd',
+        imageUrl = 'tbd',
+        link = 'tbd',
+        price = '0.00',
+        ratingCount = 0,
+        score = 0.00
+  ;
 
 
   // wine object from json
@@ -55,7 +69,7 @@ class Wine {
         "price": price,
         "ratingCount": ratingCount,
         "score": score,
-      };
+  };
 
 
   // print wine object (primarily for debugging purposes)

@@ -3,27 +3,28 @@ import 'package:pairings/models/favorites.dart';
 import '../config/globals.dart' as globals;
 import 'package:pairings/services/db_connector.dart';
 
-class favoriteController {
-  Future<bool> createFavorite(Favorite newFavorite) async {
-    List<Favorite>? confirm =
-        await DBconnect().createFav(newFavorite.favoriteToMap());
-    if (confirm != null) {
-      print(confirm.toString());
-      return true;
-    }
-    return false;
-    //}
-    //<List<Favorite>?> createFav(Map<String, String> map){
+class FavoriteController {
+
+  static Future<bool> createFavorite(String foodId, String wineId) async {
+
+    Favorite fav = Favorite(
+      id: 0,
+      userId: globals.currentUser.id.toString(),
+      foodId: foodId,
+      wineId: wineId,
+    );
+    return await DBconnect().createFav(fav.favoriteToMap());
   }
 
-  Future<bool> readFavorite(int id) async {
-    List<Favorite>? isFav = await DBconnect().readFav(id);
+
+  static Future<List<Favorite>?> readFavorite(int id) async {
+    List<Favorite>? isFav = await DBconnect().getFav(id);
     if (isFav != null) {
       print(isFav.toString());
-      return true;
     }
-    return false;
+    return isFav;
   }
+
 
   Future<bool> deleteFavorite(int id) async {
     String? delFav = await DBconnect().deleteFav(id);
