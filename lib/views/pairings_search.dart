@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:pairings/models/wine.dart';
 import 'package:pairings/models/wine_pairing_model.dart';
 import '../models/food_search_model.dart';
-import '../models/food_result_data.dart';
 import '../widgets/search_widget.dart';
 import '../services/food_api_services.dart';
 import '../models/dish_pairing_model.dart';

@@ -31,18 +31,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
           centerTitle: true,
-          title: Text(
+          title: const Text(
             'pairings',
             style: TextStyle(fontFamily: 'Azonix', fontSize: 25),
           ),
@@ -91,6 +85,15 @@ class _HomePageState extends State<HomePage> {
                               builder: (BuildContext context) =>
                                   const SigninScreen()));
                     }),
+                ListTile(
+                  title: const Text("Logout"),
+                  trailing: const Icon(Icons.logout, color: Colors.white),
+                  onTap: () => setState(() {
+                    Navigator.of(context).pop();
+                    globals.isLoggedIn = false;
+                    updateUser();
+                  }),
+                ),
                 ListTile(
                     title: const Text("Saved"),
                     trailing: const Icon(Icons.bookmark, color: Colors.white),

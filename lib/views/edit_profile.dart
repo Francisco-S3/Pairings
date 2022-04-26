@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:pairings/controllers/profile_controller.dart';
-import 'home.dart';
 import '../models/utilities.dart';
 import '../models/user.dart';
 import 'change_password.dart';
@@ -40,7 +39,7 @@ class _EditProfileState extends State<EditProfile> {
     tempUser = globals.currentUser;
     fnameController.text=tempUser.firstName;
     lnameController.text=tempUser.lastName;
-    //phoneController.text=tempUser.phoneNum;
+    phoneController.text=tempUser.phoneNum;
     _date = tempUser.birthDate;
     dateAsString = convertDateTime(tempUser.birthDate);
   }
@@ -138,11 +137,10 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     TextFormField (
                       inputFormatters: [phoneMaskFormatter],
-                      initialValue: tempUser.phoneNum,
-                      // controller: phoneController,
-                      // validator: (userPhone) => validatePhone(userPhone!)
-                      //     ? null
-                      //     : 'Error: not a valid phone number format',
+                      controller: phoneController,
+                      validator: (userPhone) => validatePhone(userPhone!)
+                          ? null
+                          : 'Error: not a valid phone number format',
                       keyboardType: TextInputType.phone,
                       obscureText: false,
                       enableSuggestions: true,
@@ -233,14 +231,12 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                         onPressed: () async {
                           if(_formState.currentState!.validate()) {
-
                             // pass to profile controller for account updates
                             tempUser.firstName = fnameController.text;
                             tempUser.lastName = lnameController.text;
-                            tempUser.phoneNum = phoneMaskFormatter.getMaskedText();
+                            tempUser.phoneNum = phoneController.text;
                             tempUser.birthDate = _date;
                             tempUser.password = globals.currentUser.password;
-
                             if(await profileController(tempUser)) {
                               // confirm to user that account created
                               ScaffoldMessenger.of(context).showSnackBar(
